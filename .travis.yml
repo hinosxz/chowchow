@@ -8,6 +8,7 @@ before_script:
 jobs:
   include:
     - stage: build and deploy
+      github_token: $GITHUB_ACCESS_TOKEN
       script:
         - ./mvnw package
         - docker build -t chowchow .
