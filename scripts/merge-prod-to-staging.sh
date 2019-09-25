@@ -27,16 +27,12 @@ function setup_git() {
   git config --global user.name "Travis CI"
 }
 
-upload_files() {
-  git remote add origin-pages https://${GITHUB_ACCESS_TOKEN}@github.com/hinosxz/chowchow.git > /dev/null 2>&1
-  git push --quiet --set-upstream origin-pages gh-pages
-}
-
 setup_git
 create_all_branches
-upload_files
 
 git fetch
 git checkout staging
 git merge master
 git push
+git remote add origin-staging https://${GITHUB_ACCESS_TOKEN}@github.com/hinosxz/chowchow.git > /dev/null 2>&1
+git push --set-upstream origin-staging
