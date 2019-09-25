@@ -8,10 +8,19 @@ before_script:
 jobs:
   include:
     - stage: build and deploy
-      #if: branch = master
       script:
         - ./mvnw package
         - docker build -t chowchow .
         - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_PROD/web
         - docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web
         - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME_PROD
+      after_success:
+        - bash ./scripts/merge-prod-to-staging.sh
+    - stage: build and deploy
+      if: branch = staging
+      script:
+        - ./mvnw package
+        - docker build -t chowchow .
+        - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
+        - docker push registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
+        - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME_STAGING
