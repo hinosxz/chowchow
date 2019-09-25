@@ -18,7 +18,10 @@ jobs:
         - docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web
         - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME_PROD
       after_success:
-        - bash ./scripts/merge-prod-to-staging.sh
+            - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge"
+            - "chmod a+x /tmp/travis-automerge"
+            - "BRANCHES_TO_MERGE_REGEX='^' BRANCH_TO_MERGE_INTO=staging GITHUB_REPO=hinosxz/chowchow /tmp/travis-automerge"
+#        - bash ./scripts/merge-prod-to-staging.sh
     - stage: build and deploy
       if: branch = staging
       script:
