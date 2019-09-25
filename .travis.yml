@@ -1,10 +1,18 @@
 language: java
-jdk: openjdk11
-services: docker
-
+jdk:
+  - openjdk11
+services:
+  - docker
 jobs:
   include:
     - stage: build
-      script:
+      script: &build
         - ./mvnw package
-        - docker build -t "chowchow" .
+        - docker build -t chowchow .
+    - stage: deploy
+      #if: branch = master
+      <<: *build
+      script:
+        - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_PROD/web
+        - docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web
+        - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APPNAME_PROD
