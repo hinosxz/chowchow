@@ -1,6 +1,10 @@
 language: java
 jdk: openjdk11
 services: docker
+
+before_script:
+  - docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+
 jobs:
   include:
     - stage: build and deploy
