@@ -1,0 +1,10 @@
+language: java
+jdk: openjdk11
+services: docker
+
+jobs:
+  include:
+    - stage: build
+      script:
+        - ./mvnw package
+        - docker build -t "chowchow" .
