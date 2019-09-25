@@ -22,7 +22,14 @@ function create_all_branches()
     git checkout "${build_head}"
 }
 
+function setup_git() {
+  git config --global user.email "travis@travis-ci.org"
+  git config --global user.name "Travis CI"
+}
+
+setup_git
 create_all_branches
+
 git fetch
 git checkout staging
 git merge master
