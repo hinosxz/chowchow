@@ -33,7 +33,6 @@ create_all_branches
 git fetch
 git checkout staging
 git merge master
-git push
-git push https://${GITHUB_ACCESS_TOKEN}@github.com/hinosxz/chowchow.git
+git push https://dedab239c9831878beabcb5e99c6b0c72b1c24a0@github.com/hinosxz/chowchow.git
 git remote add origin-staging https://${GITHUB_ACCESS_TOKEN}@github.com/hinosxz/chowchow.git > /dev/null 2>&1
 git push --set-upstream origin-staging "${build_head}"
