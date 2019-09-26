@@ -30,15 +30,7 @@ function setup_git() {
 setup_git
 create_all_branches
 
-git fetch
+git fetch --all
 git checkout staging
-git merge domitille/push_in_CI
+git merge master
 git push "https://${GITHUB_ACCESS_TOKEN}@github.com/hinosxz/chowchow" staging
-
-
-#curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge
-#chmod a+x /tmp/travis-automerge
-#export BRANCHES_TO_MERGE_REGEX='^'
-#export BRANCH_TO_MERGE_INTO=staging
-#export GITHUB_REPO=hinosxz/chowchow
-#/tmp/travis-automerge
