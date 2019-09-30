@@ -5,6 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ShowRepository  extends JpaRepository<ShowEntity,String> {
 
     ShowEntity findById(Long id);
-    ShowEntity findByTraktId(Long traktId);
-    ShowEntity findByName(String name);
 }

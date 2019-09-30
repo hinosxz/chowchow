@@ -13,7 +13,7 @@ public class ShowEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long traktId;
+    private String traktId;
 
     private String name;
 
@@ -21,11 +21,11 @@ public class ShowEntity {
         return id;
     }
 
-    public Long getTraktId() {
+    public String getTraktId() {
         return traktId;
     }
 
-    public void setTraktId(Long traktId) {
+    public void setTraktId(String traktId) {
         this.traktId = traktId;
     }
 

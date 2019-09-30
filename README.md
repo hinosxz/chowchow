@@ -3,6 +3,10 @@ ChowChow, your daily showEntity manager
 
 ## Running into Docker container
 
+### Packaging the app
+First of all you have to package the app:
+`/mvnw -X clean package`
+
 ### Setting up the containers
 You first need to build the chowchow-api image by running:
 `docker build ./ -t chowchow-api`
