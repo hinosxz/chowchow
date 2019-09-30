@@ -1,0 +1,35 @@
+version: "3"
+services:
+
+  chowchow-db:
+    image: postgres:latest
+    network_mode: bridge
+    container_name: chowchow-db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=chowchow
+    restart: unless-stopped
+
+  chowchow-api:
+    image: chowchow-api:latest
+    network_mode: bridge
+    container_name: chowchow-api
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    depends_on:
+      - chowchow-db
+    links:
+      - chowchow-db
+
+volumes:
+  postgres-data:
