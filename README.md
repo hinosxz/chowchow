@@ -5,7 +5,7 @@ ChowChow, your daily showEntity manager
 
 ### Packaging the app
 First of all you have to package the app:
-`/mvnw -X clean package`
+`/mvnw -X clean package -Dspring.profiles.active=dev`
 
 ### Setting up the containers
 Then you need to build the chowchow-api image by running:

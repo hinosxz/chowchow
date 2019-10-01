@@ -3,7 +3,6 @@ services:
 
   chowchow-db:
     image: postgres:latest
-    network_mode: bridge
     container_name: chowchow-db
     volumes:
       - postgres-data:/var/lib/postgresql/data
@@ -19,7 +18,6 @@ services:
 
   chowchow-api:
     image: chowchow-api:latest
-    network_mode: bridge
     container_name: chowchow-api
     expose:
       - 8080
