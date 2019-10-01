@@ -9,7 +9,7 @@ First of all you have to package the app:
 
 ### Setting up the containers
 Then you need to build the chowchow-api image by running:
-`docker build ./ -t chowchow-api`
+`docker build -f dev.Dockerfile ./ -t chowchow-api`
 
 You can now run chowchow using docker-compose by running:
 `docker-compose up`
