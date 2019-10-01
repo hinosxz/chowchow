@@ -11,7 +11,7 @@ jobs:
       if: branch = master
       verbose: true
       script:
-        - ./mvnw -X package
+        - ./mvnw -X clean package -Dspring.profiles.active=prod
         - docker build -f prod.Dockerfile -t chowchow .
         - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_PROD/web
         - docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web
@@ -21,7 +21,7 @@ jobs:
     - stage: build and deploy
       if: branch = staging
       script:
-        - ./mvnw package
+        - ./mvnw -X clean package -Dspring.profiles.active=staging
         - docker build -f staging.Dockerfile -t chowchow .
         - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
         - docker push registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
