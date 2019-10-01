@@ -11,8 +11,8 @@ jobs:
       if: branch = master
       verbose: true
       script:
-        - ./mvnw -X package
-        - docker build -t chowchow .
+        - ./mvnw -X clean package -Dspring.profiles.active=prod
+        - docker build -f prod.Dockerfile -t chowchow .
         - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_PROD/web
         - docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web
         - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME_PROD
@@ -21,8 +21,8 @@ jobs:
     - stage: build and deploy
       if: branch = staging
       script:
-        - ./mvnw package
-        - docker build -t chowchow .
+        - ./mvnw -X clean package -Dspring.profiles.active=staging
+        - docker build -f staging.Dockerfile -t chowchow .
         - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
         - docker push registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
         - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME_STAGING
