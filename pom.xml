@@ -20,6 +20,39 @@
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+                <database.url>jdbc:postgresql://chowchow-db:5432/chowchow</database.url>
+                <database.username>postgres</database.username>
+                <database.password>password</database.password>
+            </properties>
+        </profile>
+        <profile>
+            <id>staging</id>
+            <properties>
+                <spring.profiles.active>staging</spring.profiles.active>
+                <database.url>jdbc:postgresql://chowchow-db:5432/chowchow</database.url>
+                <database.username>postgres</database.username>
+                <database.password>password</database.password>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <spring.profiles.active>prod</spring.profiles.active>
+                <database.url>jdbc:postgresql://chowchow-db:5432/chowchow</database.url>
+                <database.username>postgres</database.username>
+                <database.password>password</database.password>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
