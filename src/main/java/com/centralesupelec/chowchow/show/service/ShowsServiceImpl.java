@@ -26,7 +26,4 @@ public class ShowsServiceImpl implements ShowService {
                 .findById(id)
                 .thenApply(Optional::ofNullable);
     }
-
-    private static Function<Optional<ShowEntity>, Optional<ShowDTO>> mapMaybeShowEntityToShowDTO = maybeShowEntity -> maybeShowEntity
-            .<ShowDTO>map(ShowDTO::fromEntity);
 }
