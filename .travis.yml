@@ -11,7 +11,7 @@ jobs:
       if: branch = master
       verbose: true
       script:
-        - ./mvnw -X clean package -Dspring.profiles.active=prod
+        - ./mvnw -X clean package -Dspring.profiles.active=prod -Dspring.datasource.url=jdbc:postgresql://$DB_HOST_PROD:5432/$DB_NAME_PROD -Dspring.datasource.username=$DB_USERNAME_PROD -Dspring.datasource.password=$DB_PASSWORD_PROD
         - docker build -f prod.Dockerfile -t chowchow .
         - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_PROD/web
         - docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web
@@ -21,7 +21,7 @@ jobs:
     - stage: build and deploy
       if: branch = staging
       script:
-        - ./mvnw -X clean package -Dspring.profiles.active=staging
+        - ./mvnw -X clean package -Dspring.profiles.active=staging -Dspring.datasource.url=jdbc:postgresql://$DB_HOST_PROD:5432/$DB_NAME_PROD -Dspring.datasource.username=$DB_USERNAME_PROD -Dspring.datasource.password=$DB_PASSWORD_PROD
         - docker build -f staging.Dockerfile -t chowchow .
         - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
         - docker push registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
