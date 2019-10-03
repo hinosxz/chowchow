@@ -8,13 +8,13 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
     private String userName;
     private String password;
 
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public String getUserName() {

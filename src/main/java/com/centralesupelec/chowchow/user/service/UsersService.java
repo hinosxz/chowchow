@@ -7,8 +7,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-@Service
-@Transactional
+
 public interface UsersService {
     public CompletableFuture<Optional<UserEntity>> getUserById(Long id);
     public CompletableFuture<Optional<UserEntity>> getUserByUserName(String userName);
