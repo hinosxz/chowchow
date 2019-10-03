@@ -22,7 +22,7 @@ import java.util.Map;
 @Transactional
 public class SearchService {
 
-    @Value("${TRAKT_API_KEY}")
+    @Value("${TRAKT_API_KEY:fakeDefaultAPIKey}")
     private String traktAPIKey;
 
     public TraktSearch[] findShowsByName(String name){
