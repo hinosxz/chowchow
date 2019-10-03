@@ -17,8 +17,12 @@ services:
     restart: unless-stopped
 
   chowchow-api:
-    image: chowchow-api:latest
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
     container_name: chowchow-api
+    env_file:
+      - .env
     expose:
       - 8080
     ports:
