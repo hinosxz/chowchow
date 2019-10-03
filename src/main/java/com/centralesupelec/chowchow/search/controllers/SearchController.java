@@ -2,6 +2,7 @@ package com.centralesupelec.chowchow.search.controllers;
 
 import com.centralesupelec.chowchow.search.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -14,7 +15,8 @@ public class SearchController {
         this.searchService = searchService;
     }
 
-    public TraktSearch[] findShowsByName(String name) {
+
+    public ResponseEntity findShowsByName(String name) {
         return this.searchService
                 .findShowsByName(name);
     }
