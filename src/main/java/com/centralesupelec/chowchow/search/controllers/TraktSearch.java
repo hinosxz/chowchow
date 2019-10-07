@@ -1,21 +1,32 @@
 package com.centralesupelec.chowchow.search.controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 class Ids {
-    private int trakt;
+    private final int trakt;
+
+    @JsonCreator
+    Ids(@JsonProperty("id") int id) {
+        this.trakt = id;
+    }
 
     public int getTrakt() {
         return trakt;
     }
 }
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 class TraktShow {
-    private String title;
-    private int year;
-    private Ids ids;
+    private final String title;
+    private final int year;
+    private final Ids ids;
+
+    @JsonCreator
+    TraktShow(@JsonProperty("title") String title, @JsonProperty("year") int year, @JsonProperty("ids") Ids ids) {
+        this.title = title;
+        this.year = year;
+        this.ids = ids;
+    }
 
     public String getTitle() {
         return title;
@@ -35,10 +46,15 @@ class TraktShow {
     }
 }
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class TraktSearch {
-    private double score;
-    private TraktShow show;
+    private final double score;
+    private final TraktShow show;
+
+    @JsonCreator
+    TraktSearch(@JsonProperty("score") double score, @JsonProperty("show") TraktShow show) {
+        this.score = score;
+        this.show = show;
+    }
 
     public double getScore() {
         return score;
