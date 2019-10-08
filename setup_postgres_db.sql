@@ -12,8 +12,8 @@ CREATE TABLE Users (
   password TEXT,
   PRIMARY KEY (id)
 );
-INSERT INTO public.Users (id, username, name)
-VALUESs_
+INSERT INTO public.Users (id, username, password)
+VALUES
 (1, 'User_1', 'password_1'),
 (2, 'User_2', 'password_2');
 
