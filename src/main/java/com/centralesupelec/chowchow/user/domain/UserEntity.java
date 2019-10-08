@@ -13,7 +13,6 @@ public class UserEntity {
     private String test;
     private String password;
 
-
     public Long getId() {
         return id;
     }
