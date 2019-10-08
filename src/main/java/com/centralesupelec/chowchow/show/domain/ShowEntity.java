@@ -37,29 +37,4 @@ public class ShowEntity {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-
-        ShowEntity that = (ShowEntity) object;
-        return new EqualsBuilder()
-                .append(this.id, that.id)
-                .append(this.traktId, that.traktId)
-                .append(this.name, that.name)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(this.id)
-                .append(this.traktId)
-                .append(this.name)
-                .toHashCode();
-    }
 }
