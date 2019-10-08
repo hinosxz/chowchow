@@ -3,6 +3,9 @@ ChowChow, your daily showEntity manager
 
 ## Running into Docker container
 
+### Setting up environment variables
+Add a `.env` file at the root of the app with a valid `TRAKT_API_KEY`.
+
 ### Packaging the app
 First of all you have to package the app:
 `./mvnw -X clean package -Dspring.profiles.active=dev`
