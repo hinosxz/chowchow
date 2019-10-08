@@ -4,7 +4,6 @@ import com.centralesupelec.chowchow.user.domain.UserEntity;
 
 import java.util.Optional;
 
-
 public interface UsersService {
     public Optional<UserEntity> getUserById(Long id);
     public Optional<UserEntity> getUserByUsername(String username);

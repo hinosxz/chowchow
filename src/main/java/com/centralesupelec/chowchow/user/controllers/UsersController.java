@@ -1,37 +1,32 @@
 package com.centralesupelec.chowchow.user.controllers;
 
 import com.centralesupelec.chowchow.user.domain.UserEntity;
-import com.centralesupelec.chowchow.user.service.UsersServiceImplementation;
-
+import com.centralesupelec.chowchow.user.service.UsersServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 @Controller
 public class UsersController {
-    private final UsersServiceImplementation usersServiceImplementation;
+    private final UsersServiceImpl usersServiceImpl;
 
     @Autowired
-    public UsersController(UsersServiceImplementation usersServiceImplementation) {
-       this.usersServiceImplementation = usersServiceImplementation;
+    public UsersController(UsersServiceImpl usersServiceImpl) {
+       this.usersServiceImpl = usersServiceImpl;
     }
 
-    public boolean createUser(String username, String password)
-    {        Optional<UserEntity> maybeUser = this.usersServiceImplementation.getUserByUsername(username);
+    public boolean createUser(String username, String password) {
+        Optional<UserEntity> maybeUser = this.usersServiceImpl.getUserByUsername(username);
         if (!maybeUser.isPresent()){
             UserEntity newUser = new UserEntity();
             newUser.setUsername(username);
             newUser.setPassword(password);
-            usersServiceImplementation.saveUser(newUser);
+            usersServiceImpl.saveUser(newUser);
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
-
     }
 
 }

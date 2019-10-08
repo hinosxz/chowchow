@@ -27,5 +27,4 @@ public class ShowsController {
                         .map(ShowDTO::fromEntity)
                 );
     }
-
 }
