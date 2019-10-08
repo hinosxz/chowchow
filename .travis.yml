@@ -26,4 +26,3 @@ jobs:
         - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
         - docker push registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
         - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME_STAGING
-        - psql -h jdbc:postgresql://${DB_HOST_STAGING} -p 5432 -U ${DB_USERNAME_STAGING} -W ${DB_PASSWORD_STAGING} ${DB_NAME_STAGING} -c "$(cat setup_postgres_db.sql)"
