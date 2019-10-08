@@ -20,23 +20,18 @@ public class UsersServiceImplementation implements UsersService {
         this.userRepository = userRepository;
     }
 
-    @Async
-    public CompletableFuture<Optional<UserEntity>> getUserById(Long id) {
-        return this.userRepository
-                .findById(id)
-                .thenApply(Optional::ofNullable);
+    public Optional<UserEntity> getUserById(Long id) {
+        return Optional.ofNullable(this.userRepository
+                .findById(id));
     }
 
-    @Async
-    public CompletableFuture<Optional<UserEntity>> getUserByUserName(String userName){
-        return this.userRepository
-                .findByUserName(userName)
-                .thenApply(Optional::ofNullable);
+    public Optional<UserEntity> getUserByUsername(String username){
+        return Optional.ofNullable(this.userRepository
+                .findByUsername(username));
     }
 
-    @Async
-    public CompletableFuture<Optional<UserEntity>> saveUser(UserEntity userEntity){
-        return this.userRepository.save(userEntity).thenApply(Optional::ofNullable);
+    public Optional<UserEntity> saveUser(UserEntity userEntity){
+        return Optional.ofNullable(this.userRepository.save(userEntity));
     }
 
 }

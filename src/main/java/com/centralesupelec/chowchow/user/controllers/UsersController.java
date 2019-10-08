@@ -1,7 +1,6 @@
 package com.centralesupelec.chowchow.user.controllers;
 
 import com.centralesupelec.chowchow.user.domain.UserEntity;
-import com.centralesupelec.chowchow.user.service.UsersService;
 import com.centralesupelec.chowchow.user.service.UsersServiceImplementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +18,11 @@ public class UsersController {
        this.usersServiceImplementation = usersServiceImplementation;
     }
 
-    public boolean createUser(String userName, String password)
-            throws InterruptedException, ExecutionException {
-        Optional<UserEntity> maybeUser = this.usersServiceImplementation.getUserByUserName(userName).get();
+    public boolean createUser(String username, String password)
+    {        Optional<UserEntity> maybeUser = this.usersServiceImplementation.getUserByUsername(username);
         if (!maybeUser.isPresent()){
             UserEntity newUser = new UserEntity();
-            newUser.setUserName(userName);
+            newUser.setUsername(username);
             newUser.setPassword(password);
             usersServiceImplementation.saveUser(newUser);
             return true;

@@ -21,13 +21,8 @@ public class UsersWebController {
 
     @RequestMapping(path="", method = RequestMethod.POST)
     public ResponseEntity createUser(@RequestBody UserDTO userDTO){
-        try {
             boolean result = this.usersController
-                .createUser(userDTO.getUserName(), userDTO.getPassword());
+                .createUser(userDTO.getUsername(), userDTO.getPassword());
             return new ResponseEntity<>(result, HttpStatus.OK);
-        }
-        catch (InterruptedException | ExecutionException executionException) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }

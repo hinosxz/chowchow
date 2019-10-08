@@ -7,17 +7,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class UserDTO {
 
     private final Long id;
-    private final String userName;
+    private final String username;
     private final String password;
 
     @JsonCreator
     UserDTO(
             @JsonProperty("id") Long id,
-            @JsonProperty("userName") String userName,
+            @JsonProperty("username") String username,
             @JsonProperty("password") String password
     ){
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
     }
 
@@ -25,8 +25,8 @@ public class UserDTO {
         return id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
@@ -36,11 +36,11 @@ public class UserDTO {
     public static UserEntity toEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
         userEntity.setPassword(userDTO.password);
-        userEntity.setUserName(userDTO.userName);
+        userEntity.setUsername(userDTO.username);
         return userEntity;
     }
 
     public static UserDTO fromEntity(UserEntity userEntity){
-        return new UserDTO(userEntity.getId(), userEntity.getUserName(), userEntity.getPassword());
+        return new UserDTO(userEntity.getId(), userEntity.getUsername(), userEntity.getPassword());
     }
 }
