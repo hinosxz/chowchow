@@ -8,13 +8,13 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class ShowDTO {
     private final Long id;
-    private final String traktId;
+    private final int traktId;
     private final String name;
 
     @JsonCreator
     ShowDTO(
             @JsonProperty("id") Long id,
-            @JsonProperty("traktId") String traktId,
+            @JsonProperty("traktId") int traktId,
             @JsonProperty("name") String name
     ) {
         this.id = id;
@@ -26,7 +26,7 @@ public class ShowDTO {
         return id;
     }
 
-    public String getTraktId() {
+    public int getTraktId() {
         return traktId;
     }
 

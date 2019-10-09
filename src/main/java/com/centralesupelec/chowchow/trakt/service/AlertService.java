@@ -25,7 +25,7 @@ public class AlertService {
     }
 
     @Async
-    public CompletableFuture<TraktEpisode> findNextEpisodeByShowId(int showId){
+    public CompletableFuture<TraktEpisode> findNextEpisodeByShowId(Integer showId){
         String url = UriComponentsBuilder
                 .fromHttpUrl("https://api.trakt.tv/shows/" + showId + "/next_episode")
                 .queryParam("extended", "full")
@@ -34,7 +34,7 @@ public class AlertService {
         return CompletableFuture.completedFuture(traktAPI.get(url, TraktEpisode.class).getBody());
     }
 
-    public TraktEpisode[] findNextEpisodesByShowIds(int[] showIds) {
+    public TraktEpisode[] findNextEpisodesByShowIds(Integer[] showIds) {
         CompletableFuture<TraktEpisode>[] promises = new CompletableFuture[showIds.length];
         for (int i = 0; i < showIds.length; i++) {
             promises[i] = findNextEpisodeByShowId(showIds[i]);

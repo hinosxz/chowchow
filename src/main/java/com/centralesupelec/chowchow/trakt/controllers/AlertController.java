@@ -1,5 +1,7 @@
 package com.centralesupelec.chowchow.trakt.controllers;
 
+import com.centralesupelec.chowchow.show.domain.ShowEntity;
+import com.centralesupelec.chowchow.show.service.ShowsService;
 import com.centralesupelec.chowchow.trakt.service.AlertService;
 import com.centralesupelec.chowchow.trakt.service.SearchService;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class AlertController {
@@ -22,10 +25,12 @@ public class AlertController {
     private final int ALERT_THRESHOLD = 3;
 
     private AlertService alertService;
+    private ShowsService showsService;
 
     @Autowired
-    public AlertController(AlertService alertService) {
+    public AlertController(AlertService alertService, ShowsService showsService) {
         this.alertService = alertService;
+        this.showsService = showsService;
     }
 
     private boolean isEpisodeSoon(TraktEpisode episode) {
@@ -34,8 +39,8 @@ public class AlertController {
     }
 
     public ResponseEntity getUpcomingEpisodes() {
-        // TODO replace with actual request to DB for showIds
-        int[] showIds = { 99046, 60158, 93720, 60300 };
+        Integer[] showIds = showsService.findAll().stream().map(ShowEntity::getTraktId).toArray(Integer[]::new);
+
         try {
             TraktEpisode[] episodes = this.alertService.findNextEpisodesByShowIds(showIds);
             TraktEpisode[] upcomingEpisodes = Arrays.stream(episodes)
