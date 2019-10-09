@@ -18,7 +18,7 @@ public class AlertWebController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getAlertsForMyShows() {
+    public ResponseEntity getUpcomingEpisodes() {
         return this.alertController.getUpcomingEpisodes();
     }
 }

@@ -3,9 +3,10 @@ package com.centralesupelec.chowchow.trakt.controllers;
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.show.service.ShowsService;
 import com.centralesupelec.chowchow.trakt.service.AlertService;
-import com.centralesupelec.chowchow.trakt.service.SearchService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,8 @@ import org.springframework.web.client.HttpStatusCodeException;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+
 import java.util.Arrays;
-import java.util.List;
 
 @Controller
 public class AlertController {
