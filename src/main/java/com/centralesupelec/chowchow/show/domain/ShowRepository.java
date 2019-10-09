@@ -11,4 +11,5 @@ public interface ShowRepository  extends JpaRepository<ShowEntity,String> {
     @Async
     CompletableFuture<ShowEntity> findById(final Long id);
     List<ShowEntity> findAll();
+
 }

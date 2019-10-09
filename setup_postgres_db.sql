@@ -19,11 +19,13 @@ CREATE TABLE Users (
 
 DROP TABLE IF EXISTS ShowRatings CASCADE;
 CREATE TABLE ShowRatings (
-  user_id SERIAL NOT NULL,
-  show_id SERIAL NOT NULL,
-  mark INTEGER,
-  FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE,
-  FOREIGN KEY(show_id) REFERENCES Shows(id) ON UPDATE CASCADE
+  id SERIAL,
+  user_id int NOT NULL,
+  show_id int NOT NULL,
+  mark int,
+  FOREIGN KEY(user_id) REFERENCES Users(id) ON UPDATE CASCADE;
+  FOREIGN KEY(show_id) REFERENCES Shows(id) ON UPDATE CASCADE;
+  PRIMARY KEY (id)
 );
 
 INSERT INTO public.Shows (id, tmdb_id, name, year)
@@ -37,10 +39,3 @@ VALUES
 (1, 'User_1', 'password_1', 'USER', NULL),
 (2, 'User_2', 'password_2', 'PREMIUM_USER', 'BASIC'),
 (3, 'User_3', 'password_3', 'PREMIUM_USER', 'GOLD');
-
-
-INSERT INTO public.ShowRatings (id, user_id, show_id, mark)
-VALUES
-(1, 1, 1, 1),
-(2, 2, 1, 2);
-
