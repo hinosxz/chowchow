@@ -4,12 +4,14 @@ import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.showRating.ShowRatingKey;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.centralesupelec.chowchow.user.domain.UserEntity;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "ShowRatings")
 public class ShowRatingEntity {
+
     @EmbeddedId
     private ShowRatingKey id;
 
@@ -32,8 +34,7 @@ public class ShowRatingEntity {
         OK,
         GOOD,
         VERYGOOD,
-        EXCELLENT
-    }
+        EXCELLENT}
 
     public UserEntity getUser() {
         return user;

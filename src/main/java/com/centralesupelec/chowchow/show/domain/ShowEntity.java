@@ -17,7 +17,6 @@ public class ShowEntity {
     @Column(unique = true, nullable = false)
     private int tmdb_id;
 
-    @Column(nullable =  false)
     @OneToMany(mappedBy = "show")
     Set<ShowRatingEntity> showRating;
 
