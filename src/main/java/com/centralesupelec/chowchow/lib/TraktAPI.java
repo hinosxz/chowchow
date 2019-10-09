@@ -1,7 +1,5 @@
-package com.centralesupelec.chowchow.search.service;
+package com.centralesupelec.chowchow.lib;
 
-import com.centralesupelec.chowchow.lib.RestTemplateResponseErrorHandler;
-import com.centralesupelec.chowchow.search.controllers.TraktSearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,44 +10,33 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-import org.springframework.web.util.UriComponentsBuilder;
-
-
 @Service
-@Transactional
-public class SearchService {
+public class TraktAPI
+{
+    Logger logger = LoggerFactory.getLogger(TraktAPI.class);
 
-    Logger logger = LoggerFactory.getLogger(SearchService.class);
+    private RestTemplate restTemplate;
+    private HttpEntity httpEntity;
 
     @Autowired
-    private RestTemplateBuilder builder;
-
-    @Value("${TRAKT_API_KEY:fakeDefaultAPIKey}")
-    private String traktAPIKey;
-
-    public ResponseEntity findShowsByName(String name){
-        RestTemplate restTemplate = this.builder
+    public TraktAPI(RestTemplateBuilder restTemplateBuilder, @Value("${TRAKT_API_KEY:fakeDefaultAPIKey}") String traktAPIKey) {
+        this.restTemplate = restTemplateBuilder
                 .errorHandler(new RestTemplateResponseErrorHandler())
                 .build();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("trakt-api-key", traktAPIKey);
         headers.set("trakt-api-version", "2");
-        HttpEntity entity = new HttpEntity(headers);
+        this.httpEntity = new HttpEntity(headers);
+    }
 
-        String url = UriComponentsBuilder
-                .fromHttpUrl("https://api.trakt.tv/search/show")
-                .queryParam("query", name)
-                .toUriString();
-
+    public ResponseEntity get(String url, Class responseClass) {
         try {
-            ResponseEntity<TraktSearch[]> response = restTemplate.exchange(
-                    url, HttpMethod.GET, entity, TraktSearch[].class);
-            return response;
+            return restTemplate.exchange(
+                    url, HttpMethod.GET, this.httpEntity, responseClass);
         } catch (HttpStatusCodeException e) {
             // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is right
             logger.error(e.toString());

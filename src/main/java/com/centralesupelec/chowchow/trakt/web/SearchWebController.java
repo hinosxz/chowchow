@@ -1,6 +1,6 @@
-package com.centralesupelec.chowchow.search.web;
+package com.centralesupelec.chowchow.trakt.web;
 
-import com.centralesupelec.chowchow.search.controllers.SearchController;
+import com.centralesupelec.chowchow.trakt.controllers.SearchController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
