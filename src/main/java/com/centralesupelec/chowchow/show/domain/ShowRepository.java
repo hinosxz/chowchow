@@ -10,4 +10,5 @@ public interface ShowRepository extends JpaRepository<ShowEntity,String> {
     ShowEntity findById(final Long id);
 
     List<ShowEntity> findAll();
+
 }

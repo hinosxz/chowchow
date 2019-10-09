@@ -1,6 +1,11 @@
 package com.centralesupelec.chowchow.show.domain;
 
+<<<<<<< HEAD
+=======
+import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "Shows")
@@ -14,6 +19,9 @@ public class ShowEntity {
     private int tmdb_id;
 
     @Column(nullable =  false)
+    @OneToMany(mappedBy = "show")
+    Set<ShowRatingEntity> showRating;
+
     private String name;
 
     @Column(nullable = false)

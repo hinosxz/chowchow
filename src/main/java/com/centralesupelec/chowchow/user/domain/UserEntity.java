@@ -3,6 +3,7 @@ package com.centralesupelec.chowchow.user.domain;
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="Users")
@@ -16,6 +17,9 @@ public class UserEntity {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @OneToMany(mappedBy = "user")
+    Set<ShowEntity> likedShows;
+
     private String username;
 
     @Column(nullable = false)
