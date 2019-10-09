@@ -13,7 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Transactional
 public class SearchService {
 
-    private TraktAPI traktAPI;
+    private TraktAPI<TraktSearch[]> traktAPI;
 
     @Autowired
     public SearchService(TraktAPI traktAPI) {

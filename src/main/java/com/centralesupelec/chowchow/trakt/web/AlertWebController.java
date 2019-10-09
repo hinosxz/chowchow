@@ -1,6 +1,6 @@
 package com.centralesupelec.chowchow.trakt.web;
 
-import com.centralesupelec.chowchow.trakt.controllers.SearchController;
+import com.centralesupelec.chowchow.trakt.controllers.AlertController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/alerts")
 public class AlertWebController {
 
-    private final SearchController searchController;
+    private final AlertController alertController;
 
     @Autowired
-    public AlertWebController(SearchController searchController) {
-        this.searchController = searchController;
+    public AlertWebController(AlertController alertController) {
+        this.alertController = alertController;
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity findShowsByName(@RequestParam(value = "name") String name) {
-        return this.searchController.findShowsByName(name);
+    public ResponseEntity getAlertsForMyShows() {
+        return this.alertController.getUpcomingEpisodes();
     }
 }
