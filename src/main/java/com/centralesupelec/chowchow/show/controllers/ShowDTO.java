@@ -1,73 +1,117 @@
 package com.centralesupelec.chowchow.show.controllers;
 
+import com.centralesupelec.chowchow.search.controllers.TraktShowDTO;
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.util.List;
+
+@JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class ShowDTO {
     private final Long id;
-    private final String traktId;
-    private final String name;
+    private final int traktId;
+    private final String title;
+    private final int year;
+    private final String overview;
+    private final String trailer;
+    private final String homepage;
+    private final List<String> genres;
+    private final Integer airedEpisodes;
 
     @JsonCreator
     ShowDTO(
             @JsonProperty("id") Long id,
-            @JsonProperty("traktId") String traktId,
-            @JsonProperty("name") String name
+            @JsonProperty("traktId") Integer traktId,
+            @JsonProperty("title") String title,
+            @JsonProperty("year") Integer year,
+            @JsonProperty("overview") String overview,
+            @JsonProperty("trailer") String trailer,
+            @JsonProperty("homepage") String homepage,
+            @JsonProperty("genres") List<String> genres,
+            @JsonProperty("airedEpisodes") Integer airedEpisodes
     ) {
         this.id = id;
         this.traktId = traktId;
-        this.name = name;
+        this.title = title;
+        this.year = year;
+        this.overview = overview;
+        this.trailer = trailer;
+        this.homepage = homepage;
+        this.genres = genres;
+        this.airedEpisodes = airedEpisodes;
+    }
+
+    public static ShowDTO fromEntity(ShowEntity showEntity) {
+        return new ShowDTO(
+            showEntity.getId(),
+            showEntity.getTraktId(),
+            showEntity.getName(),
+            showEntity.getYear(),
+            null,
+            null,
+            null,
+            null,
+            null
+        );
+    }
+
+    public static ShowEntity toEntity(ShowDTO showDTO) {
+        ShowEntity showEntity = new ShowEntity();
+        showEntity.setTraktId(showDTO.traktId);
+        showEntity.setName(showDTO.title);
+        showEntity.setYear(showDTO.year);
+        return showEntity;
+    }
+
+    public static ShowDTO fromTraktShowDTO(TraktShowDTO traktShowDTO) {
+        return new ShowDTO(
+            null,
+                traktShowDTO.getIdsDTO().getTrakt(),
+                traktShowDTO.getTitle(),
+                traktShowDTO.getYear(),
+                traktShowDTO.getOverview(),
+                traktShowDTO.getTrailer(),
+                traktShowDTO.getHomepage(),
+                traktShowDTO.getGenres(),
+                traktShowDTO.getAiredEpisodes()
+        );
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getTraktId() {
+    public int getTraktId() {
         return traktId;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public static ShowDTO fromEntity(ShowEntity showEntity) {
-        return new ShowDTO(showEntity.getId(), showEntity.getTraktId(), showEntity.getName());
+    public int getYear() {
+        return year;
     }
 
-    public static ShowEntity toEntity(ShowDTO showDTO) {
-        ShowEntity showEntity = new ShowEntity();
-        showEntity.setTraktId(showDTO.traktId);
-        showEntity.setName(showDTO.name);
-        return showEntity;
+    public String getOverview() {
+        return overview;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-
-        ShowDTO that = (ShowDTO) object;
-        return new EqualsBuilder()
-                .append(this.id, that.id)
-                .append(this.traktId, that.traktId)
-                .append(this.name, that.name)
-                .isEquals();
+    public String getTrailer() {
+        return trailer;
     }
 
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(this.id)
-                .append(this.traktId)
-                .append(this.name)
-                .toHashCode();
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public List<String> getGenres() {
+        return genres;
+    }
+
+    public Integer getAiredEpisodes() {
+        return airedEpisodes;
     }
 }

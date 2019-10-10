@@ -2,7 +2,9 @@ package com.centralesupelec.chowchow.show.web;
 
 import com.centralesupelec.chowchow.show.controllers.ShowDTO;
 import com.centralesupelec.chowchow.show.controllers.ShowsController;
+import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,13 +28,14 @@ public class ShowsWebController {
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CompletableFuture<ResponseEntity> getShowById(@PathVariable(value = "id") Long id) {
-        return this.showsController
-                .getShowById(id)
-                .thenApply(mapMaybeShowDTOToResponse);
+    public ResponseEntity getShowById(@PathVariable(value = "id") Long id) {
+        // TODO: implemente user sessions
+        UserDTO userDTO = this.getMockUserDTO();
+        Optional<ShowDTO> maybeShowDTO = this.showsController.getShowById(id, userDTO);
+        return maybeShowDTO.map(showDTO -> new ResponseEntity<>(showDTO, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    private static Function<Optional<ShowDTO>, ResponseEntity> mapMaybeShowDTOToResponse = maybeShowDTOToResponse -> maybeShowDTOToResponse
-            .<ResponseEntity>map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+    private UserDTO getMockUserDTO() {
+        return new UserDTO(1L, "test", null);
+    }
 }

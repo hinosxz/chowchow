@@ -15,7 +15,6 @@ public class SearchController {
         this.searchService = searchService;
     }
 
-
     public ResponseEntity findShowsByName(String name) {
         return this.searchService
                 .findShowsByName(name);

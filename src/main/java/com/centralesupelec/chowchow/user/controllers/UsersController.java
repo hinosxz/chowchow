@@ -21,7 +21,7 @@ public class UsersController {
         if (maybeUser.isPresent()){
             return false;
         }
-        usersServiceImpl.saveUser(userDTO.toEntity());
+        usersServiceImpl.saveUser(UserDTO.toEntity(userDTO));
         return true;
     }
 }

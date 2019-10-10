@@ -12,40 +12,39 @@ public class UserDTO {
 
     private final Long id;
     private final String username;
-    private final String password;
     private final SubscriptionType subscriptionType;
 
     @JsonCreator
-    protected UserDTO(
+    public UserDTO(
             @JsonProperty("id") Long id,
             @JsonProperty("username") String username,
-            @JsonProperty("password") String password,
             @JsonProperty("subscriptionType") SubscriptionType subscriptionType
     ){
         this.id = id;
         this.username = username;
-        this.password = password;
         this.subscriptionType = subscriptionType;
     }
 
-    public UserEntity toEntity() {
+    public static UserEntity toEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
-        if(this.subscriptionType != null) {
+        if(userDTO.subscriptionType != null) {
             PremiumUserEntity premiumUserEntity = new PremiumUserEntity();
-            premiumUserEntity.setSubscriptionType(this.subscriptionType);
+            premiumUserEntity.setSubscriptionType(userDTO.subscriptionType);
             userEntity = premiumUserEntity;
         }
-        userEntity.setUsername(this.getUsername());
-        userEntity.setPassword(this.getPassword());
+        userEntity.setUsername(userDTO.getUsername());
         return userEntity;
-    };
+    }
 
-    public static UserDTO fromEntity(UserEntity userEntity){
+    public static UserDTO fromEntity(UserEntity userEntity) {
+        SubscriptionType subscriptionType = null;
+        if(userEntity.getClass() == PremiumUserEntity.class) {
+            subscriptionType = ((PremiumUserEntity)userEntity).getSubscriptionType();
+        }
         return new UserDTO(
                 userEntity.getId(),
                 userEntity.getUsername(),
-                userEntity.getPassword(),
-                null
+                subscriptionType
         );
     }
 
@@ -55,10 +54,6 @@ public class UserDTO {
 
     public String getUsername() {
         return username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public SubscriptionType getSubscriptionType() {
