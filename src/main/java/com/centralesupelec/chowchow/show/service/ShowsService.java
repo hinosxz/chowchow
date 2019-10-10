@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +26,9 @@ public class ShowsService {
 
     public ShowEntity saveShow(ShowEntity showEntity) {
         return this.showRepository.save(showEntity);
+    }
+    public List<ShowEntity> findAll(){
+        return this.showRepository
+                .findAll();
     }
 }

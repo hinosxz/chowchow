@@ -1,10 +1,11 @@
 DROP TABLE IF EXISTS Shows CASCADE;
 CREATE TABLE Shows (
   id SERIAL,
-  trakt_id TEXT,
+  trakt_id INTEGER,
   name TEXT,
   PRIMARY KEY (id)
 );
+
 DROP TABLE IF EXISTS Users CASCADE;
 CREATE TABLE Users (
   id SERIAL,
@@ -15,8 +16,9 @@ CREATE TABLE Users (
 
 INSERT INTO public.Shows (id, trakt_id, name)
 VALUES
-(1, 'trakId_1', 'Peaky Blinders'),
-(2, 'trakId_2', 'Im a Chowchow');
+(1, 60158, 'Peaky Blinders'),
+(2, 99046, 'Supergirl'),
+(3, 119142, 'Seal TEAM');
 
 INSERT INTO public.Users (id, username, password)
 VALUES

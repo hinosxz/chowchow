@@ -1,5 +1,6 @@
-package com.centralesupelec.chowchow.search.controllers;
+package com.centralesupelec.chowchow.trakt.controllers;
 
+import com.centralesupelec.chowchow.trakt.controllers.TraktShowDTO;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
