@@ -1,6 +1,5 @@
 package com.centralesupelec.chowchow.show.service;
 
-import com.centralesupelec.chowchow.show.controllers.ShowDTO;
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.show.domain.ShowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class ShowsService {
-    private ShowRepository showRepository;
+    private final ShowRepository showRepository;
 
     @Autowired
     public ShowsService(ShowRepository showRepository) {

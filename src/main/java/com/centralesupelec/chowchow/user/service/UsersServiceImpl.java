@@ -13,7 +13,8 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @Transactional
 public class UsersServiceImpl implements UsersService {
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
 
     @Autowired
     public UsersServiceImpl(UserRepository userRepository) {

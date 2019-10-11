@@ -21,12 +21,12 @@ import java.util.Arrays;
 @Controller
 public class AlertController {
 
-    private Logger logger = LoggerFactory.getLogger(AlertController.class);
+    private final Logger logger = LoggerFactory.getLogger(AlertController.class);
 
     private final int ALERT_THRESHOLD = 3;
 
-    private AlertService alertService;
-    private ShowsService showsService;
+    private final AlertService alertService;
+    private final ShowsService showsService;
 
     @Autowired
     public AlertController(AlertService alertService, ShowsService showsService) {

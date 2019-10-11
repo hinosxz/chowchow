@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 @JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class UserDTO {
 
@@ -46,6 +48,10 @@ public class UserDTO {
                 userEntity.getUsername(),
                 subscriptionType
         );
+    }
+
+    public boolean isPremium() {
+        return !Objects.isNull(subscriptionType);
     }
 
     public Long getId() {

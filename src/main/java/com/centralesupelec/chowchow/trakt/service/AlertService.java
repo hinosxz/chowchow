@@ -17,10 +17,10 @@ import java.util.concurrent.CompletableFuture;
 @Transactional
 public class AlertService {
 
-    private TraktAPI<TraktEpisodeDTO> traktAPI;
+    private final TraktAPI traktAPI;
 
     @Autowired
-    public AlertService(TraktAPI<TraktEpisodeDTO> traktAPI) {
+    public AlertService(TraktAPI traktAPI) {
         this.traktAPI = traktAPI;
     }
 

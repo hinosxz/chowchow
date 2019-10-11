@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Controller
 public class UsersController {
+
     private final UsersServiceImpl usersServiceImpl;
 
     @Autowired

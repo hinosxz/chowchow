@@ -10,10 +10,13 @@ public class ShowEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private int traktId;
 
+    @Column(nullable =  false)
     private String name;
 
+    @Column(nullable = false)
     private int year;
 
     public Long getId() {
