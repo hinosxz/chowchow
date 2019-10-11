@@ -1,8 +1,5 @@
 package com.centralesupelec.chowchow.show.domain;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import javax.persistence.*;
 
 @Entity
@@ -13,7 +10,7 @@ public class ShowEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String traktId;
+    private int traktId;
 
     private String name;
 
@@ -21,11 +18,11 @@ public class ShowEntity {
         return id;
     }
 
-    public String getTraktId() {
+    public int getTraktId() {
         return traktId;
     }
 
-    public void setTraktId(String traktId) {
+    public void setTraktId(int traktId) {
         this.traktId = traktId;
     }
 
