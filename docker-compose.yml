@@ -4,6 +4,8 @@ services:
   chowchow-db:
     image: postgres:latest
     container_name: chowchow-db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     expose:
       - 5432
     ports:
@@ -30,3 +32,6 @@ services:
       - chowchow-db
     links:
       - chowchow-db
+
+volumes:
+  postgres-data:
