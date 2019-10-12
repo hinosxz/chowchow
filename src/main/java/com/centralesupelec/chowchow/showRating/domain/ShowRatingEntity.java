@@ -11,21 +11,21 @@ import javax.persistence.*;
 @Table(name = "ShowRatings")
 public class ShowRatingEntity {
     @EmbeddedId
-    ShowRatingKey id;
+    private ShowRatingKey id;
 
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
     @JsonBackReference
-    UserEntity user;
+    private UserEntity user;
 
     @ManyToOne
     @MapsId("show_id")
     @JoinColumn(name="show_id")
-    ShowEntity show;
+    private ShowEntity show;
 
     @Enumerated
-    public Mark mark;
+    private Mark mark;
 
     public static enum Mark {
         TERRIBLE,
@@ -35,5 +35,31 @@ public class ShowRatingEntity {
         EXCELLENT
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
 
+    public ShowEntity getShow() {
+        return show;
+    }
+
+    public Mark getMark() {
+        return mark;
+    }
+
+    public ShowRatingKey getId() {
+        return id;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public void setShow(ShowEntity show) {
+        this.show = show;
+    }
+
+    public void setMark(Mark mark) {
+        this.mark = mark;
+    }
 }
