@@ -1,7 +1,9 @@
 package com.centralesupelec.chowchow.showRating.domain;
 
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
+import com.centralesupelec.chowchow.showRating.ShowRatingKey;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
@@ -9,11 +11,12 @@ import javax.persistence.*;
 @Table(name = "ShowRatings")
 public class ShowRatingEntity {
     @EmbeddedId
-    ShowRatingEntity id;
+    ShowRatingKey id;
 
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     UserEntity user;
 
     @ManyToOne
@@ -31,4 +34,6 @@ public class ShowRatingEntity {
         VERYGOOD,
         EXCELLENT
     }
+
+
 }

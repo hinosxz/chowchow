@@ -1,8 +1,7 @@
 package com.centralesupelec.chowchow.show.domain;
 
-<<<<<<< HEAD
-=======
 import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Set;
