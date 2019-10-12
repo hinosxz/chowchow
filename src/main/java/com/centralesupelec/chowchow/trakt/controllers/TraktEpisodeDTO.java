@@ -6,19 +6,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
-public class TraktEpisode {
+public class TraktEpisodeDTO {
     private final int season;
     private final int number;
     private final String title;
-    private final Ids ids;
+    private final IdsDTO idsDTO;
     private final Instant firstAired;
 
     @JsonCreator
-    TraktEpisode(@JsonProperty("season") int season, @JsonProperty("number") int number,@JsonProperty("title") String title, @JsonProperty("ids") Ids ids, @JsonProperty("first_aired") String firstAired ) {
+    TraktEpisodeDTO(@JsonProperty("season") int season, @JsonProperty("number") int number, @JsonProperty("title") String title, @JsonProperty("ids") IdsDTO idsDTO, @JsonProperty("first_aired") String firstAired ) {
         this.season = season;
         this.number = number;
         this.title = title;
-        this.ids = ids;
+        this.idsDTO = idsDTO;
         this.firstAired = Instant.parse(firstAired);
     }
 
@@ -34,8 +34,8 @@ public class TraktEpisode {
         return title;
     }
 
-    public Ids getIds() {
-        return ids;
+    public IdsDTO getIdsDTO() {
+        return idsDTO;
     }
 
     public Instant getFirstAired() {

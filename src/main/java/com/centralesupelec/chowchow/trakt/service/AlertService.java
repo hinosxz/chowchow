@@ -1,6 +1,6 @@
 package com.centralesupelec.chowchow.trakt.service;
 import com.centralesupelec.chowchow.lib.TraktAPI;
-import com.centralesupelec.chowchow.trakt.controllers.TraktEpisode;
+import com.centralesupelec.chowchow.trakt.controllers.TraktEpisodeDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -17,25 +17,25 @@ import java.util.concurrent.CompletableFuture;
 @Transactional
 public class AlertService {
 
-    private TraktAPI<TraktEpisode> traktAPI;
+    private final TraktAPI traktAPI;
 
     @Autowired
-    public AlertService(TraktAPI<TraktEpisode> traktAPI) {
+    public AlertService(TraktAPI traktAPI) {
         this.traktAPI = traktAPI;
     }
 
     @Async
-    public CompletableFuture<TraktEpisode> findNextEpisodeByShowId(Integer showId){
+    public CompletableFuture<TraktEpisodeDTO> findNextEpisodeByShowId(Integer showId){
         String url = UriComponentsBuilder
                 .fromHttpUrl("https://api.trakt.tv/shows/" + showId + "/next_episode")
                 .queryParam("extended", "full")
                 .toUriString();
 
-        return CompletableFuture.completedFuture(traktAPI.get(url, TraktEpisode.class).getBody());
+        return CompletableFuture.completedFuture(traktAPI.get(url, TraktEpisodeDTO.class).getBody());
     }
 
-    public TraktEpisode[] findNextEpisodesByShowIds(Integer[] showIds) {
-        CompletableFuture<TraktEpisode>[] promises = new CompletableFuture[showIds.length];
+    public TraktEpisodeDTO[] findNextEpisodesByShowIds(Integer[] showIds) {
+        CompletableFuture<TraktEpisodeDTO>[] promises = new CompletableFuture[showIds.length];
         for (int i = 0; i < showIds.length; i++) {
             promises[i] = findNextEpisodeByShowId(showIds[i]);
         }
@@ -43,6 +43,6 @@ public class AlertService {
         return Arrays.stream(promises)
                 .map(CompletableFuture::join)
                 .filter(episode -> !Objects.isNull(episode))
-                .toArray(TraktEpisode[]::new);
+                .toArray(TraktEpisodeDTO[]::new);
     }
 }

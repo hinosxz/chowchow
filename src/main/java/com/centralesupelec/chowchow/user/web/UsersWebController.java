@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path="/users")
 public class UsersWebController {
+    
     private final UsersController usersController;
 
     @Autowired
@@ -22,8 +23,8 @@ public class UsersWebController {
 
     @RequestMapping(path="", method = RequestMethod.POST)
     public ResponseEntity createUser(@RequestBody UserDTO userDTO){
-            boolean result = this.usersController
-                .createUser(userDTO.getUsername(), userDTO.getPassword());
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        boolean result = this.usersController
+                .createUser(userDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

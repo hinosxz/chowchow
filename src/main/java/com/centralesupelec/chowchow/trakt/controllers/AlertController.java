@@ -21,12 +21,12 @@ import java.util.Arrays;
 @Controller
 public class AlertController {
 
-    private Logger logger = LoggerFactory.getLogger(AlertController.class);
+    private final Logger logger = LoggerFactory.getLogger(AlertController.class);
 
     private final int ALERT_THRESHOLD = 3;
 
-    private AlertService alertService;
-    private ShowsService showsService;
+    private final AlertService alertService;
+    private final ShowsService showsService;
 
     @Autowired
     public AlertController(AlertService alertService, ShowsService showsService) {
@@ -34,7 +34,7 @@ public class AlertController {
         this.showsService = showsService;
     }
 
-    private boolean isEpisodeSoon(TraktEpisode episode) {
+    private boolean isEpisodeSoon(TraktEpisodeDTO episode) {
         Instant now = Instant.now();
         return now.until(episode.getFirstAired(), ChronoUnit.DAYS) < ALERT_THRESHOLD;
     }
@@ -43,10 +43,10 @@ public class AlertController {
         Integer[] showIds = showsService.findAll().stream().map(ShowEntity::getTraktId).toArray(Integer[]::new);
 
         try {
-            TraktEpisode[] episodes = this.alertService.findNextEpisodesByShowIds(showIds);
-            TraktEpisode[] upcomingEpisodes = Arrays.stream(episodes)
+            TraktEpisodeDTO[] episodes = this.alertService.findNextEpisodesByShowIds(showIds);
+            TraktEpisodeDTO[] upcomingEpisodes = Arrays.stream(episodes)
                     .filter(this::isEpisodeSoon)
-                    .toArray(TraktEpisode[]::new);
+                    .toArray(TraktEpisodeDTO[]::new);
             return ResponseEntity.status(HttpStatus.OK).body(upcomingEpisodes);
         } catch (HttpStatusCodeException e) {
             // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is right

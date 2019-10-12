@@ -1,24 +1,57 @@
 package com.centralesupelec.chowchow.user.controllers;
 
+import com.centralesupelec.chowchow.user.domain.PremiumUserEntity;
+import com.centralesupelec.chowchow.user.domain.SubscriptionType;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
+@JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class UserDTO {
 
     private final Long id;
     private final String username;
-    private final String password;
+    private final SubscriptionType subscriptionType;
 
     @JsonCreator
-    UserDTO(
+    public UserDTO(
             @JsonProperty("id") Long id,
             @JsonProperty("username") String username,
-            @JsonProperty("password") String password
+            @JsonProperty("subscriptionType") SubscriptionType subscriptionType
     ){
         this.id = id;
         this.username = username;
-        this.password = password;
+        this.subscriptionType = subscriptionType;
+    }
+
+    public static UserEntity toEntity(UserDTO userDTO) {
+        UserEntity userEntity = new UserEntity();
+        if(userDTO.subscriptionType != null) {
+            PremiumUserEntity premiumUserEntity = new PremiumUserEntity();
+            premiumUserEntity.setSubscriptionType(userDTO.subscriptionType);
+            userEntity = premiumUserEntity;
+        }
+        userEntity.setUsername(userDTO.getUsername());
+        return userEntity;
+    }
+
+    public static UserDTO fromEntity(UserEntity userEntity) {
+        SubscriptionType subscriptionType = null;
+        if(userEntity.getClass() == PremiumUserEntity.class) {
+            subscriptionType = ((PremiumUserEntity)userEntity).getSubscriptionType();
+        }
+        return new UserDTO(
+                userEntity.getId(),
+                userEntity.getUsername(),
+                subscriptionType
+        );
+    }
+
+    public boolean isPremium() {
+        return !Objects.isNull(subscriptionType);
     }
 
     public Long getId() {
@@ -29,18 +62,7 @@ public class UserDTO {
         return username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public static UserEntity toEntity(UserDTO userDTO) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setPassword(userDTO.password);
-        userEntity.setUsername(userDTO.username);
-        return userEntity;
-    }
-
-    public static UserDTO fromEntity(UserEntity userEntity){
-        return new UserDTO(userEntity.getId(), userEntity.getUsername(), userEntity.getPassword());
+    public SubscriptionType getSubscriptionType() {
+        return subscriptionType;
     }
 }

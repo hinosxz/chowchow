@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Controller
 public class UsersController {
+
     private final UsersServiceImpl usersServiceImpl;
 
     @Autowired
@@ -16,16 +17,12 @@ public class UsersController {
        this.usersServiceImpl = usersServiceImpl;
     }
 
-    public boolean createUser(String username, String password) {
-        Optional<UserEntity> maybeUser = this.usersServiceImpl.getUserByUsername(username);
-        if (!maybeUser.isPresent()){
-            UserEntity newUser = new UserEntity();
-            newUser.setUsername(username);
-            newUser.setPassword(password);
-            usersServiceImpl.saveUser(newUser);
-            return true;
-        } else {
+    public boolean createUser(UserDTO userDTO) {
+        Optional<UserEntity> maybeUser = this.usersServiceImpl.getUserByUsername(userDTO.getUsername());
+        if (maybeUser.isPresent()){
             return false;
         }
+        usersServiceImpl.saveUser(UserDTO.toEntity(userDTO));
+        return true;
     }
 }

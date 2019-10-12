@@ -8,22 +8,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional
 public class ShowsService {
-    private ShowRepository showRepository;
+    private final ShowRepository showRepository;
 
     @Autowired
     public ShowsService(ShowRepository showRepository) {
         this.showRepository = showRepository;
     }
 
-    public CompletableFuture<Optional<ShowEntity>> getShowById(Long id){
-        return this.showRepository
-                .findById(id)
-                .thenApply(Optional::ofNullable);
+    public Optional<ShowEntity> getShowById(Long id){
+        return Optional.ofNullable(this.showRepository.findById(id));
+    }
+
+    public ShowEntity saveShow(ShowEntity showEntity) {
+        return this.showRepository.save(showEntity);
     }
     public List<ShowEntity> findAll(){
         return this.showRepository

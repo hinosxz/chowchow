@@ -12,7 +12,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class TraktAPI<T> {
+public class TraktAPI {
 
     private RestTemplate restTemplate;
     private HttpEntity httpEntity;
@@ -29,7 +29,7 @@ public class TraktAPI<T> {
         this.httpEntity = new HttpEntity(headers);
     }
 
-    public ResponseEntity<T> get(String url, Class<T> responseClass) throws HttpStatusCodeException {
+    public <T> ResponseEntity<T> get(String url, Class<T> responseClass) throws HttpStatusCodeException {
         return restTemplate.exchange(
                 url, HttpMethod.GET, this.httpEntity, responseClass);
     }

@@ -11,9 +11,9 @@ import org.springframework.web.client.HttpStatusCodeException;
 @Controller
 public class SearchController {
 
-    private Logger logger = LoggerFactory.getLogger(SearchController.class);
+    private final Logger logger = LoggerFactory.getLogger(SearchController.class);
 
-    private SearchService searchService;
+    private final SearchService searchService;
 
     @Autowired
     public SearchController(SearchService searchService) {
