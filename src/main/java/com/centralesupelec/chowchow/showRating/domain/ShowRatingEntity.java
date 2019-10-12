@@ -4,7 +4,6 @@ import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.showRating.ShowRatingKey;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.centralesupelec.chowchow.user.domain.UserEntity;
 
 import javax.persistence.*;
 
@@ -63,4 +62,6 @@ public class ShowRatingEntity {
     public void setMark(Mark mark) {
         this.mark = mark;
     }
+
+
 }

@@ -7,19 +7,18 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Objects;
 import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class UserDTO {
-
     private final Long id;
     private final String username;
     private final SubscriptionType subscriptionType;
     private final String password;
     @JsonManagedReference
     private final Set<ShowRatingEntity> likedShows;
+
 
     @JsonCreator
     public UserDTO(
