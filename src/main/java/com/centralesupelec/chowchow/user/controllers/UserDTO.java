@@ -7,7 +7,6 @@ import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,6 +17,7 @@ public class UserDTO {
     private final String username;
     private final SubscriptionType subscriptionType;
     private final Set<ShowRatingDTO> likedShows;
+
 
 
     @JsonCreator
