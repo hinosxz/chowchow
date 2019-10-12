@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class showRatingKey implements Serializable {
+public class ShowRatingKey implements Serializable {
 
     @Column(name="user_id")
     Long userId;
@@ -14,10 +14,10 @@ public class showRatingKey implements Serializable {
     @Column(name="show_id")
     Long showId;
 
-    public showRatingKey() {
+    public ShowRatingKey() {
     }
 
-    public showRatingKey(Long userId, Long showId) {
+    public ShowRatingKey(Long userId, Long showId) {
         this.userId = userId;
         this.showId = showId;
     }
@@ -33,8 +33,8 @@ public class showRatingKey implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof showRatingKey)) return false;
-        showRatingKey that = (showRatingKey) o;
+        if (!(o instanceof ShowRatingKey)) return false;
+        ShowRatingKey that = (ShowRatingKey) o;
         return Objects.equals(getUserId(), that.getUserId()) &&
                 Objects.equals(getShowId(), that.getShowId());
     }
