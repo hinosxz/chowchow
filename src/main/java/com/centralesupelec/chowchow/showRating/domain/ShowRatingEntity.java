@@ -63,5 +63,31 @@ public class ShowRatingEntity {
         this.mark = mark;
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
 
+    public ShowEntity getShow() {
+        return show;
+    }
+
+    public Mark getMark() {
+        return mark;
+    }
+
+    public ShowRatingKey getId() {
+        return id;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public void setShow(ShowEntity show) {
+        this.show = show;
+    }
+
+    public void setMark(Mark mark) {
+        this.mark = mark;
+    }
 }

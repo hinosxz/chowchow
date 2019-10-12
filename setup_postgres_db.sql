@@ -43,3 +43,4 @@ INSERT INTO public.ShowRatings (id, user_id, show_id, mark)
 VALUES
 (1, 1, 1, 1),
 (2, 2, 1, 2);
+
