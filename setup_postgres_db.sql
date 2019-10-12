@@ -39,3 +39,9 @@ VALUES
 (1, 'User_1', 'password_1', 'USER', NULL),
 (2, 'User_2', 'password_2', 'PREMIUM_USER', 'BASIC'),
 (3, 'User_3', 'password_3', 'PREMIUM_USER', 'GOLD');
+
+
+INSERT INTO public.ShowRatings (id, user_id, show_id, mark)
+VALUES
+(1, 1, 1, 1),
+(2, 2, 1, 2);
