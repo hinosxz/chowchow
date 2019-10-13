@@ -22,8 +22,6 @@ import java.util.Arrays;
 @Controller
 public class AlertController {
 
-    private final Logger logger = LoggerFactory.getLogger(AlertController.class);
-
     private final int ALERT_THRESHOLD = 3;
 
     private final AlertService alertService;
@@ -40,23 +38,13 @@ public class AlertController {
         return now.until(episode.getAirDate(), ChronoUnit.DAYS) < ALERT_THRESHOLD;
     }
 
-    public ResponseEntity getUpcomingEpisodes() {
+    public TMDBEpisodeDTO[] getUpcomingEpisodes() throws HttpStatusCodeException {
         Integer[] showIds = showsService.findAll().stream().map(ShowEntity::getTMDBId).toArray(Integer[]::new);
 
-        try {
-            TMDBEpisodeDTO[] episodes = this.alertService.findNextEpisodesByShowIds(showIds);
-            TMDBEpisodeDTO[] upcomingEpisodes = Arrays.stream(episodes)
-                    .filter(this::isEpisodeSoon)
-                    .toArray(TMDBEpisodeDTO[]::new);
-            return ResponseEntity.status(HttpStatus.OK).body(upcomingEpisodes);
-        } catch (HttpStatusCodeException e) {
-            // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is right
-            logger.error(e.toString());
-            return ResponseEntity
-                    .status(e.getRawStatusCode())
-                    .headers(e.getResponseHeaders())
-                    .body(e.getMessage());
-        }
+        TMDBEpisodeDTO[] episodes = this.alertService.findNextEpisodesByShowIds(showIds);
+        return Arrays.stream(episodes)
+                .filter(this::isEpisodeSoon)
+                .toArray(TMDBEpisodeDTO[]::new);
     }
 }
 

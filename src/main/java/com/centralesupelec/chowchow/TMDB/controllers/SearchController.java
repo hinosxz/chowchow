@@ -13,8 +13,6 @@ import org.springframework.web.client.HttpStatusCodeException;
 @Controller
 public class SearchController {
 
-    private final Logger logger = LoggerFactory.getLogger(SearchController.class);
-
     private final SearchService searchService;
 
     @Autowired
@@ -22,17 +20,8 @@ public class SearchController {
         this.searchService = searchService;
     }
 
-    public ResponseEntity findShowsByName(String name) {
-        try {
-            return this.searchService.findShowsByName(name);
-        } catch (HttpStatusCodeException e) {
-            // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is right
-            logger.error(e.toString());
-            return ResponseEntity
-                    .status(e.getRawStatusCode())
-                    .headers(e.getResponseHeaders())
-                    .body(e.getMessage());
-        }
+    public ResponseEntity<TMDBSearchDTO> findShowsByName(String name) throws HttpStatusCodeException {
+        return this.searchService.findShowsByName(name);
     }
 }
 
