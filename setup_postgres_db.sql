@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS Shows CASCADE;
 CREATE TABLE Shows (
   id SERIAL,
-  trakt_id INTEGER NOT NULL UNIQUE,
+  tmdb_id INTEGER NOT NULL UNIQUE,
   name TEXT NOT NULL,
   year INTEGER NOT NULL,
   PRIMARY KEY (id)
@@ -17,11 +17,11 @@ CREATE TABLE Users (
   PRIMARY KEY (id)
 );
 
-INSERT INTO public.Shows (id, trakt_id, name, year)
+INSERT INTO public.Shows (id, tmdb_id, name, year)
 VALUES
-(1, 60158, 'Peaky Blinders', 2018),
-(2, 99046, 'Supergirl', 2019),
-(3, 119142, 'Seal TEAM', 2008);
+(1, 60574, 'Peaky Blinders', 2018),
+(2, 62688, 'Supergirl', 2019),
+(3, 71789, 'Seal TEAM', 2008);
 
 INSERT INTO public.Users (id, username, password, type, subscription_type)
 VALUES

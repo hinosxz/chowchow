@@ -11,7 +11,7 @@ public class ShowEntity {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private int traktId;
+    private int tmdb_id;
 
     @Column(nullable =  false)
     private String name;
@@ -23,12 +23,12 @@ public class ShowEntity {
         return id;
     }
 
-    public int getTraktId() {
-        return traktId;
+    public int getTMDBId() {
+        return tmdb_id;
     }
 
-    public void setTraktId(int traktId) {
-        this.traktId = traktId;
+    public void setTMDBId(int tmdbId) {
+        this.tmdb_id = tmdbId;
     }
 
     public String getName() {

@@ -1,8 +1,8 @@
-package com.centralesupelec.chowchow.trakt.controllers;
+package com.centralesupelec.chowchow.TMDB.controllers;
 
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.show.service.ShowsService;
-import com.centralesupelec.chowchow.trakt.service.AlertService;
+import com.centralesupelec.chowchow.TMDB.service.AlertService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 import java.util.Arrays;
@@ -34,19 +35,19 @@ public class AlertController {
         this.showsService = showsService;
     }
 
-    private boolean isEpisodeSoon(TraktEpisodeDTO episode) {
-        Instant now = Instant.now();
-        return now.until(episode.getFirstAired(), ChronoUnit.DAYS) < ALERT_THRESHOLD;
+    private boolean isEpisodeSoon(TMDBEpisodeDTO episode) {
+        LocalDate now = LocalDate.now();
+        return now.until(episode.getAirDate(), ChronoUnit.DAYS) < ALERT_THRESHOLD;
     }
 
     public ResponseEntity getUpcomingEpisodes() {
-        Integer[] showIds = showsService.findAll().stream().map(ShowEntity::getTraktId).toArray(Integer[]::new);
+        Integer[] showIds = showsService.findAll().stream().map(ShowEntity::getTMDBId).toArray(Integer[]::new);
 
         try {
-            TraktEpisodeDTO[] episodes = this.alertService.findNextEpisodesByShowIds(showIds);
-            TraktEpisodeDTO[] upcomingEpisodes = Arrays.stream(episodes)
+            TMDBEpisodeDTO[] episodes = this.alertService.findNextEpisodesByShowIds(showIds);
+            TMDBEpisodeDTO[] upcomingEpisodes = Arrays.stream(episodes)
                     .filter(this::isEpisodeSoon)
-                    .toArray(TraktEpisodeDTO[]::new);
+                    .toArray(TMDBEpisodeDTO[]::new);
             return ResponseEntity.status(HttpStatus.OK).body(upcomingEpisodes);
         } catch (HttpStatusCodeException e) {
             // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is right
