@@ -25,4 +25,8 @@ public class UsersController {
         usersServiceImpl.saveUser(UserDTO.toEntity(userDTO));
         return true;
     }
+
+    public Optional<UserDTO> getUserById(Long id){
+        return this.usersServiceImpl.getUserById(id).map(UserDTO::fromEntity);
+    }
 }
