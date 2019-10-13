@@ -23,5 +23,9 @@ public class SearchController {
     public ResponseEntity<TMDBSearchDTO> findShowsByName(String name) throws HttpStatusCodeException {
         return this.searchService.findShowsByName(name);
     }
+
+    public ResponseEntity<TMDBShowDTO> findShowById(int id) throws HttpStatusCodeException {
+        return this.searchService.findShowById(id);
+    }
 }
 

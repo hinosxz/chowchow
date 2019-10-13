@@ -2,6 +2,7 @@ package com.centralesupelec.chowchow.TMDB.web;
 
 import com.centralesupelec.chowchow.TMDB.controllers.SearchController;
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBSearchDTO;
+import com.centralesupelec.chowchow.TMDB.controllers.TMDBShowDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,22 @@ public class SearchWebController {
     public ResponseEntity findShowsByName(@RequestParam(value = "name") String name) {
         try {
             TMDBSearchDTO search = this.searchController.findShowsByName(name).getBody();
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(search);
+        } catch (HttpStatusCodeException e) {
+            // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is right
+            logger.error(e.toString());
+            return ResponseEntity
+                    .status(e.getRawStatusCode())
+                    .body(e.getMessage());
+        }
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity findShowById(@PathVariable int id) {
+        try {
+            TMDBShowDTO search = this.searchController.findShowById(id).getBody();
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(search);
