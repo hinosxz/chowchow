@@ -1,4 +1,5 @@
 package com.centralesupelec.chowchow.show.controllers;
+import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
 import com.centralesupelec.chowchow.trakt.controllers.TraktShowDTO;
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -6,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class ShowDTO {
@@ -18,6 +20,7 @@ public class ShowDTO {
     private final String homepage;
     private final List<String> genres;
     private final Integer airedEpisodes;
+    private final Set<ShowRatingEntity> likedShows;
 
     @JsonCreator
     ShowDTO(
@@ -29,8 +32,9 @@ public class ShowDTO {
             @JsonProperty("trailer") String trailer,
             @JsonProperty("homepage") String homepage,
             @JsonProperty("genres") List<String> genres,
-            @JsonProperty("airedEpisodes") Integer airedEpisodes
-    ) {
+            @JsonProperty("airedEpisodes") Integer airedEpisodes,
+            @JsonProperty("likedShows") Set<ShowRatingEntity> likedShows
+            ) {
         this.id = id;
         this.traktId = traktId;
         this.title = title;
@@ -40,6 +44,7 @@ public class ShowDTO {
         this.homepage = homepage;
         this.genres = genres;
         this.airedEpisodes = airedEpisodes;
+        this.likedShows = likedShows;
     }
 
     public static ShowDTO fromEntity(ShowEntity showEntity) {
@@ -52,7 +57,8 @@ public class ShowDTO {
             null,
             null,
             null,
-            null
+            null,
+                showEntity.getShowRating()
         );
     }
 
@@ -74,7 +80,8 @@ public class ShowDTO {
                 traktShowDTO.getTrailer(),
                 traktShowDTO.getHomepage(),
                 traktShowDTO.getGenres(),
-                traktShowDTO.getAiredEpisodes()
+                traktShowDTO.getAiredEpisodes(),
+                null
         );
     }
 
@@ -113,4 +120,6 @@ public class ShowDTO {
     public Integer getAiredEpisodes() {
         return airedEpisodes;
     }
+
+    public Set<ShowRatingEntity> getLikedShows() {return likedShows;}
 }

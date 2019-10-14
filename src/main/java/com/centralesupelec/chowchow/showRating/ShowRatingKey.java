@@ -43,6 +43,4 @@ public class ShowRatingKey implements Serializable {
     public int hashCode() {
         return Objects.hash(getUserId(), getShowId());
     }
-
-
 }

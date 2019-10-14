@@ -38,9 +38,11 @@ VALUES
 (2, 'User_2', 'password_2', 'PREMIUM_USER', 'BASIC'),
 (3, 'User_3', 'password_3', 'PREMIUM_USER', 'GOLD');
 
-
-INSERT INTO public.ShowRatings (id, user_id, show_id, mark)
+INSERT INTO public.show_ratings (id, user_id, show_id, mark)
 VALUES
 (1, 1, 1, 1),
+(3, 1, 2, 4),
+(5, 1, 2, 2),
+(4, 1, 3, 2),
 (2, 2, 1, 2);
 
