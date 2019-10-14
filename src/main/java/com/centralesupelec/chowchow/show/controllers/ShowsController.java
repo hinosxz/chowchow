@@ -1,8 +1,7 @@
 package com.centralesupelec.chowchow.show.controllers;
 
 import com.centralesupelec.chowchow.show.service.ShowsService;
-import com.centralesupelec.chowchow.trakt.controllers.SearchController;
-import com.centralesupelec.chowchow.trakt.service.SearchService;
+import com.centralesupelec.chowchow.TMDB.service.SearchService;
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +35,10 @@ public class ShowsController {
         if(maybeShowDTO.isPresent() && userDTO.isPremium()) {
             try {
                 maybeShowDTO = Optional.ofNullable(this.searchService
-                        .findShowByTraktId(maybeShowDTO.get().getTraktId()
+                        .findShowById(maybeShowDTO.get().getTMDBId()
                         )
                         .getBody())
-                        .map(ShowDTO::fromTraktShowDTO);
+                        .map(ShowDTO::fromTMDBShowDTO);
             } catch (HttpStatusCodeException e) {
                 logger.error(e.toString());
             }

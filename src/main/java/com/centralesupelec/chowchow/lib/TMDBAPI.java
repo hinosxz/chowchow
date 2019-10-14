@@ -10,27 +10,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class TraktAPI {
+public class TMDBAPI {
 
+    private String TMDBAPIKey;
     private RestTemplate restTemplate;
     private HttpEntity httpEntity;
 
     @Autowired
-    public TraktAPI(RestTemplateBuilder restTemplateBuilder, @Value("${TRAKT_API_KEY:fakeDefaultAPIKey}") String traktAPIKey) {
+    public TMDBAPI(RestTemplateBuilder restTemplateBuilder, @Value("${TMDB_API_KEY:fakeDefaultAPIKey}") String TMDBAPIKey) {
         this.restTemplate = restTemplateBuilder
                 .errorHandler(new RestTemplateResponseErrorHandler())
                 .build();
+        this.TMDBAPIKey = TMDBAPIKey;
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("trakt-api-key", traktAPIKey);
-        headers.set("trakt-api-version", "2");
         this.httpEntity = new HttpEntity(headers);
     }
 
-    public <T> ResponseEntity<T> get(String url, Class<T> responseClass) throws HttpStatusCodeException {
-        return restTemplate.exchange(
-                url, HttpMethod.GET, this.httpEntity, responseClass);
+    public <T> ResponseEntity<T> get(UriComponentsBuilder urlBuilder, Class<T> responseClass) throws HttpStatusCodeException {
+        String url = urlBuilder.queryParam("api_key", TMDBAPIKey).toUriString();
+        return restTemplate.exchange(url, HttpMethod.GET, this.httpEntity, responseClass);
     }
 }
