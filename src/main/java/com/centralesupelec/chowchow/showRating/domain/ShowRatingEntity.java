@@ -25,6 +25,19 @@ public class ShowRatingEntity {
     @Enumerated
     private Mark mark;
 
+    public ShowRatingEntity() {}
+    
+    public ShowRatingEntity(
+            UserEntity userEntity,
+            ShowEntity showEntity,
+            Mark mark
+    ) {
+        this.id = new ShowRatingKey(userEntity, showEntity);
+        this.user = userEntity;
+        this.show = showEntity;
+        this.mark = mark;
+    }
+
     public ShowRatingKey getId() {
         return id;
     }

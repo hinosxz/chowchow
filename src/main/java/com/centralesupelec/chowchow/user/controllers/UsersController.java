@@ -4,14 +4,16 @@ import com.centralesupelec.chowchow.show.controllers.ShowDTO;
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.show.service.ShowsService;
 import com.centralesupelec.chowchow.showRating.controllers.ShowRatingDTO;
-import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UsersServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import java.util.*;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 

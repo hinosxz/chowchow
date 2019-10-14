@@ -1,6 +1,8 @@
 
 package com.centralesupelec.chowchow.showRating.domain;
 
+import com.centralesupelec.chowchow.show.domain.ShowEntity;
+import com.centralesupelec.chowchow.user.domain.UserEntity;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -17,20 +19,11 @@ public class ShowRatingKey implements Serializable {
     @Column(name = "show_id")
     private Long showId;
 
-    public ShowRatingKey() {
-    }
+    public ShowRatingKey() {}
 
-    public ShowRatingKey(Long userId, Long showId) {
-        this.userId = userId;
-        this.showId = showId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public Long getShowId() {
-        return showId;
+    public ShowRatingKey(UserEntity userEntity, ShowEntity showEntity) {
+        this.userId = userEntity.getId();
+        this.showId = showEntity.getId();
     }
 
     @Override

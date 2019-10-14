@@ -63,11 +63,7 @@ public class UserEntity {
         if(maybeShowRating.isPresent()) {
             maybeShowRating.get().setMark(mark);
         } else {
-            ShowRatingEntity showRatingEntity = new ShowRatingEntity();
-            showRatingEntity.setMark(mark);
-            showRatingEntity.setShow(show);
-            showRatingEntity.setUser(this);
-            this.likedShows.add(showRatingEntity);
+            this.likedShows.add(new ShowRatingEntity(this, show, mark));
         }
     }
 
