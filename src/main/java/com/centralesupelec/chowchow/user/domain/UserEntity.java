@@ -1,11 +1,12 @@
 package com.centralesupelec.chowchow.user.domain;
 
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
+import com.centralesupelec.chowchow.showRating.domain.Mark;
 import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -20,9 +21,10 @@ public class UserEntity {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ShowRatingEntity> likedShows;
 
+    @Column
     private String username;
 
     @Column(nullable = false)
@@ -50,17 +52,32 @@ public class UserEntity {
         this.password = password;
     }
 
-    public void setLikedShows(Set<ShowRatingEntity> likedshows){this.likedShows = likedshows;}
-
-    public void addLikedShow(ShowRatingEntity likedShow) {
-        this.likedShows.add(likedShow);
+    public void setLikedShows(Set<ShowRatingEntity> likedShows) {
+        this.likedShows = likedShows;
     }
 
-    public void addLikedShow(ShowRatingEntity.Mark mark, ShowEntity show){
-        ShowRatingEntity showRatingEntity = new ShowRatingEntity();
-        showRatingEntity.setMark(mark);
-        showRatingEntity.setShow(show);
-        showRatingEntity.setUser(this);
-        this.likedShows.add(showRatingEntity);
+    public void likeShow(Mark mark, ShowEntity show) {
+        Optional<ShowRatingEntity> maybeShowRating = this.likedShows.stream()
+                .filter(showRatingEntity -> Objects.equals(showRatingEntity.getShow().getId(), show.getId()))
+                .findAny();
+        if(maybeShowRating.isPresent()) {
+            maybeShowRating.get().setMark(mark);
+        } else {
+            ShowRatingEntity showRatingEntity = new ShowRatingEntity();
+            showRatingEntity.setMark(mark);
+            showRatingEntity.setShow(show);
+            showRatingEntity.setUser(this);
+            this.likedShows.add(showRatingEntity);
+        }
+    }
+
+    public void unlikeShow(Long showId) {
+        this.likedShows.stream()
+                .filter(showRatingEntity -> Objects.equals(
+                        showRatingEntity.getShow().getId(),
+                        showId)
+                )
+                .findAny()
+                .ifPresent(showRatingEntity -> this.likedShows.remove(showRatingEntity));
     }
 }

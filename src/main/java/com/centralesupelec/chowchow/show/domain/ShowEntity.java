@@ -14,7 +14,8 @@ public class ShowEntity {
     @Column(unique = true, nullable = false)
     private int tmdb_id;
 
-    @OneToMany(mappedBy = "show")
+    @Column(unique = true, nullable = false)
+    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
     Set<ShowRatingEntity> showRating;
 
     private String name;

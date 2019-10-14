@@ -1,8 +1,9 @@
 package com.centralesupelec.chowchow.showRating.domain;
 
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
-import com.centralesupelec.chowchow.showRating.ShowRatingKey;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 
@@ -14,24 +15,19 @@ public class ShowRatingEntity {
     private ShowRatingKey id;
 
     @ManyToOne
-    @MapsId("id")
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     private UserEntity user;
 
     @ManyToOne
-    @MapsId("id")
-    @JoinColumn(name="show_id")
+    @JoinColumn(name="show_id", referencedColumnName = "id", insertable = false, updatable = false)
     private ShowEntity show;
 
     @Enumerated
     private Mark mark;
 
-    public static enum Mark {
-        TERRIBLE,
-        OK,
-        GOOD,
-        VERYGOOD,
-        EXCELLENT}
+    public ShowRatingKey getId() {
+        return id;
+    }
 
     public UserEntity getUser() {
         return user;
@@ -43,10 +39,6 @@ public class ShowRatingEntity {
 
     public Mark getMark() {
         return mark;
-    }
-
-    public ShowRatingKey getId() {
-        return id;
     }
 
     public void setUser(UserEntity user) {

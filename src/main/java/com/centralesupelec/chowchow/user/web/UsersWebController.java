@@ -17,7 +17,6 @@ public class UsersWebController {
     
     private final UsersController usersController;
 
-    private Logger logger = LoggerFactory.getLogger(UsersWebController.class);
     @Autowired
     public UsersWebController(UsersController usersController){
         this.usersController = usersController;
@@ -30,18 +29,29 @@ public class UsersWebController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @RequestMapping(path="/{id}", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getUserById(@PathVariable(value="id") Long id){
-        logger.info("GET USER BY ID");
-        return new ResponseEntity<>(this.usersController.getUserById(id), HttpStatus.OK);
+    @RequestMapping(path="/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getUserById(@PathVariable(value="id") Long userId){
+        return new ResponseEntity<>(this.usersController.getUserById(userId), HttpStatus.OK);
     }
 
-    @RequestMapping(path="/rate/", method=RequestMethod.POST)
-    public ResponseEntity saveMark(@RequestBody ShowRatingDTO showRatingDTO)
-    {
-        //TODO Chercher l'ID USer dans la session
-        Long id = 1L;
-        boolean result = this.usersController.changeMark(showRatingDTO.getMark(), showRatingDTO.getShowId(), id);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    @RequestMapping(path="/like", method = RequestMethod.POST)
+    public ResponseEntity likeShow(@RequestBody ShowRatingDTO showRatingDTO) {
+        //TODO Chercher l'ID User dans la session
+        Long userId = 1L;
+        return new ResponseEntity<>(
+                this.usersController.likeShow(showRatingDTO, userId),
+                HttpStatus.OK
+        );
     }
+
+    @RequestMapping(path = "/like/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteMark(@PathVariable("id") Long showId) {
+        //TODO Chercher l'ID User dans la session
+        Long userId = 1L;
+        return new ResponseEntity<>(
+                this.usersController.unlikeShow(showId, userId),
+                HttpStatus.OK
+        );
+    }
+
 }

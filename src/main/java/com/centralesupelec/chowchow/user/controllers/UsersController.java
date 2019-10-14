@@ -20,10 +20,14 @@ public class UsersController {
 
     private final UsersServiceImpl usersServiceImpl;
     private final ShowsService showsService;
-    Logger logger = LoggerFactory.getLogger(UsersController.class);
+
+    private final Logger logger = LoggerFactory.getLogger(UsersController.class);
 
     @Autowired
-    public UsersController(UsersServiceImpl usersServiceImpl, ShowsService showsService) {
+    public UsersController(
+            UsersServiceImpl usersServiceImpl,
+            ShowsService showsService
+    ) {
         this.usersServiceImpl = usersServiceImpl;
         this.showsService = showsService;
     }
@@ -62,25 +66,38 @@ public class UsersController {
                 .filter(maybeShowDTO -> maybeShowDTO.isPresent())
                 .map(maybeShowDTO -> maybeShowDTO.get())
                 .collect(Collectors.toSet());
+
         return showDTOS;
     }
 
-    public boolean changeMark(ShowRatingEntity.Mark mark, Long show_id, Long id) {
-        Optional<UserEntity> maybeUser = this.usersServiceImpl.getUserById(id);
+    public boolean likeShow(ShowRatingDTO showRatingDTO, Long userId) {
+        Optional<UserEntity> maybeUser = this.usersServiceImpl.getUserById(userId);
         if (!maybeUser.isPresent()) {
-            logger.warn("Unsuccessful attempts to find user with id {}", id);
+            logger.warn("Unsuccessful attempts to find user with id {}", userId);
             return false;
         }
-        Optional<ShowEntity> maybeShowEntity = showsService.getShowById(show_id).join();
-        if (!maybeShowEntity.isPresent()){
-            logger.warn("Unsuccessful attempts to find user with id {}", id);
+        Optional<ShowEntity> maybeShow = showsService.getShowById(showRatingDTO.getShowId()).join();
+        if (!maybeShow.isPresent()){
+            logger.warn("Unsuccessful attempts to find user with id {}", userId);
             return false;
         }
+        UserEntity user = maybeUser.get();
+        ShowEntity show = maybeShow.get();
+        user.likeShow(showRatingDTO.getMark(), show);
+        this.usersServiceImpl.saveUser(user);
+        return true;
+    }
 
-        ShowDTO result = shows.stream().filter(showDTO -> showDTO.getId() == show_id).findAny().orElse(null);
-        if (Objects.isNull(result)) {
-
+    public boolean unlikeShow(Long showId, Long userId) {
+        Optional<UserEntity> maybeUserDTO = this.usersServiceImpl.getUserById(userId);
+        if(!maybeUserDTO.isPresent()) {
+            logger.warn("Unsuccessful attempts to find user with id {}", userId);
+            return false;
         }
+        UserEntity user = maybeUserDTO.get();
+        user.unlikeShow(showId);
+        this.usersServiceImpl.saveUser(user);
+        return true;
     }
 
 }
