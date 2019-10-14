@@ -17,11 +17,11 @@ CREATE TABLE Users (
   PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS ShowRatings CASCADE;
-CREATE TABLE ShowRatings (
-  user_id int NOT NULL,
-  show_id int NOT NULL,
-  mark int,
+DROP TABLE IF EXISTS show_ratings CASCADE;
+CREATE TABLE show_ratings (
+  user_id SERIAL NOT NULL,
+  show_id SERIAL NOT NULL,
+  mark INTEGER,
   FOREIGN KEY (user_id) REFERENCES Users(id) ON UPDATE CASCADE,
   FOREIGN KEY(show_id) REFERENCES Shows(id) ON UPDATE CASCADE
 );
@@ -38,11 +38,10 @@ VALUES
 (2, 'User_2', 'password_2', 'PREMIUM_USER', 'BASIC'),
 (3, 'User_3', 'password_3', 'PREMIUM_USER', 'GOLD');
 
-INSERT INTO public.show_ratings (id, user_id, show_id, mark)
+INSERT INTO public.show_ratings (user_id, show_id, mark)
 VALUES
-(1, 1, 1, 1),
-(3, 1, 2, 4),
-(5, 1, 2, 2),
-(4, 1, 3, 2),
-(2, 2, 1, 2);
+(1, 1, 1),
+(1, 2, 4),
+(1, 3, 2),
+(2, 1, 2);
 
