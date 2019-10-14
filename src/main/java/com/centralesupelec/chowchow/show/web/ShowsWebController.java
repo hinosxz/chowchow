@@ -1,7 +1,7 @@
 package com.centralesupelec.chowchow.show.web;
-
 import com.centralesupelec.chowchow.show.controllers.ShowDTO;
 import com.centralesupelec.chowchow.show.controllers.ShowsController;
+import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import com.centralesupelec.chowchow.user.domain.SubscriptionType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import java.util.HashSet;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 
 @Controller
 @RequestMapping(path = "/shows")
@@ -46,6 +44,7 @@ public class ShowsWebController {
     }
 
     private UserDTO getMockUserDTO(boolean isUserPremium) {
-        return new UserDTO(1L, "test", isUserPremium ? SubscriptionType.GOLD : null);
+        HashSet set = new HashSet<ShowRatingEntity>();
+        return new UserDTO(1L, "test", set, isUserPremium ? SubscriptionType.GOLD : null);
     }
 }

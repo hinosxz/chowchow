@@ -1,8 +1,5 @@
 package com.centralesupelec.chowchow.show.domain;
-
 import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -48,6 +45,8 @@ public class ShowEntity {
     public int getYear() {
         return year;
     }
+
+    public Set<ShowRatingEntity> getShowRating() {return showRating;}
 
     public void setYear(int year) {
         this.year = year;

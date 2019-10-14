@@ -5,6 +5,7 @@ import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,7 +21,7 @@ public class UserEntity {
 
     @Column(unique = true, nullable = false)
     @OneToMany(mappedBy = "user")
-    Set<ShowRatingEntity> likedShows;
+    private Set<ShowRatingEntity> likedShows;
 
     private String username;
 
@@ -51,7 +52,15 @@ public class UserEntity {
 
     public void setLikedShows(Set<ShowRatingEntity> likedshows){this.likedShows = likedshows;}
 
-    public void addLikedShows(ShowRatingEntity likedShow) {
+    public void addLikedShow(ShowRatingEntity likedShow) {
         this.likedShows.add(likedShow);
+    }
+
+    public void addLikedShow(ShowRatingEntity.Mark mark, ShowEntity show){
+        ShowRatingEntity showRatingEntity = new ShowRatingEntity();
+        showRatingEntity.setMark(mark);
+        showRatingEntity.setShow(show);
+        showRatingEntity.setUser(this);
+        this.likedShows.add(showRatingEntity);
     }
 }

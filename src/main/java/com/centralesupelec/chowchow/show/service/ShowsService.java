@@ -3,11 +3,13 @@ package com.centralesupelec.chowchow.show.service;
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.show.domain.ShowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional
@@ -19,8 +21,9 @@ public class ShowsService {
         this.showRepository = showRepository;
     }
 
-    public Optional<ShowEntity> getShowById(Long id){
-        return Optional.ofNullable(this.showRepository.findById(id));
+    @Async
+    public CompletableFuture<Optional<ShowEntity>> getShowById(Long id){
+        return this.showRepository.findById(id).thenApply(Optional::ofNullable);
     }
 
     public ShowEntity saveShow(ShowEntity showEntity) {

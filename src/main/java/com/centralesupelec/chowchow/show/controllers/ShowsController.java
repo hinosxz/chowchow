@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Controller
 public class ShowsController {
@@ -31,7 +32,10 @@ public class ShowsController {
     public Optional<ShowDTO> getShowById(Long id, UserDTO userDTO) {
         Optional<ShowDTO> maybeShowDTO = this.showsService
                 .getShowById(id)
-                .map(ShowDTO::fromEntity);
+                .thenApply(maybeShowEntity -> maybeShowEntity
+                        .map(showEntity -> ShowDTO.fromEntity(showEntity))
+                )
+                .join();
         if(maybeShowDTO.isPresent() && userDTO.isPremium()) {
             try {
                 maybeShowDTO = Optional.ofNullable(this.searchService

@@ -32,5 +32,4 @@ public class UsersServiceImpl implements UsersService {
     public Optional<UserEntity> saveUser(UserEntity userEntity){
         return Optional.ofNullable(this.userRepository.save(userEntity));
     }
-
 }

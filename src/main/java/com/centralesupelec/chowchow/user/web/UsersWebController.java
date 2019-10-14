@@ -1,6 +1,6 @@
 package com.centralesupelec.chowchow.user.web;
-
-import com.centralesupelec.chowchow.trakt.controllers.SearchController;
+import com.centralesupelec.chowchow.show.controllers.ShowDTO;
+import com.centralesupelec.chowchow.showRating.controllers.ShowRatingDTO;
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
 import org.slf4j.Logger;
@@ -34,5 +34,14 @@ public class UsersWebController {
     public ResponseEntity getUserById(@PathVariable(value="id") Long id){
         logger.info("GET USER BY ID");
         return new ResponseEntity<>(this.usersController.getUserById(id), HttpStatus.OK);
+    }
+
+    @RequestMapping(path="/rate/", method=RequestMethod.POST)
+    public ResponseEntity saveMark(@RequestBody ShowRatingDTO showRatingDTO)
+    {
+        //TODO Chercher l'ID USer dans la session
+        Long id = 1L;
+        boolean result = this.usersController.changeMark(showRatingDTO.getMark(), showRatingDTO.getShowId(), id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
