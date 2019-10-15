@@ -16,8 +16,7 @@ public class TMDBSearchDTO {
             @JsonProperty("page") int page,
             @JsonProperty("total_results") int totalResults,
             @JsonProperty("total_pages") int totalPages,
-            @JsonProperty("results") TMDBSearchShowDTO[] results
-    ) {
+            @JsonProperty("results") TMDBSearchShowDTO[] results) {
         this.page = page;
         this.totalResults = totalResults;
         this.totalPages = totalPages;
@@ -25,23 +24,23 @@ public class TMDBSearchDTO {
     }
 
     public int getPage() {
-        return page;
+        return this.page;
     }
 
     public int getTotalResults() {
-        return totalResults;
+        return this.totalResults;
     }
 
     public int getTotalPages() {
-        return totalPages;
+        return this.totalPages;
     }
 
     public TMDBSearchShowDTO[] getResults() {
-        return results;
+        return this.results;
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(getResults());
+        return Arrays.toString(this.getResults());
     }
 }

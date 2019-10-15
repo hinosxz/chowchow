@@ -1,13 +1,11 @@
 package com.centralesupelec.chowchow.user.domain;
 
-import com.centralesupelec.chowchow.show.domain.ShowEntity;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name="Users")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="TYPE")
+@Table(name = "Users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE")
 @DiscriminatorValue("USER")
 public class UserEntity {
 
@@ -22,23 +20,22 @@ public class UserEntity {
     private String password;
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
+        return this.username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
-
 }

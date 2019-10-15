@@ -1,7 +1,7 @@
 package com.centralesupelec.chowchow.show.controllers;
 
-import com.centralesupelec.chowchow.show.service.ShowsService;
 import com.centralesupelec.chowchow.TMDB.service.SearchService;
+import com.centralesupelec.chowchow.show.service.ShowsService;
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,27 +20,21 @@ public class ShowsController {
     private final SearchService searchService;
 
     @Autowired
-    public ShowsController(
-            ShowsService showsService,
-            SearchService searchService
-    ) {
+    public ShowsController(ShowsService showsService, SearchService searchService) {
         this.showsService = showsService;
         this.searchService = searchService;
     }
 
     public Optional<ShowDTO> getShowById(Long id, UserDTO userDTO) {
-        Optional<ShowDTO> maybeShowDTO = this.showsService
-                .getShowById(id)
-                .map(ShowDTO::fromEntity);
-        if(maybeShowDTO.isPresent() && userDTO.isPremium()) {
+        Optional<ShowDTO> maybeShowDTO = this.showsService.getShowById(id).map(ShowDTO::fromEntity);
+        if (maybeShowDTO.isPresent() && userDTO.isPremium()) {
             try {
-                maybeShowDTO = Optional.ofNullable(this.searchService
-                        .findShowById(maybeShowDTO.get().getTMDBId()
-                        )
-                        .getBody())
-                        .map(ShowDTO::fromTMDBShowDTO);
+                maybeShowDTO =
+                        Optional.ofNullable(
+                                this.searchService.findShowById(maybeShowDTO.get().getTMDBId()).getBody())
+                                .map(ShowDTO::fromTMDBShowDTO);
             } catch (HttpStatusCodeException e) {
-                logger.error(e.toString());
+                this.logger.error(e.toString());
             }
         }
         return maybeShowDTO;

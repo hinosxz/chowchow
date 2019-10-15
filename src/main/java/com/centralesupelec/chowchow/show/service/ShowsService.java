@@ -19,15 +19,15 @@ public class ShowsService {
         this.showRepository = showRepository;
     }
 
-    public Optional<ShowEntity> getShowById(Long id){
+    public Optional<ShowEntity> getShowById(Long id) {
         return Optional.ofNullable(this.showRepository.findById(id));
     }
 
     public ShowEntity saveShow(ShowEntity showEntity) {
         return this.showRepository.save(showEntity);
     }
-    public List<ShowEntity> findAll(){
-        return this.showRepository
-                .findAll();
+
+    public List<ShowEntity> findAll() {
+        return this.showRepository.findAll();
     }
 }

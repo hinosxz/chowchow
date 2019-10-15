@@ -1,19 +1,15 @@
 package com.centralesupelec.chowchow.TMDB.service;
-import com.centralesupelec.chowchow.TMDB.controllers.TMDBShowDTO;
-import com.centralesupelec.chowchow.lib.TMDBAPI;
-import com.centralesupelec.chowchow.TMDB.controllers.TMDBEpisodeDTO;
 
+import com.centralesupelec.chowchow.TMDB.controllers.TMDBEpisodeDTO;
+import com.centralesupelec.chowchow.TMDB.controllers.TMDBShowDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-
 
 @Service
 @Transactional
@@ -27,7 +23,7 @@ public class AlertService {
     }
 
     @Async
-    public CompletableFuture<TMDBEpisodeDTO> findNextEpisodeByShowId(Integer showId){
+    public CompletableFuture<TMDBEpisodeDTO> findNextEpisodeByShowId(Integer showId) {
         TMDBShowDTO show = this.searchService.findShowById(showId).getBody();
         TMDBEpisodeDTO episode = show.getNextEpisodeToAir();
         return CompletableFuture.completedFuture(episode);
@@ -36,7 +32,7 @@ public class AlertService {
     public TMDBEpisodeDTO[] findNextEpisodesByShowIds(Integer[] showIds) {
         CompletableFuture<TMDBEpisodeDTO>[] promises = new CompletableFuture[showIds.length];
         for (int i = 0; i < showIds.length; i++) {
-            promises[i] = findNextEpisodeByShowId(showIds[i]);
+            promises[i] = this.findNextEpisodeByShowId(showIds[i]);
         }
         CompletableFuture.allOf(promises).join();
         return Arrays.stream(promises)

@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-
 class CreatedByDTO {
     private final int id;
     private final String name;
@@ -15,7 +14,11 @@ class CreatedByDTO {
     private final String profilePath;
 
     @JsonCreator
-    CreatedByDTO(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("gender") int gender, @JsonProperty("profile_path") String profilePath) {
+    CreatedByDTO(
+            @JsonProperty("id") int id,
+            @JsonProperty("name") String name,
+            @JsonProperty("gender") int gender,
+            @JsonProperty("profile_path") String profilePath) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -23,24 +26,24 @@ class CreatedByDTO {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public int getGender() {
-        return gender;
+        return this.gender;
     }
 
     public String getProfilePath() {
-        return profilePath;
+        return this.profilePath;
     }
 
     @Override
     public String toString() {
-        return getName();
+        return this.getName();
     }
 }
 
@@ -55,16 +58,16 @@ class GenreDTO {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     @Override
     public String toString() {
-        return getName();
+        return this.getName();
     }
 }
 
@@ -75,7 +78,11 @@ class NetworkDTO {
     private final String originCountry;
 
     @JsonCreator
-    NetworkDTO(@JsonProperty("id") int id, @JsonProperty("logo_path") String logoPath, @JsonProperty("name") String name, @JsonProperty("origin_country") String originCountry) {
+    NetworkDTO(
+            @JsonProperty("id") int id,
+            @JsonProperty("logo_path") String logoPath,
+            @JsonProperty("name") String name,
+            @JsonProperty("origin_country") String originCountry) {
         this.id = id;
         this.logoPath = "https://image.tmdb.org/t/p/original" + logoPath;
         this.name = name;
@@ -83,24 +90,24 @@ class NetworkDTO {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getLogoPath() {
-        return logoPath;
+        return this.logoPath;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getOriginCountry() {
-        return originCountry;
+        return this.originCountry;
     }
 
     @Override
     public String toString() {
-        return getName();
+        return this.getName();
     }
 }
 
@@ -111,7 +118,11 @@ class ProductionCompanyDTO {
     private final String originCountry;
 
     @JsonCreator
-    ProductionCompanyDTO(@JsonProperty("id") int id, @JsonProperty("logo_path") String logoPath, @JsonProperty("name") String name, @JsonProperty("origin_country") String originCountry) {
+    ProductionCompanyDTO(
+            @JsonProperty("id") int id,
+            @JsonProperty("logo_path") String logoPath,
+            @JsonProperty("name") String name,
+            @JsonProperty("origin_country") String originCountry) {
         this.id = id;
         this.logoPath = logoPath != null ? "https://image.tmdb.org/t/p/original" + logoPath : null;
         this.name = name;
@@ -119,24 +130,24 @@ class ProductionCompanyDTO {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getLogoPath() {
-        return logoPath;
+        return this.logoPath;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getOriginCountry() {
-        return originCountry;
+        return this.originCountry;
     }
 
     @Override
     public String toString() {
-        return getName();
+        return this.getName();
     }
 }
 
@@ -157,8 +168,7 @@ class SeasonDTO {
             @JsonProperty("name") String name,
             @JsonProperty("overview") String overview,
             @JsonProperty("poster_path") String posterPath,
-            @JsonProperty("season_number") int seasonNumber
-            ) {
+            @JsonProperty("season_number") int seasonNumber) {
         LocalDate parsedAirDate;
         try {
             parsedAirDate = LocalDate.parse(airDate, DateTimeFormatter.ISO_LOCAL_DATE);
@@ -176,39 +186,38 @@ class SeasonDTO {
     }
 
     public LocalDate getAirDate() {
-        return airDate;
+        return this.airDate;
     }
 
     public int getEpisodeCount() {
-        return episodeCount;
+        return this.episodeCount;
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getOverview() {
-        return overview;
+        return this.overview;
     }
 
     public String getPosterPath() {
-        return posterPath;
+        return this.posterPath;
     }
 
     public int getSeasonNumber() {
-        return seasonNumber;
+        return this.seasonNumber;
     }
 
     @Override
     public String toString() {
-        return getName();
+        return this.getName();
     }
 }
-
 
 public class TMDBShowDTO {
     private final String backdropPath;
@@ -267,8 +276,7 @@ public class TMDBShowDTO {
             @JsonProperty("status") String status,
             @JsonProperty("type") String type,
             @JsonProperty("vote_average") double voteAverage,
-            @JsonProperty("vote_count") int voteCount
-    ) {
+            @JsonProperty("vote_count") int voteCount) {
 
         LocalDate parsedFirstAirDate;
         LocalDate parsedLastAirDate;
@@ -282,7 +290,8 @@ public class TMDBShowDTO {
         this.firstAirDate = parsedFirstAirDate;
         this.lastAirDate = parsedLastAirDate;
 
-        this.backdropPath = posterPath != null ? "https://image.tmdb.org/t/p/original" + backdropPath : null;
+        this.backdropPath =
+                posterPath != null ? "https://image.tmdb.org/t/p/original" + backdropPath : null;
         this.createdBy = createdBy;
         this.episodeRunTime = episodeRunTime;
         this.genres = genres;
@@ -301,124 +310,125 @@ public class TMDBShowDTO {
         this.originalName = originalName;
         this.overview = overview;
         this.popularity = popularity;
-        this.posterPath = posterPath != null ? "https://image.tmdb.org/t/p/original" + posterPath : null;
+        this.posterPath =
+                posterPath != null ? "https://image.tmdb.org/t/p/original" + posterPath : null;
         this.seasons = seasons;
         this.status = status;
         this.type = type;
         this.voteAverage = voteAverage;
         this.voteCount = voteCount;
-        }
+    }
 
     public String getBackdropPath() {
-        return backdropPath;
+        return this.backdropPath;
     }
 
     public List<CreatedByDTO> getCreatedBy() {
-        return createdBy;
+        return this.createdBy;
     }
 
     public List<Integer> getEpisodeRunTime() {
-        return episodeRunTime;
+        return this.episodeRunTime;
     }
 
     public LocalDate getFirstAirDate() {
-        return firstAirDate;
+        return this.firstAirDate;
     }
 
     public List<GenreDTO> getGenres() {
-        return genres;
+        return this.genres;
     }
 
     public String getHomepage() {
-        return homepage;
+        return this.homepage;
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public boolean getInProduction() {
-        return inProduction;
+        return this.inProduction;
     }
 
     public List<String> getLanguages() {
-        return languages;
+        return this.languages;
     }
 
     public LocalDate getLastAirDate() {
-        return lastAirDate;
+        return this.lastAirDate;
     }
 
     public TMDBEpisodeDTO getLastEpisodeToAir() {
-        return lastEpisodeToAir;
+        return this.lastEpisodeToAir;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public TMDBEpisodeDTO getNextEpisodeToAir() {
-        return nextEpisodeToAir;
+        return this.nextEpisodeToAir;
     }
 
     public List<NetworkDTO> getNetworks() {
-        return networks;
+        return this.networks;
     }
 
     public int getNumberOfEpisodes() {
-        return numberOfEpisodes;
+        return this.numberOfEpisodes;
     }
 
     public int getNumberOfSeasons() {
-        return numberOfSeasons;
+        return this.numberOfSeasons;
     }
 
     public List<String> getOriginCountry() {
-        return originCountry;
+        return this.originCountry;
     }
 
     public String getOriginalLanguage() {
-        return originalLanguage;
+        return this.originalLanguage;
     }
 
     public String getOriginalName() {
-        return originalName;
+        return this.originalName;
     }
 
     public String getOverview() {
-        return overview;
+        return this.overview;
     }
 
     public double getPopularity() {
-        return popularity;
+        return this.popularity;
     }
 
     public String getPosterPath() {
-        return posterPath;
+        return this.posterPath;
     }
 
     public List<SeasonDTO> getSeasons() {
-        return seasons;
+        return this.seasons;
     }
 
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
     public double getVoteAverage() {
-        return voteAverage;
+        return this.voteAverage;
     }
 
     public int getVoteCount() {
-        return voteCount;
+        return this.voteCount;
     }
 
     @Override
     public String toString() {
-        return getName() + " " + "(" + getFirstAirDate().getYear() + ")";
+        return this.getName() + " " + "(" + this.getFirstAirDate().getYear() + ")";
     }
 }

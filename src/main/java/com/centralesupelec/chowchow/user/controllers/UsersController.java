@@ -14,15 +14,15 @@ public class UsersController {
 
     @Autowired
     public UsersController(UsersServiceImpl usersServiceImpl) {
-       this.usersServiceImpl = usersServiceImpl;
+        this.usersServiceImpl = usersServiceImpl;
     }
 
     public boolean createUser(UserDTO userDTO) {
         Optional<UserEntity> maybeUser = this.usersServiceImpl.getUserByUsername(userDTO.getUsername());
-        if (maybeUser.isPresent()){
+        if (maybeUser.isPresent()) {
             return false;
         }
-        usersServiceImpl.saveUser(UserDTO.toEntity(userDTO));
+        this.usersServiceImpl.saveUser(UserDTO.toEntity(userDTO));
         return true;
     }
 }

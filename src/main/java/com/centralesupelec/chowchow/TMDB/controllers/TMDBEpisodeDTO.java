@@ -31,8 +31,7 @@ public class TMDBEpisodeDTO {
             @JsonProperty("show_id") int showId,
             @JsonProperty("still_path") String stillPath,
             @JsonProperty("vote_average") double voteAverage,
-            @JsonProperty("vote_count") int voteCount
-    ) {
+            @JsonProperty("vote_count") int voteCount) {
         LocalDate parsedAirDate;
         try {
             parsedAirDate = LocalDate.parse(airDate, DateTimeFormatter.ISO_LOCAL_DATE);
@@ -54,51 +53,51 @@ public class TMDBEpisodeDTO {
     }
 
     public LocalDate getAirDate() {
-        return airDate;
+        return this.airDate;
     }
 
     public int getEpisodeNumber() {
-        return episodeNumber;
+        return this.episodeNumber;
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getOverview() {
-        return overview;
+        return this.overview;
     }
 
     public String getProductionCode() {
-        return productionCode;
+        return this.productionCode;
     }
 
     public int getSeasonNumber() {
-        return seasonNumber;
+        return this.seasonNumber;
     }
 
     public int getShowId() {
-        return showId;
+        return this.showId;
     }
 
     public String getStillPath() {
-        return stillPath;
+        return this.stillPath;
     }
 
     public double getVoteAverage() {
-        return voteAverage;
+        return this.voteAverage;
     }
 
     public int getVoteCount() {
-        return voteCount;
+        return this.voteCount;
     }
 
     @Override
     public String toString() {
-        return getName();
+        return this.getName();
     }
 }

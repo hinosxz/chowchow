@@ -13,18 +13,18 @@ public class ShowEntity {
     @Column(unique = true, nullable = false)
     private int tmdb_id;
 
-    @Column(nullable =  false)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
     private int year;
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public int getTMDBId() {
-        return tmdb_id;
+        return this.tmdb_id;
     }
 
     public void setTMDBId(int tmdbId) {
@@ -32,7 +32,7 @@ public class ShowEntity {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -40,7 +40,7 @@ public class ShowEntity {
     }
 
     public int getYear() {
-        return year;
+        return this.year;
     }
 
     public void setYear(int year) {

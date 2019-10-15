@@ -4,10 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ShowRepository extends JpaRepository<ShowEntity,String> {
-
+public interface ShowRepository extends JpaRepository<ShowEntity, String> {
 
     ShowEntity findById(final Long id);
 
+    @Override
     List<ShowEntity> findAll();
 }

@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 
 @Controller
 @RequestMapping(path = "/shows")
@@ -29,20 +27,21 @@ public class ShowsWebController {
         this.showsController = showsController;
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(
+            path = "/{id}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getShowById(
             @PathVariable(value = "id") Long id,
-            @RequestParam("isUserPremium") boolean isUserPremium // TODO: remove this when session is implemented
+            @RequestParam("isUserPremium")
+                    boolean isUserPremium // TODO: remove this when session is implemented
     ) {
         // TODO: implemente user sessions
         UserDTO userDTO = this.getMockUserDTO(isUserPremium);
         Optional<ShowDTO> maybeShowDTO = this.showsController.getShowById(id, userDTO);
-        return maybeShowDTO.map(showDTO ->
-                    new ResponseEntity<>(showDTO, HttpStatus.OK)
-                )
-                .orElseGet(() ->
-                    new ResponseEntity<>(HttpStatus.NOT_FOUND)
-                );
+        return maybeShowDTO
+                .map(showDTO -> new ResponseEntity<>(showDTO, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     private UserDTO getMockUserDTO(boolean isUserPremium) {

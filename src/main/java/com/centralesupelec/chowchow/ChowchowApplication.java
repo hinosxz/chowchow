@@ -9,5 +9,4 @@ public class ChowchowApplication {
     public static void main(String[] args) {
         SpringApplication.run(ChowchowApplication.class, args);
     }
-
 }

@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-
 public class TMDBSearchShowDTO {
     private final String originalName;
     private final List<Integer> genreIds;
@@ -37,8 +36,7 @@ public class TMDBSearchShowDTO {
             @JsonProperty("id") int id,
             @JsonProperty("vote_average") double voteAverage,
             @JsonProperty("overview") String overview,
-            @JsonProperty("poster_path") String posterPath
-    ) {
+            @JsonProperty("poster_path") String posterPath) {
         LocalDate parsedFirstAirDate;
         try {
             parsedFirstAirDate = LocalDate.parse(firstAirDate, DateTimeFormatter.ISO_LOCAL_DATE);
@@ -53,68 +51,70 @@ public class TMDBSearchShowDTO {
         this.popularity = popularity;
         this.originCountry = originCountry;
         this.voteCount = voteCount;
-        this.backdropPath = posterPath != null ? "https://image.tmdb.org/t/p/original" + backdropPath : null;
+        this.backdropPath =
+                posterPath != null ? "https://image.tmdb.org/t/p/original" + backdropPath : null;
         this.originalLanguage = originalLanguage;
         this.id = id;
         this.voteAverage = voteAverage;
         this.overview = overview;
-        this.posterPath = posterPath != null ? "https://image.tmdb.org/t/p/original" + posterPath : null;
+        this.posterPath =
+                posterPath != null ? "https://image.tmdb.org/t/p/original" + posterPath : null;
     }
 
     public String getOriginalName() {
-        return originalName;
+        return this.originalName;
     }
 
     public List<Integer> getGenreIds() {
-        return genreIds;
+        return this.genreIds;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public double getPopularity() {
-        return popularity;
+        return this.popularity;
     }
 
     public List<String> getOriginCountry() {
-        return originCountry;
+        return this.originCountry;
     }
 
     public int getVoteCount() {
-        return voteCount;
+        return this.voteCount;
     }
 
     public LocalDate getFirstAirDate() {
-        return firstAirDate;
+        return this.firstAirDate;
     }
 
     public String getBackdropPath() {
-        return backdropPath;
+        return this.backdropPath;
     }
 
     public String getOriginalLanguage() {
-        return originalLanguage;
+        return this.originalLanguage;
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public double getVoteAverage() {
-        return voteAverage;
+        return this.voteAverage;
     }
 
     public String getOverview() {
-        return overview;
+        return this.overview;
     }
 
     public String getPosterPath() {
-        return posterPath;
+        return this.posterPath;
     }
 
     @Override
     public String toString() {
-        return getName() + " " + "(" + getFirstAirDate().getYear() + ")";
+        return this.getName() + " " + "(" + this.getFirstAirDate().getYear() + ")";
     }
 }

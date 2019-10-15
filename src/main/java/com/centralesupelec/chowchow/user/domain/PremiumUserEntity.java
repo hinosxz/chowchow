@@ -8,14 +8,13 @@ import javax.persistence.Entity;
 @DiscriminatorValue("PREMIUM_USER")
 public class PremiumUserEntity extends UserEntity {
 
-    @Column
-    private SubscriptionType subscriptionType;
+  @Column private SubscriptionType subscriptionType;
 
-    public SubscriptionType getSubscriptionType() {
-        return subscriptionType;
-    }
+  public SubscriptionType getSubscriptionType() {
+    return subscriptionType;
+  }
 
-    public void setSubscriptionType(SubscriptionType subscriptionType) {
-        this.subscriptionType = subscriptionType;
-    }
+  public void setSubscriptionType(SubscriptionType subscriptionType) {
+    this.subscriptionType = subscriptionType;
+  }
 }

@@ -13,9 +13,8 @@ import java.io.IOException;
 public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
     @Override
     public boolean hasError(ClientHttpResponse httpResponse) throws IOException {
-        return (
-                httpResponse.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR
-                        || httpResponse.getStatusCode().series() == HttpStatus.Series.SERVER_ERROR);
+        return (httpResponse.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR
+                || httpResponse.getStatusCode().series() == HttpStatus.Series.SERVER_ERROR);
     }
 
     @Override

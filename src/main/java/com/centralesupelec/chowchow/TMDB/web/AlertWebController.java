@@ -1,15 +1,15 @@
 package com.centralesupelec.chowchow.TMDB.web;
 
 import com.centralesupelec.chowchow.TMDB.controllers.AlertController;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpStatusCodeException;
 
 @RestController
@@ -28,14 +28,12 @@ public class AlertWebController {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getUpcomingEpisodes() {
         try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(this.alertController.getUpcomingEpisodes());
+            return ResponseEntity.status(HttpStatus.OK).body(this.alertController.getUpcomingEpisodes());
         } catch (HttpStatusCodeException e) {
-            // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is right
-            logger.error(e.toString());
-            return ResponseEntity
-                    .status(e.getRawStatusCode())
+            // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is
+            // right
+            this.logger.error(e.toString());
+            return ResponseEntity.status(e.getRawStatusCode())
                     .headers(e.getResponseHeaders())
                     .body(e.getMessage());
         }
