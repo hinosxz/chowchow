@@ -15,25 +15,25 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class TMDBAPI {
 
-    private String TMDBAPIKey;
-    private RestTemplate restTemplate;
-    private HttpEntity httpEntity;
+  private String TMDBAPIKey;
+  private RestTemplate restTemplate;
+  private HttpEntity httpEntity;
 
-    @Autowired
-    public TMDBAPI(
-            RestTemplateBuilder restTemplateBuilder,
-            @Value("${TMDB_API_KEY:fakeDefaultAPIKey}") String TMDBAPIKey) {
-        this.restTemplate =
-                restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler()).build();
-        this.TMDBAPIKey = TMDBAPIKey;
+  @Autowired
+  public TMDBAPI(
+      RestTemplateBuilder restTemplateBuilder,
+      @Value("${TMDB_API_KEY:fakeDefaultAPIKey}") String TMDBAPIKey) {
+    this.restTemplate =
+        restTemplateBuilder.errorHandler(new RestTemplateResponseErrorHandler()).build();
+    this.TMDBAPIKey = TMDBAPIKey;
 
-        HttpHeaders headers = new HttpHeaders();
-        this.httpEntity = new HttpEntity(headers);
-    }
+    HttpHeaders headers = new HttpHeaders();
+    this.httpEntity = new HttpEntity(headers);
+  }
 
-    public <T> ResponseEntity<T> get(UriComponentsBuilder urlBuilder, Class<T> responseClass)
-            throws HttpStatusCodeException {
-        String url = urlBuilder.queryParam("api_key", this.TMDBAPIKey).toUriString();
-        return this.restTemplate.exchange(url, HttpMethod.GET, this.httpEntity, responseClass);
-    }
+  public <T> ResponseEntity<T> get(UriComponentsBuilder urlBuilder, Class<T> responseClass)
+      throws HttpStatusCodeException {
+    String url = urlBuilder.queryParam("api_key", this.TMDBAPIKey).toUriString();
+    return this.restTemplate.exchange(url, HttpMethod.GET, this.httpEntity, responseClass);
+  }
 }

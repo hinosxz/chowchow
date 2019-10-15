@@ -2,7 +2,6 @@ package com.centralesupelec.chowchow.show.controllers;
 
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBShowDTO;
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

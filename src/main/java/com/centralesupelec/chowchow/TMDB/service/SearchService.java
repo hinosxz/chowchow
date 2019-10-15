@@ -14,24 +14,24 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Transactional
 public class SearchService {
 
-    private final TMDBAPI TMDBAPI;
+  private final TMDBAPI TMDBAPI;
 
-    @Autowired
-    public SearchService(TMDBAPI TMDBAPI) {
-        this.TMDBAPI = TMDBAPI;
-    }
+  @Autowired
+  public SearchService(TMDBAPI TMDBAPI) {
+    this.TMDBAPI = TMDBAPI;
+  }
 
-    public ResponseEntity<TMDBSearchDTO> findShowsByName(String name) throws HttpStatusCodeException {
-        UriComponentsBuilder urlBuilder =
-                UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/search/tv")
-                        .queryParam("query", name);
-        return this.TMDBAPI.get(urlBuilder, TMDBSearchDTO.class);
-    }
+  public ResponseEntity<TMDBSearchDTO> findShowsByName(String name) throws HttpStatusCodeException {
+    UriComponentsBuilder urlBuilder =
+        UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/search/tv")
+            .queryParam("query", name);
+    return this.TMDBAPI.get(urlBuilder, TMDBSearchDTO.class);
+  }
 
-    public ResponseEntity<TMDBShowDTO> findShowById(int id) throws HttpStatusCodeException {
-        UriComponentsBuilder urlBuilder =
-                UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/tv")
-                        .path(String.format("/%d", id));
-        return this.TMDBAPI.get(urlBuilder, TMDBShowDTO.class);
-    }
+  public ResponseEntity<TMDBShowDTO> findShowById(int id) throws HttpStatusCodeException {
+    UriComponentsBuilder urlBuilder =
+        UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/tv")
+            .path(String.format("/%d", id));
+    return this.TMDBAPI.get(urlBuilder, TMDBShowDTO.class);
+  }
 }
