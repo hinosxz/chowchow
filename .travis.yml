@@ -11,6 +11,7 @@ jobs:
       if: type = pull_request
       verbose: true
       script:
+        - docker run -i --name chowchow-db postgres
         - ./mvnw -X clean package -Dspring.profiles.active=dev
     - stage: build and deploy
       if: branch = master AND type != pull_request
