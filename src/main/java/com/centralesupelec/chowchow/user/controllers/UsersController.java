@@ -1,7 +1,7 @@
 package com.centralesupelec.chowchow.user.controllers;
 
 import com.centralesupelec.chowchow.user.domain.UserEntity;
-import com.centralesupelec.chowchow.user.service.UsersServiceImpl;
+import com.centralesupelec.chowchow.user.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -10,19 +10,19 @@ import java.util.Optional;
 @Controller
 public class UsersController {
 
-    private final UsersServiceImpl usersServiceImpl;
+    private final UsersService usersService;
 
     @Autowired
-    public UsersController(UsersServiceImpl usersServiceImpl) {
-       this.usersServiceImpl = usersServiceImpl;
+    public UsersController(UsersService usersService) {
+       this.usersService = usersService;
     }
 
-    public boolean createUser(UserDTO userDTO) {
-        Optional<UserEntity> maybeUser = this.usersServiceImpl.getUserByUsername(userDTO.getUsername());
+    public boolean createUser(UserSignUpDTO userSignUpDTO) {
+        Optional<UserEntity> maybeUser = this.usersService.getUserByUsername(userSignUpDTO.getUsername());
         if (maybeUser.isPresent()){
             return false;
         }
-        usersServiceImpl.saveUser(UserDTO.toEntity(userDTO));
+        usersService.saveUser(UserSignUpDTO.toEntity(userSignUpDTO));
         return true;
     }
 }

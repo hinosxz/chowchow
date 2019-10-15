@@ -1,6 +1,6 @@
 package com.centralesupelec.chowchow.user.web;
 
-import com.centralesupelec.chowchow.user.controllers.UserDTO;
+import com.centralesupelec.chowchow.user.controllers.UserSignUpDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +22,9 @@ public class UsersWebController {
     }
 
     @RequestMapping(path="", method = RequestMethod.POST)
-    public ResponseEntity createUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity createUser(@RequestBody UserSignUpDTO userSignUpDTO){
         boolean result = this.usersController
-                .createUser(userDTO);
+                .createUser(userSignUpDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

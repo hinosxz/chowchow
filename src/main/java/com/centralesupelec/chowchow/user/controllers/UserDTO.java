@@ -38,18 +38,6 @@ public class UserDTO {
         return userEntity;
     }
 
-    public static UserDTO fromEntity(UserEntity userEntity) {
-        SubscriptionType subscriptionType = null;
-        if(userEntity.getClass() == PremiumUserEntity.class) {
-            subscriptionType = ((PremiumUserEntity)userEntity).getSubscriptionType();
-        }
-        return new UserDTO(
-                userEntity.getId(),
-                userEntity.getUsername(),
-                subscriptionType
-        );
-    }
-
     public boolean isPremium() {
         return !Objects.isNull(subscriptionType);
     }

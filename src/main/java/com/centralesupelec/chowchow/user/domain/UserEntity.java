@@ -1,15 +1,18 @@
 package com.centralesupelec.chowchow.user.domain;
 
-import com.centralesupelec.chowchow.show.domain.ShowEntity;
+import com.centralesupelec.chowchow.lib.BCryptManagerUtil;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name="Users")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="TYPE")
 @DiscriminatorValue("USER")
-public class UserEntity {
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +23,23 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String password;
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 
     public Long getId() {
         return id;
@@ -37,8 +57,15 @@ public class UserEntity {
         this.username = username;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
     public void setPassword(String password) {
-        this.password = password;
+        if (!password.isEmpty()) {
+            this.password = BCryptManagerUtil.passwordencoder().encode(password);
+        }
     }
 
 }
