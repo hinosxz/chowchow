@@ -2,67 +2,60 @@ package com.centralesupelec.chowchow.showRating.domain;
 
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ShowRatings", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "show_id"}))
+@Table(
+    name = "ShowRatings",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "show_id"}))
 public class ShowRatingEntity {
 
-    @EmbeddedId
-    private ShowRatingKey id;
+  @EmbeddedId private ShowRatingKey id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private UserEntity user;
+  @ManyToOne
+  @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+  private UserEntity user;
 
-    @ManyToOne
-    @JoinColumn(name="show_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private ShowEntity show;
+  @ManyToOne
+  @JoinColumn(name = "show_id", referencedColumnName = "id", insertable = false, updatable = false)
+  private ShowEntity show;
 
-    @Enumerated
-    private Mark mark;
+  @Enumerated private Mark mark;
 
-    public ShowRatingEntity() {}
-    
-    public ShowRatingEntity(
-            UserEntity userEntity,
-            ShowEntity showEntity,
-            Mark mark
-    ) {
-        this.id = new ShowRatingKey(userEntity, showEntity);
-        this.user = userEntity;
-        this.show = showEntity;
-        this.mark = mark;
-    }
+  public ShowRatingEntity() {}
 
-    public ShowRatingKey getId() {
-        return id;
-    }
+  public ShowRatingEntity(UserEntity userEntity, ShowEntity showEntity, Mark mark) {
+    this.id = new ShowRatingKey(userEntity, showEntity);
+    this.user = userEntity;
+    this.show = showEntity;
+    this.mark = mark;
+  }
 
-    public UserEntity getUser() {
-        return user;
-    }
+  public ShowRatingKey getId() {
+    return id;
+  }
 
-    public ShowEntity getShow() {
-        return show;
-    }
+  public UserEntity getUser() {
+    return user;
+  }
 
-    public Mark getMark() {
-        return mark;
-    }
+  public ShowEntity getShow() {
+    return show;
+  }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
+  public Mark getMark() {
+    return mark;
+  }
 
-    public void setShow(ShowEntity show) {
-        this.show = show;
-    }
+  public void setUser(UserEntity user) {
+    this.user = user;
+  }
 
-    public void setMark(Mark mark) {
-        this.mark = mark;
-    }
+  public void setShow(ShowEntity show) {
+    this.show = show;
+  }
+
+  public void setMark(Mark mark) {
+    this.mark = mark;
+  }
 }

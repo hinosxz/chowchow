@@ -13,66 +13,66 @@ import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class UserDTO {
-    private final Long id;
-    private final String username;
-    private final SubscriptionType subscriptionType;
-    private final Set<ShowRatingDTO> likedShows;
+  private final Long id;
+  private final String username;
+  private final SubscriptionType subscriptionType;
+  private final Set<ShowRatingDTO> likedShows;
 
+  @JsonCreator
+  public UserDTO(
+      @JsonProperty("id") Long id,
+      @JsonProperty("username") String username,
+      @JsonProperty("likedShows") Set<ShowRatingDTO> likedShows,
+      @JsonProperty("subscriptionType") SubscriptionType subscriptionType) {
+    this.id = id;
+    this.username = username;
+    this.likedShows = likedShows;
+    this.subscriptionType = subscriptionType;
+  }
 
-
-    @JsonCreator
-    public UserDTO(
-            @JsonProperty("id") Long id,
-            @JsonProperty("username") String username,
-            @JsonProperty("likedShows") Set<ShowRatingDTO> likedShows,
-            @JsonProperty("subscriptionType") SubscriptionType subscriptionType
-    ){
-        this.id = id;
-        this.username = username;
-        this.likedShows = likedShows;
-        this.subscriptionType = subscriptionType;
+  public static UserEntity toEntity(UserDTO userDTO) {
+    UserEntity userEntity = new UserEntity();
+    if (userDTO.subscriptionType != null) {
+      PremiumUserEntity premiumUserEntity = new PremiumUserEntity();
+      premiumUserEntity.setSubscriptionType(userDTO.subscriptionType);
+      userEntity = premiumUserEntity;
+      userEntity.setLikedShows(null);
     }
+    userEntity.setUsername(userDTO.getUsername());
+    return userEntity;
+  }
 
-    public static UserEntity toEntity(UserDTO userDTO) {
-        UserEntity userEntity = new UserEntity();
-        if(userDTO.subscriptionType != null) {
-            PremiumUserEntity premiumUserEntity = new PremiumUserEntity();
-            premiumUserEntity.setSubscriptionType(userDTO.subscriptionType);
-            userEntity = premiumUserEntity;
-            userEntity.setLikedShows(null);
-        }
-        userEntity.setUsername(userDTO.getUsername());
-        return userEntity;
+  public static UserDTO fromEntity(UserEntity userEntity) {
+    SubscriptionType subscriptionType = null;
+    if (userEntity.getClass() == PremiumUserEntity.class) {
+      subscriptionType = ((PremiumUserEntity) userEntity).getSubscriptionType();
     }
+    return new UserDTO(
+        userEntity.getId(),
+        userEntity.getUsername(),
+        userEntity.getLikedShows().stream()
+            .map(ShowRatingDTO::fromEntity)
+            .collect(Collectors.toSet()),
+        subscriptionType);
+  }
 
-    public static UserDTO fromEntity(UserEntity userEntity) {
-        SubscriptionType subscriptionType = null;
-        if(userEntity.getClass() == PremiumUserEntity.class) {
-            subscriptionType = ((PremiumUserEntity)userEntity).getSubscriptionType();
-        }
-        return new UserDTO(
-                userEntity.getId(),
-                userEntity.getUsername(),
-                userEntity.getLikedShows().stream().map(ShowRatingDTO::fromEntity).collect(Collectors.toSet()),
-                subscriptionType
-        );
-    }
+  public boolean isPremium() {
+    return !Objects.isNull(subscriptionType);
+  }
 
-    public boolean isPremium() {
-        return !Objects.isNull(subscriptionType);
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public SubscriptionType getSubscriptionType() {
+    return subscriptionType;
+  }
 
-    public SubscriptionType getSubscriptionType() {
-        return subscriptionType;
-    }
-
-    public Set<ShowRatingDTO> getLikedShows() {return likedShows;}
+  public Set<ShowRatingDTO> getLikedShows() {
+    return likedShows;
+  }
 }
