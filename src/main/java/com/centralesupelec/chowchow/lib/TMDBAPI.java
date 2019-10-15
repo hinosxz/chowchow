@@ -33,7 +33,7 @@ public class TMDBAPI {
 
   public <T> ResponseEntity<T> get(UriComponentsBuilder urlBuilder, Class<T> responseClass)
       throws HttpStatusCodeException {
-    String url = urlBuilder.queryParam("api_key", this.TMDBAPIKey).toUriString();
+    String url = urlBuilder.queryParam("api_key", this.TMDBAPIKey).build(false).toUriString();
     return this.restTemplate.exchange(url, HttpMethod.GET, this.httpEntity, responseClass);
   }
 }
