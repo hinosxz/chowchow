@@ -1,6 +1,6 @@
 package com.centralesupelec.chowchow.user.controllers;
 
-import com.centralesupelec.chowchow.showRating.controllers.ShowRatingDTO;
+import com.centralesupelec.chowchow.likes.controllers.ShowRatingDTO;
 import com.centralesupelec.chowchow.user.domain.PremiumUserEntity;
 import com.centralesupelec.chowchow.user.domain.SubscriptionType;
 import com.centralesupelec.chowchow.user.domain.UserEntity;

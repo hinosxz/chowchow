@@ -28,7 +28,7 @@ public class SearchService {
     return TMDBAPI.get(urlBuilder, TMDBSearchDTO.class);
   }
 
-  public ResponseEntity<TMDBShowDTO> findShowById(int id) throws HttpStatusCodeException {
+  public ResponseEntity<TMDBShowDTO> findShowById(Long id) throws HttpStatusCodeException {
     UriComponentsBuilder urlBuilder =
         UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/tv")
             .path(String.format("/%d", id));

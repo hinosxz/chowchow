@@ -25,8 +25,10 @@ public class AlertWebController {
 
   @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity getUpcomingEpisodes() {
+    Long userId = 1L;
     try {
-      return ResponseEntity.status(HttpStatus.OK).body(this.alertController.getUpcomingEpisodes());
+      return ResponseEntity.status(HttpStatus.OK)
+          .body(this.alertController.getUpcomingEpisodesForUser(userId));
     } catch (HttpStatusCodeException e) {
       // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is
       // right

@@ -1,7 +1,7 @@
-package com.centralesupelec.chowchow.showRating.controllers;
+package com.centralesupelec.chowchow.likes.controllers;
 
-import com.centralesupelec.chowchow.showRating.domain.Mark;
-import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
+import com.centralesupelec.chowchow.likes.domain.Mark;
+import com.centralesupelec.chowchow.likes.domain.ShowRatingEntity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,6 +25,6 @@ public class ShowRatingDTO {
   }
 
   public static ShowRatingDTO fromEntity(ShowRatingEntity showRatingEntity) {
-    return new ShowRatingDTO(showRatingEntity.getShow().getId(), showRatingEntity.getMark());
+    return new ShowRatingDTO(showRatingEntity.getShowId(), showRatingEntity.getMark());
   }
 }

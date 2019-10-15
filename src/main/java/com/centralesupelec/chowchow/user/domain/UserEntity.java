@@ -1,8 +1,7 @@
 package com.centralesupelec.chowchow.user.domain;
 
-import com.centralesupelec.chowchow.show.domain.ShowEntity;
-import com.centralesupelec.chowchow.showRating.domain.Mark;
-import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
+import com.centralesupelec.chowchow.likes.domain.Mark;
+import com.centralesupelec.chowchow.likes.domain.ShowRatingEntity;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -56,23 +55,22 @@ public class UserEntity {
     this.likedShows = likedShows;
   }
 
-  public void likeShow(Mark mark, ShowEntity show) {
+  public boolean likeShow(Mark mark, Long showId) {
     Optional<ShowRatingEntity> maybeShowRating =
         this.likedShows.stream()
-            .filter(
-                showRatingEntity ->
-                    Objects.equals(showRatingEntity.getShow().getId(), show.getId()))
+            .filter(showRatingEntity -> Objects.equals(showRatingEntity.getShowId(), showId))
             .findAny();
     if (maybeShowRating.isPresent()) {
-      maybeShowRating.get().setMark(mark);
+      return false;
     } else {
-      this.likedShows.add(new ShowRatingEntity(this, show, mark));
+      this.likedShows.add(new ShowRatingEntity(this, showId, mark));
+      return true;
     }
   }
 
   public void unlikeShow(Long showId) {
     this.likedShows.stream()
-        .filter(showRatingEntity -> Objects.equals(showRatingEntity.getShow().getId(), showId))
+        .filter(showRatingEntity -> Objects.equals(showRatingEntity.getShowId(), showId))
         .findAny()
         .ifPresent(showRatingEntity -> this.likedShows.remove(showRatingEntity));
   }

@@ -1,6 +1,5 @@
-package com.centralesupelec.chowchow.showRating.domain;
+package com.centralesupelec.chowchow.likes.domain;
 
-import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import javax.persistence.*;
 
@@ -16,18 +15,17 @@ public class ShowRatingEntity {
   @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
   private UserEntity user;
 
-  @ManyToOne
-  @JoinColumn(name = "show_id", referencedColumnName = "id", insertable = false, updatable = false)
-  private ShowEntity show;
+  @Column(name = "show_id")
+  private Long showId;
 
   @Enumerated private Mark mark;
 
   public ShowRatingEntity() {}
 
-  public ShowRatingEntity(UserEntity userEntity, ShowEntity showEntity, Mark mark) {
-    this.id = new ShowRatingKey(userEntity, showEntity);
+  public ShowRatingEntity(UserEntity userEntity, Long showId, Mark mark) {
+    this.id = new ShowRatingKey(userEntity, showId);
     this.user = userEntity;
-    this.show = showEntity;
+    this.showId = showId;
     this.mark = mark;
   }
 
@@ -39,8 +37,8 @@ public class ShowRatingEntity {
     return user;
   }
 
-  public ShowEntity getShow() {
-    return show;
+  public Long getShowId() {
+    return showId;
   }
 
   public Mark getMark() {
@@ -51,8 +49,8 @@ public class ShowRatingEntity {
     this.user = user;
   }
 
-  public void setShow(ShowEntity show) {
-    this.show = show;
+  public void setShowId(Long showId) {
+    this.showId = showId;
   }
 
   public void setMark(Mark mark) {

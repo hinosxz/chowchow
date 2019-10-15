@@ -1,15 +1,11 @@
 package com.centralesupelec.chowchow.user.controllers;
 
-import com.centralesupelec.chowchow.show.controllers.ShowDTO;
-import com.centralesupelec.chowchow.show.domain.ShowEntity;
-import com.centralesupelec.chowchow.show.service.ShowsService;
-import com.centralesupelec.chowchow.showRating.controllers.ShowRatingDTO;
+import com.centralesupelec.chowchow.TMDB.service.AlertService;
+import com.centralesupelec.chowchow.likes.controllers.ShowRatingDTO;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UsersServiceImpl;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,14 +16,14 @@ import org.springframework.stereotype.Controller;
 public class UsersController {
 
   private final UsersServiceImpl usersServiceImpl;
-  private final ShowsService showsService;
+  private final AlertService alertService;
 
   private final Logger logger = LoggerFactory.getLogger(UsersController.class);
 
   @Autowired
-  public UsersController(UsersServiceImpl usersServiceImpl, ShowsService showsService) {
+  public UsersController(UsersServiceImpl usersServiceImpl, AlertService alertService) {
     this.usersServiceImpl = usersServiceImpl;
-    this.showsService = showsService;
+    this.alertService = alertService;
   }
 
   public boolean createUser(UserDTO userDTO) {
@@ -43,33 +39,16 @@ public class UsersController {
     return this.usersServiceImpl.getUserById(id).map(UserDTO::fromEntity);
   }
 
-  public Set<ShowDTO> getLikedShows(Long id) {
+  public Set<Long> getLikedShowIds(Long id) {
     Optional<UserDTO> maybeUserDTO = this.getUserById(id);
     if (!maybeUserDTO.isPresent()) {
       return null;
     }
-    Set<ShowRatingDTO> showRatings = maybeUserDTO.get().getLikedShows();
-    Set<CompletableFuture<ShowDTO>> showSet = new HashSet<>();
+    Set<ShowRatingDTO> showRatingDTOs = maybeUserDTO.get().getLikedShows();
 
-    Set<CompletableFuture<Optional<ShowDTO>>> maybeShowDTOPromises =
-        showRatings.stream()
-            .map(showRating -> showRating.getShowId())
-            .map(showRatingId -> this.showsService.getShowById(showRatingId))
-            .map(
-                maybeShowEntityPromise ->
-                    maybeShowEntityPromise.thenApply(
-                        maybeShowEntity ->
-                            maybeShowEntity.map(showEntity -> ShowDTO.fromEntity(showEntity))))
-            .collect(Collectors.toSet());
-
-    Set<ShowDTO> showDTOS =
-        maybeShowDTOPromises.stream()
-            .map(maybeShowDTOPromise -> maybeShowDTOPromise.join())
-            .filter(maybeShowDTO -> maybeShowDTO.isPresent())
-            .map(maybeShowDTO -> maybeShowDTO.get())
-            .collect(Collectors.toSet());
-
-    return showDTOS;
+    return showRatingDTOs.stream()
+        .map(showRatingDTO -> showRatingDTO.getShowId())
+        .collect(Collectors.toSet());
   }
 
   public boolean likeShow(ShowRatingDTO showRatingDTO, Long userId) {
@@ -78,14 +57,8 @@ public class UsersController {
       logger.warn("Unsuccessful attempts to find user with id {}", userId);
       return false;
     }
-    Optional<ShowEntity> maybeShow = showsService.getShowById(showRatingDTO.getShowId()).join();
-    if (!maybeShow.isPresent()) {
-      logger.warn("Unsuccessful attempts to find user with id {}", userId);
-      return false;
-    }
     UserEntity user = maybeUser.get();
-    ShowEntity show = maybeShow.get();
-    user.likeShow(showRatingDTO.getMark(), show);
+    user.likeShow(showRatingDTO.getMark(), showRatingDTO.getShowId());
     this.usersServiceImpl.saveUser(user);
     return true;
   }
@@ -99,6 +72,10 @@ public class UsersController {
     UserEntity user = maybeUserDTO.get();
     user.unlikeShow(showId);
     this.usersServiceImpl.saveUser(user);
+    return true;
+  }
+
+  public boolean getUpcomingEpisodesForUser(Long userId) {
     return true;
   }
 }

@@ -1,8 +1,10 @@
 package com.centralesupelec.chowchow.user.web;
 
-import com.centralesupelec.chowchow.showRating.controllers.ShowRatingDTO;
+import com.centralesupelec.chowchow.likes.controllers.ShowRatingDTO;
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class UsersWebController {
 
   private final UsersController usersController;
+
+  private final Logger logger = LoggerFactory.getLogger(UsersController.class);
 
   @Autowired
   public UsersWebController(UsersController usersController) {

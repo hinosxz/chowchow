@@ -1,6 +1,5 @@
-package com.centralesupelec.chowchow.showRating.domain;
+package com.centralesupelec.chowchow.likes.domain;
 
-import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -19,9 +18,9 @@ public class ShowRatingKey implements Serializable {
 
   public ShowRatingKey() {}
 
-  public ShowRatingKey(UserEntity userEntity, ShowEntity showEntity) {
+  public ShowRatingKey(UserEntity userEntity, Long showId) {
     this.userId = userEntity.getId();
-    this.showId = showEntity.getId();
+    this.showId = showId;
   }
 
   @Override
