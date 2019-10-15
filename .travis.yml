@@ -7,11 +7,16 @@ before_script:
 
 jobs:
   include:
-    - stage: build and deploy
-      if: branch = master
+    - stage: build
+      if: type = pull_request
       verbose: true
       script:
-        - ./mvnw -X clean package -Dspring.profiles.active=prod
+        - ./mvnw -X clean package
+    - stage: build and deploy
+      if: branch = master AND type != pull_request
+      verbose: true
+      script:
+        - ./mvnw -X clean package
         - docker build -f prod.Dockerfile -t chowchow .
         - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_PROD/web
         - docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web
@@ -21,7 +26,7 @@ jobs:
     - stage: build and deploy
       if: branch = staging
       script:
-        - ./mvnw -X clean package -Dspring.profiles.active=staging
+        - ./mvnw -X clean package
         - docker build -f staging.Dockerfile -t chowchow .
         - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
         - docker push registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
