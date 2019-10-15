@@ -1,13 +1,12 @@
 package com.centralesupelec.chowchow.show.domain;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+public interface ShowRepository extends JpaRepository<ShowEntity, String> {
 
-public interface ShowRepository extends JpaRepository<ShowEntity,String> {
+  ShowEntity findById(final Long id);
 
-
-    ShowEntity findById(final Long id);
-
-    List<ShowEntity> findAll();
+  @Override
+  List<ShowEntity> findAll();
 }

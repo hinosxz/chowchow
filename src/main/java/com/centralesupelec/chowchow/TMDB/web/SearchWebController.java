@@ -16,44 +16,41 @@ import org.springframework.web.client.HttpStatusCodeException;
 @RequestMapping(path = "/search")
 public class SearchWebController {
 
-    private final Logger logger = LoggerFactory.getLogger(SearchController.class);
+  private final Logger logger = LoggerFactory.getLogger(SearchController.class);
 
-    private final SearchController searchController;
+  private final SearchController searchController;
 
-    @Autowired
-    public SearchWebController(SearchController searchController) {
-        this.searchController = searchController;
+  @Autowired
+  public SearchWebController(SearchController searchController) {
+    this.searchController = searchController;
+  }
+
+  @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity findShowsByName(@RequestParam(value = "name") String name) {
+    try {
+      TMDBSearchDTO search = this.searchController.findShowsByName(name).getBody();
+      return ResponseEntity.status(HttpStatus.OK).body(search);
+    } catch (HttpStatusCodeException e) {
+      // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is
+      // right
+      this.logger.error(e.toString());
+      return ResponseEntity.status(e.getRawStatusCode()).body(e.getMessage());
     }
+  }
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity findShowsByName(@RequestParam(value = "name") String name) {
-        try {
-            TMDBSearchDTO search = this.searchController.findShowsByName(name).getBody();
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(search);
-        } catch (HttpStatusCodeException e) {
-            // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is right
-            logger.error(e.toString());
-            return ResponseEntity
-                    .status(e.getRawStatusCode())
-                    .body(e.getMessage());
-        }
+  @RequestMapping(
+      path = "/{id}",
+      method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity findShowById(@PathVariable int id) {
+    try {
+      TMDBShowDTO search = this.searchController.findShowById(id).getBody();
+      return ResponseEntity.status(HttpStatus.OK).body(search);
+    } catch (HttpStatusCodeException e) {
+      // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is
+      // right
+      this.logger.error(e.toString());
+      return ResponseEntity.status(e.getRawStatusCode()).body(e.getMessage());
     }
-
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity findShowById(@PathVariable int id) {
-        try {
-            TMDBShowDTO search = this.searchController.findShowById(id).getBody();
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(search);
-        } catch (HttpStatusCodeException e) {
-            // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is right
-            logger.error(e.toString());
-            return ResponseEntity
-                    .status(e.getRawStatusCode())
-                    .body(e.getMessage());
-        }
-    }
+  }
 }
