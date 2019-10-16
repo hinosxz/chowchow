@@ -31,7 +31,7 @@ public class AlertService {
   public TMDBEpisodeDTO[] findNextEpisodesByShowIds(Integer[] showIds) {
     CompletableFuture<TMDBEpisodeDTO>[] promises = new CompletableFuture[showIds.length];
     for (int i = 0; i < showIds.length; i++) {
-      promises[i] = this.findNextEpisodeByShowId(showIds[i]);
+      promises[i] = findNextEpisodeByShowId(showIds[i]);
     }
     CompletableFuture.allOf(promises).join();
     return Arrays.stream(promises)

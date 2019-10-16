@@ -2,8 +2,10 @@ package com.centralesupelec.chowchow.show.web;
 
 import com.centralesupelec.chowchow.show.controllers.ShowDTO;
 import com.centralesupelec.chowchow.show.controllers.ShowsController;
+import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import com.centralesupelec.chowchow.user.domain.SubscriptionType;
+import java.util.HashSet;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,6 +46,7 @@ public class ShowsWebController {
   }
 
   private UserDTO getMockUserDTO(boolean isUserPremium) {
-    return new UserDTO(1L, "test", isUserPremium ? SubscriptionType.GOLD : null);
+    HashSet set = new HashSet<ShowRatingEntity>();
+    return new UserDTO(1L, "test", set, isUserPremium ? SubscriptionType.GOLD : null);
   }
 }

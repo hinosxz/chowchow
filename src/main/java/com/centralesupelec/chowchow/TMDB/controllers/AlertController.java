@@ -26,12 +26,12 @@ public class AlertController {
 
   private boolean isEpisodeSoon(TMDBEpisodeDTO episode) {
     LocalDate now = LocalDate.now();
-    return now.until(episode.getAirDate(), ChronoUnit.DAYS) < this.ALERT_THRESHOLD;
+    return now.until(episode.getAirDate(), ChronoUnit.DAYS) < ALERT_THRESHOLD;
   }
 
   public TMDBEpisodeDTO[] getUpcomingEpisodes() throws HttpStatusCodeException {
     Integer[] showIds =
-        this.showsService.findAll().stream().map(ShowEntity::getTMDBId).toArray(Integer[]::new);
+        showsService.findAll().stream().map(ShowEntity::getTMDBId).toArray(Integer[]::new);
 
     TMDBEpisodeDTO[] episodes = this.alertService.findNextEpisodesByShowIds(showIds);
     return Arrays.stream(episodes).filter(this::isEpisodeSoon).toArray(TMDBEpisodeDTO[]::new);

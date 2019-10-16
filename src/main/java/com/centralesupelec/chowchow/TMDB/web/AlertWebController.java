@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
 
 @RestController
@@ -32,7 +30,7 @@ public class AlertWebController {
     } catch (HttpStatusCodeException e) {
       // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is
       // right
-      this.logger.error(e.toString());
+      logger.error(e.toString());
       return ResponseEntity.status(e.getRawStatusCode())
           .headers(e.getResponseHeaders())
           .body(e.getMessage());

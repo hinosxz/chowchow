@@ -25,13 +25,13 @@ public class SearchService {
     UriComponentsBuilder urlBuilder =
         UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/search/tv")
             .queryParam("query", name);
-    return this.TMDBAPI.get(urlBuilder, TMDBSearchDTO.class);
+    return TMDBAPI.get(urlBuilder, TMDBSearchDTO.class);
   }
 
   public ResponseEntity<TMDBShowDTO> findShowById(int id) throws HttpStatusCodeException {
     UriComponentsBuilder urlBuilder =
         UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/tv")
             .path(String.format("/%d", id));
-    return this.TMDBAPI.get(urlBuilder, TMDBShowDTO.class);
+    return TMDBAPI.get(urlBuilder, TMDBShowDTO.class);
   }
 }

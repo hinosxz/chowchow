@@ -61,59 +61,59 @@ public class TMDBSearchShowDTO {
   }
 
   public String getOriginalName() {
-    return this.originalName;
+    return originalName;
   }
 
   public List<Integer> getGenreIds() {
-    return this.genreIds;
+    return genreIds;
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   public double getPopularity() {
-    return this.popularity;
+    return popularity;
   }
 
   public List<String> getOriginCountry() {
-    return this.originCountry;
+    return originCountry;
   }
 
   public int getVoteCount() {
-    return this.voteCount;
+    return voteCount;
   }
 
   public LocalDate getFirstAirDate() {
-    return this.firstAirDate;
+    return firstAirDate;
   }
 
   public String getBackdropPath() {
-    return this.backdropPath;
+    return backdropPath;
   }
 
   public String getOriginalLanguage() {
-    return this.originalLanguage;
+    return originalLanguage;
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public double getVoteAverage() {
-    return this.voteAverage;
+    return voteAverage;
   }
 
   public String getOverview() {
-    return this.overview;
+    return overview;
   }
 
   public String getPosterPath() {
-    return this.posterPath;
+    return posterPath;
   }
 
   @Override
   public String toString() {
-    return this.getName() + " " + "(" + this.getFirstAirDate().getYear() + ")";
+    return getName() + " " + "(" + getFirstAirDate().getYear() + ")";
   }
 }

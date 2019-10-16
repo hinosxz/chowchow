@@ -18,17 +18,14 @@ public class UsersServiceImpl implements UsersService {
     this.userRepository = userRepository;
   }
 
-  @Override
   public Optional<UserEntity> getUserById(Long id) {
     return Optional.ofNullable(this.userRepository.findById(id));
   }
 
-  @Override
   public Optional<UserEntity> getUserByUsername(String username) {
     return Optional.ofNullable(this.userRepository.findByUsername(username));
   }
 
-  @Override
   public Optional<UserEntity> saveUser(UserEntity userEntity) {
     return Optional.ofNullable(this.userRepository.save(userEntity));
   }

@@ -33,7 +33,7 @@ public class SearchWebController {
     } catch (HttpStatusCodeException e) {
       // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is
       // right
-      this.logger.error(e.toString());
+      logger.error(e.toString());
       return ResponseEntity.status(e.getRawStatusCode()).body(e.getMessage());
     }
   }
@@ -49,7 +49,7 @@ public class SearchWebController {
     } catch (HttpStatusCodeException e) {
       // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is
       // right
-      this.logger.error(e.toString());
+      logger.error(e.toString());
       return ResponseEntity.status(e.getRawStatusCode()).body(e.getMessage());
     }
   }

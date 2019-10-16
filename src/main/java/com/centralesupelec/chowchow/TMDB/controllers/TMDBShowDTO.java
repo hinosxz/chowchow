@@ -25,24 +25,24 @@ class CreatedByDTO {
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   public int getGender() {
-    return this.gender;
+    return gender;
   }
 
   public String getProfilePath() {
-    return this.profilePath;
+    return profilePath;
   }
 
   @Override
   public String toString() {
-    return this.getName();
+    return getName();
   }
 }
 
@@ -57,16 +57,16 @@ class GenreDTO {
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   @Override
   public String toString() {
-    return this.getName();
+    return getName();
   }
 }
 
@@ -89,24 +89,24 @@ class NetworkDTO {
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public String getLogoPath() {
-    return this.logoPath;
+    return logoPath;
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   public String getOriginCountry() {
-    return this.originCountry;
+    return originCountry;
   }
 
   @Override
   public String toString() {
-    return this.getName();
+    return getName();
   }
 }
 
@@ -129,24 +129,24 @@ class ProductionCompanyDTO {
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public String getLogoPath() {
-    return this.logoPath;
+    return logoPath;
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   public String getOriginCountry() {
-    return this.originCountry;
+    return originCountry;
   }
 
   @Override
   public String toString() {
-    return this.getName();
+    return getName();
   }
 }
 
@@ -185,36 +185,36 @@ class SeasonDTO {
   }
 
   public LocalDate getAirDate() {
-    return this.airDate;
+    return airDate;
   }
 
   public int getEpisodeCount() {
-    return this.episodeCount;
+    return episodeCount;
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   public String getOverview() {
-    return this.overview;
+    return overview;
   }
 
   public String getPosterPath() {
-    return this.posterPath;
+    return posterPath;
   }
 
   public int getSeasonNumber() {
-    return this.seasonNumber;
+    return seasonNumber;
   }
 
   @Override
   public String toString() {
-    return this.getName();
+    return getName();
   }
 }
 
@@ -319,115 +319,115 @@ public class TMDBShowDTO {
   }
 
   public String getBackdropPath() {
-    return this.backdropPath;
+    return backdropPath;
   }
 
   public List<CreatedByDTO> getCreatedBy() {
-    return this.createdBy;
+    return createdBy;
   }
 
   public List<Integer> getEpisodeRunTime() {
-    return this.episodeRunTime;
+    return episodeRunTime;
   }
 
   public LocalDate getFirstAirDate() {
-    return this.firstAirDate;
+    return firstAirDate;
   }
 
   public List<GenreDTO> getGenres() {
-    return this.genres;
+    return genres;
   }
 
   public String getHomepage() {
-    return this.homepage;
+    return homepage;
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public boolean getInProduction() {
-    return this.inProduction;
+    return inProduction;
   }
 
   public List<String> getLanguages() {
-    return this.languages;
+    return languages;
   }
 
   public LocalDate getLastAirDate() {
-    return this.lastAirDate;
+    return lastAirDate;
   }
 
   public TMDBEpisodeDTO getLastEpisodeToAir() {
-    return this.lastEpisodeToAir;
+    return lastEpisodeToAir;
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   public TMDBEpisodeDTO getNextEpisodeToAir() {
-    return this.nextEpisodeToAir;
+    return nextEpisodeToAir;
   }
 
   public List<NetworkDTO> getNetworks() {
-    return this.networks;
+    return networks;
   }
 
   public int getNumberOfEpisodes() {
-    return this.numberOfEpisodes;
+    return numberOfEpisodes;
   }
 
   public int getNumberOfSeasons() {
-    return this.numberOfSeasons;
+    return numberOfSeasons;
   }
 
   public List<String> getOriginCountry() {
-    return this.originCountry;
+    return originCountry;
   }
 
   public String getOriginalLanguage() {
-    return this.originalLanguage;
+    return originalLanguage;
   }
 
   public String getOriginalName() {
-    return this.originalName;
+    return originalName;
   }
 
   public String getOverview() {
-    return this.overview;
+    return overview;
   }
 
   public double getPopularity() {
-    return this.popularity;
+    return popularity;
   }
 
   public String getPosterPath() {
-    return this.posterPath;
+    return posterPath;
   }
 
   public List<SeasonDTO> getSeasons() {
-    return this.seasons;
+    return seasons;
   }
 
   public String getStatus() {
-    return this.status;
+    return status;
   }
 
   public String getType() {
-    return this.type;
+    return type;
   }
 
   public double getVoteAverage() {
-    return this.voteAverage;
+    return voteAverage;
   }
 
   public int getVoteCount() {
-    return this.voteCount;
+    return voteCount;
   }
 
   @Override
   public String toString() {
-    return this.getName() + " " + "(" + this.getFirstAirDate().getYear() + ")";
+    return getName() + " " + "(" + getFirstAirDate().getYear() + ")";
   }
 }

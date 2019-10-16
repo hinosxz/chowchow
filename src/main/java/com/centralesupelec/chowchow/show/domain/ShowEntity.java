@@ -1,5 +1,7 @@
 package com.centralesupelec.chowchow.show.domain;
 
+import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
+import java.util.Set;
 import javax.persistence.*;
 
 @Entity
@@ -13,18 +15,21 @@ public class ShowEntity {
   @Column(unique = true, nullable = false)
   private int tmdb_id;
 
-  @Column(nullable = false)
+  @Column(unique = true, nullable = false)
+  @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
+  Set<ShowRatingEntity> showRating;
+
   private String name;
 
   @Column(nullable = false)
   private int year;
 
   public Long getId() {
-    return this.id;
+    return id;
   }
 
   public int getTMDBId() {
-    return this.tmdb_id;
+    return tmdb_id;
   }
 
   public void setTMDBId(int tmdbId) {
@@ -32,7 +37,7 @@ public class ShowEntity {
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   public void setName(String name) {
@@ -40,7 +45,11 @@ public class ShowEntity {
   }
 
   public int getYear() {
-    return this.year;
+    return year;
+  }
+
+  public Set<ShowRatingEntity> getShowRating() {
+    return showRating;
   }
 
   public void setYear(int year) {

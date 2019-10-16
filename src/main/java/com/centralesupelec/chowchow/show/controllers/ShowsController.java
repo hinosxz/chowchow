@@ -25,7 +25,13 @@ public class ShowsController {
   }
 
   public Optional<ShowDTO> getShowById(Long id, UserDTO userDTO) {
-    Optional<ShowDTO> maybeShowDTO = this.showsService.getShowById(id).map(ShowDTO::fromEntity);
+    Optional<ShowDTO> maybeShowDTO =
+        this.showsService
+            .getShowById(id)
+            .thenApply(
+                maybeShowEntity ->
+                    maybeShowEntity.map(showEntity -> ShowDTO.fromEntity(showEntity)))
+            .join();
     if (maybeShowDTO.isPresent() && userDTO.isPremium()) {
       try {
         maybeShowDTO =
@@ -33,7 +39,7 @@ public class ShowsController {
                     this.searchService.findShowById(maybeShowDTO.get().getTMDBId()).getBody())
                 .map(ShowDTO::fromTMDBShowDTO);
       } catch (HttpStatusCodeException e) {
-        this.logger.error(e.toString());
+        logger.error(e.toString());
       }
     }
     return maybeShowDTO;
