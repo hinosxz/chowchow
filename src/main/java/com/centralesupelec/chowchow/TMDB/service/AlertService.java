@@ -5,11 +5,9 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 
 @Service
 @Transactional
@@ -24,16 +22,16 @@ public class AlertService {
 
   @Async
   public CompletableFuture<TMDBEpisodeDTO> findNextEpisodeByShowId(Long showId) {
-    return Optional.ofNullable(this.searchService.findShowById(showId))
-        .map(response -> response.getBody())
-        .map(show -> show.getNextEpisodeToAir())
-        .map(CompletableFuture::completedFuture)
-        .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+    return this.searchService
+        .findShowById(showId)
+        .thenApply(tmdbShowDTO -> tmdbShowDTO.getNextEpisodeToAir());
   }
 
   public List<TMDBEpisodeDTO> findNextEpisodesByShowIds(List<Long> showIds) {
-    List<CompletableFuture<TMDBEpisodeDTO>> promises = new ArrayList<>();
-    showIds.forEach(showId -> promises.add(findNextEpisodeByShowId(showId)));
+    List<CompletableFuture<TMDBEpisodeDTO>> promises =
+        showIds.stream()
+            .map(showId -> this.findNextEpisodeByShowId(showId))
+            .collect(Collectors.toList());
     return promises.stream()
         .map(promise -> promise.join())
         .filter(episode -> !Objects.isNull(episode))

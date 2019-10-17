@@ -15,7 +15,7 @@ public class ShowRatingEntity {
   @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
   private UserEntity user;
 
-  @Column(name = "show_id")
+  @Column(name = "show_id", insertable = false, updatable = false)
   private Long showId;
 
   @Enumerated private Mark mark;

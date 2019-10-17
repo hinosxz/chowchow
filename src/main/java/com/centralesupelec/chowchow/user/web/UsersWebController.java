@@ -1,8 +1,10 @@
 package com.centralesupelec.chowchow.user.web;
 
 import com.centralesupelec.chowchow.likes.controllers.ShowRatingDTO;
+import com.centralesupelec.chowchow.user.controllers.LikedShowDTO;
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +36,24 @@ public class UsersWebController {
       path = "/{id}",
       method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity getUserById(@PathVariable(value = "id") Long userId) {
-    return new ResponseEntity<>(this.usersController.getUserById(userId), HttpStatus.OK);
+  public ResponseEntity<UserDTO> getUserById(@PathVariable(value = "id") Long userId) {
+    return this.usersController
+        .getUserById(userId)
+        .map(userDTO -> new ResponseEntity<>(userDTO, HttpStatus.OK))
+        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
 
-  @RequestMapping(path = "/like", method = RequestMethod.POST)
+  @RequestMapping(
+      path = "/likes",
+      method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Set<LikedShowDTO>> getLikedShows() {
+    // TODO Chercher l'ID User dans la session
+    Long userId = 1L;
+    return new ResponseEntity<>(this.usersController.getLikedShows(userId), HttpStatus.OK);
+  }
+
+  @RequestMapping(path = "/likes", method = RequestMethod.POST)
   public ResponseEntity likeShow(@RequestBody ShowRatingDTO showRatingDTO) {
     // TODO Chercher l'ID User dans la session
     Long userId = 1L;
@@ -46,7 +61,7 @@ public class UsersWebController {
         this.usersController.likeShow(showRatingDTO, userId), HttpStatus.OK);
   }
 
-  @RequestMapping(path = "/like/{id}", method = RequestMethod.DELETE)
+  @RequestMapping(path = "/likes/{id}", method = RequestMethod.DELETE)
   public ResponseEntity deleteMark(@PathVariable("id") Long showId) {
     // TODO Chercher l'ID User dans la session
     Long userId = 1L;
