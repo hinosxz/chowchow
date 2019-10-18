@@ -3,7 +3,6 @@ CREATE TABLE Users (
   id SERIAL,
   username TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL ,
-  type TEXT NOT NULL,
   subscription_type TEXT,
   PRIMARY KEY (id)
 );
@@ -16,11 +15,11 @@ CREATE TABLE show_ratings (
   FOREIGN KEY (user_id) REFERENCES Users(id) ON UPDATE CASCADE
 );
 
-INSERT INTO public.Users (id, username, password, type, subscription_type)
+INSERT INTO public.Users (id, username, password, subscription_type)
 VALUES
-(1, 'User_1', 'password_1', 'USER', NULL),
-(2, 'User_2', 'password_2', 'PREMIUM_USER', 'BASIC'),
-(3, 'User_3', 'password_3', 'PREMIUM_USER', 'GOLD');
+(1, 'User_1', 'password_1', NULL),
+(2, 'User_2', 'password_2', 'BASIC'),
+(3, 'User_3', 'password_3', 'GOLD');
 
 INSERT INTO public.show_ratings (user_id, show_id, mark)
 VALUES

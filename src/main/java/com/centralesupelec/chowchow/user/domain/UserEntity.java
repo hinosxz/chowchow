@@ -2,30 +2,29 @@ package com.centralesupelec.chowchow.user.domain;
 
 import com.centralesupelec.chowchow.likes.domain.Mark;
 import com.centralesupelec.chowchow.likes.domain.ShowRatingEntity;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "Users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "TYPE")
-@DiscriminatorValue("USER")
 public class UserEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(unique = true, nullable = false)
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<ShowRatingEntity> likedShows;
-
   @Column private String username;
 
   @Column(nullable = false)
   private String password;
+
+  @Column private SubscriptionType subscriptionType;
+
+  @Column(unique = true, nullable = false)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<ShowRatingEntity> likedShows;
 
   public Long getId() {
     return id;
@@ -39,7 +38,11 @@ public class UserEntity {
     return password;
   }
 
-  public Set<ShowRatingEntity> getLikedShows() {
+  public SubscriptionType getSubscriptionType() {
+    return subscriptionType;
+  }
+
+  public List<ShowRatingEntity> getLikedShows() {
     return likedShows;
   }
 
@@ -51,7 +54,11 @@ public class UserEntity {
     this.password = password;
   }
 
-  public void setLikedShows(Set<ShowRatingEntity> likedShows) {
+  public void setSubscriptionType(SubscriptionType subscriptionType) {
+    this.subscriptionType = subscriptionType;
+  }
+
+  public void setLikedShows(List<ShowRatingEntity> likedShows) {
     this.likedShows = likedShows;
   }
 

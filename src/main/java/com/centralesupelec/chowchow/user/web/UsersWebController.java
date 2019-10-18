@@ -4,9 +4,7 @@ import com.centralesupelec.chowchow.likes.controllers.ShowRatingDTO;
 import com.centralesupelec.chowchow.user.controllers.LikedShowDTO;
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
-import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,8 +17,6 @@ public class UsersWebController {
 
   private final UsersController usersController;
 
-  private final Logger logger = LoggerFactory.getLogger(UsersController.class);
-
   @Autowired
   public UsersWebController(UsersController usersController) {
     this.usersController = usersController;
@@ -28,8 +24,7 @@ public class UsersWebController {
 
   @RequestMapping(path = "", method = RequestMethod.POST)
   public ResponseEntity createUser(@RequestBody UserDTO userDTO) {
-    boolean result = this.usersController.createUser(userDTO);
-    return new ResponseEntity<>(result, HttpStatus.OK);
+    return new ResponseEntity<>(this.usersController.createUser(userDTO), HttpStatus.OK);
   }
 
   @RequestMapping(
@@ -47,7 +42,7 @@ public class UsersWebController {
       path = "/likes",
       method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Set<LikedShowDTO>> getLikedShows() {
+  public ResponseEntity<List<LikedShowDTO>> getLikedShows() {
     // TODO Chercher l'ID User dans la session
     Long userId = 1L;
     return new ResponseEntity<>(this.usersController.getLikedShows(userId), HttpStatus.OK);

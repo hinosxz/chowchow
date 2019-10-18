@@ -27,4 +27,6 @@ public class ShowRatingDTO {
   public static ShowRatingDTO fromEntity(ShowRatingEntity showRatingEntity) {
     return new ShowRatingDTO(showRatingEntity.getShowId(), showRatingEntity.getMark());
   }
+
+  public static ShowRatingEntity toEntity(ShowRatingDTO showRatingDTO) {}
 }

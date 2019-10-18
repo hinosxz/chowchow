@@ -4,8 +4,8 @@ import com.centralesupelec.chowchow.TMDB.service.SearchService;
 import com.centralesupelec.chowchow.likes.controllers.ShowRatingDTO;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UsersService;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -39,12 +39,12 @@ public class UsersController {
     return this.usersService.getUserById(id).map(UserDTO::fromEntity);
   }
 
-  public Set<LikedShowDTO> getLikedShows(Long id) {
+  public List<LikedShowDTO> getLikedShows(Long id) {
     Optional<UserDTO> maybeUserDTO = this.getUserById(id);
     if (!maybeUserDTO.isPresent()) {
       return null;
     }
-    Set<CompletableFuture<LikedShowDTO>> likedShowsDTOPromises =
+    List<CompletableFuture<LikedShowDTO>> likedShowsDTOPromises =
         maybeUserDTO.get().getLikedShows().stream()
             .map(
                 showRatingDTO ->
@@ -52,11 +52,11 @@ public class UsersController {
                         .findShowById(showRatingDTO.getShowId())
                         .thenApply(
                             tmdbShowDTO -> new LikedShowDTO(showRatingDTO.getMark(), tmdbShowDTO)))
-            .collect(Collectors.toSet());
+            .collect(Collectors.toList());
 
     return likedShowsDTOPromises.stream()
         .map(likedShowsDTOPromise -> likedShowsDTOPromise.join())
-        .collect(Collectors.toSet());
+        .collect(Collectors.toList());
   }
 
   public boolean likeShow(ShowRatingDTO showRatingDTO, Long userId) {
