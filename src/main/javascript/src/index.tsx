@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import { App } from './App';
+import { PageHome } from './components/home/PageHome';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<PageHome />, document.getElementById('root'));
