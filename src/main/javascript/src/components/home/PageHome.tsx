@@ -1,4 +1,5 @@
 import React from 'react';
+
 import './page-home.scss';
 
 export const PageHome: React.FC = () => (
