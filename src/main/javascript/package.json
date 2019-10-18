@@ -48,12 +48,21 @@
               "builtin",
               "external"
             ],
-            "parent",
+            "internal",
             "sibling"
           ],
           "newlines-between": "always"
         }
       ]
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": [
+            "src"
+          ]
+        }
+      }
     }
   },
   "browserslist": {
