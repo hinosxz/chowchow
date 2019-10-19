@@ -66,9 +66,21 @@ public class UsersController {
       return false;
     }
     UserEntity user = maybeUser.get();
-    user.likeShow(showRatingDTO.getMark(), showRatingDTO.getShowId());
+    boolean success = user.likeShow(showRatingDTO.getMark(), showRatingDTO.getShowId());
     this.usersService.saveUser(user);
-    return true;
+    return success;
+  }
+
+  public boolean updateMark(ShowRatingDTO showRatingDTO, Long userId) {
+    Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
+    if (!maybeUser.isPresent()) {
+      LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
+      return false;
+    }
+    UserEntity user = maybeUser.get();
+    boolean success = user.updateMark(showRatingDTO.getMark(), showRatingDTO.getShowId());
+    this.usersService.saveUser(user);
+    return success;
   }
 
   public boolean unlikeShow(Long showId, Long userId) {

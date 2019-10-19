@@ -56,8 +56,16 @@ public class UsersWebController {
         this.usersController.likeShow(showRatingDTO, userId), HttpStatus.OK);
   }
 
+  @RequestMapping(path = "/likes", method = RequestMethod.PUT)
+  public ResponseEntity updateMark(@RequestBody ShowRatingDTO showRatingDTO) {
+    // TODO Chercher l'ID User dans la session
+    Long userId = 1L;
+    return new ResponseEntity<>(
+        this.usersController.updateMark(showRatingDTO, userId), HttpStatus.OK);
+  }
+
   @RequestMapping(path = "/likes/{id}", method = RequestMethod.DELETE)
-  public ResponseEntity deleteMark(@PathVariable("id") Long showId) {
+  public ResponseEntity unlikeShow(@PathVariable("id") Long showId) {
     // TODO Chercher l'ID User dans la session
     Long userId = 1L;
     return new ResponseEntity<>(this.usersController.unlikeShow(showId, userId), HttpStatus.OK);

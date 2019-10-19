@@ -75,6 +75,19 @@ public class UserEntity {
     }
   }
 
+  public boolean updateMark(Mark mark, Long showId) {
+    Optional<ShowRatingEntity> maybeShowRating =
+        this.likedShows.stream()
+            .filter(showRatingEntity -> Objects.equals(showRatingEntity.getShowId(), showId))
+            .findAny();
+    if (maybeShowRating.isPresent()) {
+      maybeShowRating.get().setMark(mark);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public void unlikeShow(Long showId) {
     this.likedShows.stream()
         .filter(showRatingEntity -> Objects.equals(showRatingEntity.getShowId(), showId))
