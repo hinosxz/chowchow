@@ -3,17 +3,20 @@ package com.centralesupelec.chowchow.user.domain;
 import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.showRating.domain.Mark;
 import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import javax.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "Users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE")
 @DiscriminatorValue("USER")
-public class UserEntity {
+public class UserEntity implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -75,5 +78,30 @@ public class UserEntity {
         .filter(showRatingEntity -> Objects.equals(showRatingEntity.getShow().getId(), showId))
         .findAny()
         .ifPresent(showRatingEntity -> this.likedShows.remove(showRatingEntity));
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return false;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return false;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return false;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return false;
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return null;
   }
 }

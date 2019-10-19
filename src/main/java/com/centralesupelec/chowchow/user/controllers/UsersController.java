@@ -5,7 +5,7 @@ import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.show.service.ShowsService;
 import com.centralesupelec.chowchow.showRating.controllers.ShowRatingDTO;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
-import com.centralesupelec.chowchow.user.service.UsersServiceImpl;
+import com.centralesupelec.chowchow.user.service.UsersService;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -19,28 +19,28 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class UsersController {
 
-  private final UsersServiceImpl usersServiceImpl;
+  private final UsersService usersService;
   private final ShowsService showsService;
 
   private final Logger logger = LoggerFactory.getLogger(UsersController.class);
 
   @Autowired
-  public UsersController(UsersServiceImpl usersServiceImpl, ShowsService showsService) {
-    this.usersServiceImpl = usersServiceImpl;
+  public UsersController(UsersService usersService, ShowsService showsService) {
+    this.usersService = usersService;
     this.showsService = showsService;
   }
 
   public boolean createUser(UserDTO userDTO) {
-    Optional<UserEntity> maybeUser = this.usersServiceImpl.getUserByUsername(userDTO.getUsername());
+    Optional<UserEntity> maybeUser = this.usersService.getUserByUsername(userDTO.getUsername());
     if (maybeUser.isPresent()) {
       return false;
     }
-    usersServiceImpl.saveUser(UserDTO.toEntity(userDTO));
+    usersService.saveUser(UserDTO.toEntity(userDTO));
     return true;
   }
 
   public Optional<UserDTO> getUserById(Long id) {
-    return this.usersServiceImpl.getUserById(id).map(UserDTO::fromEntity);
+    return this.usersService.getUserById(id).map(UserDTO::fromEntity);
   }
 
   public Set<ShowDTO> getLikedShows(Long id) {
@@ -73,7 +73,7 @@ public class UsersController {
   }
 
   public boolean likeShow(ShowRatingDTO showRatingDTO, Long userId) {
-    Optional<UserEntity> maybeUser = this.usersServiceImpl.getUserById(userId);
+    Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
     if (!maybeUser.isPresent()) {
       logger.warn("Unsuccessful attempts to find user with id {}", userId);
       return false;
@@ -86,19 +86,19 @@ public class UsersController {
     UserEntity user = maybeUser.get();
     ShowEntity show = maybeShow.get();
     user.likeShow(showRatingDTO.getMark(), show);
-    this.usersServiceImpl.saveUser(user);
+    this.usersService.saveUser(user);
     return true;
   }
 
   public boolean unlikeShow(Long showId, Long userId) {
-    Optional<UserEntity> maybeUserDTO = this.usersServiceImpl.getUserById(userId);
+    Optional<UserEntity> maybeUserDTO = this.usersService.getUserById(userId);
     if (!maybeUserDTO.isPresent()) {
       logger.warn("Unsuccessful attempts to find user with id {}", userId);
       return false;
     }
     UserEntity user = maybeUserDTO.get();
     user.unlikeShow(showId);
-    this.usersServiceImpl.saveUser(user);
+    this.usersService.saveUser(user);
     return true;
   }
 }
