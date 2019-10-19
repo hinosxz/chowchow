@@ -11,7 +11,7 @@ public class ShowRatingDTO {
   private final Mark mark;
 
   @JsonCreator
-  ShowRatingDTO(@JsonProperty("show_id") Long show_id, @JsonProperty("mark") Mark mark) {
+  public ShowRatingDTO(@JsonProperty("show_id") Long show_id, @JsonProperty("mark") Mark mark) {
     this.showId = show_id;
     this.mark = mark;
   }
@@ -28,5 +28,11 @@ public class ShowRatingDTO {
     return new ShowRatingDTO(showRatingEntity.getShowId(), showRatingEntity.getMark());
   }
 
-  public static ShowRatingEntity toEntity(ShowRatingDTO showRatingDTO) {}
+  public static ShowRatingEntity toEntity(ShowRatingDTO showRatingDTO) {
+    ShowRatingEntity showRating = new ShowRatingEntity();
+    showRating.setUser(null);
+    showRating.setShowId(showRatingDTO.getShowId());
+    showRating.setMark(showRatingDTO.getMark());
+    return showRating;
+  }
 }
