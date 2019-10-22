@@ -225,7 +225,7 @@ public class TMDBShowDTO {
   private final LocalDate firstAirDate;
   private final List<GenreDTO> genres;
   private final String homepage;
-  private final int id;
+  private final Long id;
   private final boolean inProduction;
   private final List<String> languages;
   private final LocalDate lastAirDate;
@@ -255,7 +255,7 @@ public class TMDBShowDTO {
       @JsonProperty("first_air_date") String firstAirDate,
       @JsonProperty("genres") List<GenreDTO> genres,
       @JsonProperty("homepage") String homepage,
-      @JsonProperty("id") int id,
+      @JsonProperty("id") Long id,
       @JsonProperty("in_production") boolean inProduction,
       @JsonProperty("languages") List<String> languages,
       @JsonProperty("last_air_date") String lastAirDate,
@@ -342,7 +342,7 @@ public class TMDBShowDTO {
     return homepage;
   }
 
-  public int getId() {
+  public Long getId() {
     return id;
   }
 

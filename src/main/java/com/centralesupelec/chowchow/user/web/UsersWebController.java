@@ -1,7 +1,6 @@
 package com.centralesupelec.chowchow.user.web;
 
-import com.centralesupelec.chowchow.likes.controllers.ShowRatingDTO;
-import com.centralesupelec.chowchow.user.controllers.LikedShowDTO;
+import com.centralesupelec.chowchow.likes.controllers.LikeDTO;
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
 import java.util.List;
@@ -42,26 +41,24 @@ public class UsersWebController {
       path = "/likes",
       method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<LikedShowDTO>> getLikedShows() {
+  public ResponseEntity<List<LikeDTO>> getLikedShows() {
     // TODO Chercher l'ID User dans la session
     Long userId = 1L;
     return new ResponseEntity<>(this.usersController.getLikedShows(userId), HttpStatus.OK);
   }
 
   @RequestMapping(path = "/likes", method = RequestMethod.POST)
-  public ResponseEntity likeShow(@RequestBody ShowRatingDTO showRatingDTO) {
+  public ResponseEntity likeShow(@RequestBody LikeDTO likeDTO) {
     // TODO Chercher l'ID User dans la session
     Long userId = 1L;
-    return new ResponseEntity<>(
-        this.usersController.likeShow(showRatingDTO, userId), HttpStatus.OK);
+    return new ResponseEntity<>(this.usersController.likeShow(likeDTO, userId), HttpStatus.OK);
   }
 
   @RequestMapping(path = "/likes", method = RequestMethod.PUT)
-  public ResponseEntity updateMark(@RequestBody ShowRatingDTO showRatingDTO) {
+  public ResponseEntity updateMark(@RequestBody LikeDTO likeDTO) {
     // TODO Chercher l'ID User dans la session
     Long userId = 1L;
-    return new ResponseEntity<>(
-        this.usersController.updateMark(showRatingDTO, userId), HttpStatus.OK);
+    return new ResponseEntity<>(this.usersController.updateMark(likeDTO, userId), HttpStatus.OK);
   }
 
   @RequestMapping(path = "/likes/{id}", method = RequestMethod.DELETE)

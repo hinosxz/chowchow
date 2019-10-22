@@ -4,12 +4,10 @@ import com.centralesupelec.chowchow.user.domain.UserEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(
-    name = "ShowRatings",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "show_id"}))
-public class ShowRatingEntity {
+@Table(name = "Likes", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "show_id"}))
+public class Like {
 
-  @EmbeddedId private ShowRatingKey id;
+  @EmbeddedId private LikeKey id;
 
   @ManyToOne
   @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
@@ -20,16 +18,16 @@ public class ShowRatingEntity {
 
   @Enumerated private Mark mark;
 
-  public ShowRatingEntity() {}
+  public Like() {}
 
-  public ShowRatingEntity(UserEntity userEntity, Long showId, Mark mark) {
-    this.id = new ShowRatingKey(userEntity, showId);
+  public Like(UserEntity userEntity, Long showId, Mark mark) {
+    this.id = new LikeKey(userEntity, showId);
     this.user = userEntity;
     this.showId = showId;
     this.mark = mark;
   }
 
-  public ShowRatingKey getId() {
+  public LikeKey getId() {
     return id;
   }
 

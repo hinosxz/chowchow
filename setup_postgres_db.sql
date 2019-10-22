@@ -7,8 +7,8 @@ CREATE TABLE Users (
   PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS show_ratings CASCADE;
-CREATE TABLE show_ratings (
+DROP TABLE IF EXISTS likes CASCADE;
+CREATE TABLE likes (
   user_id SERIAL NOT NULL,
   show_id SERIAL NOT NULL,
   mark INTEGER,
@@ -21,7 +21,7 @@ VALUES
 (2, 'User_2', 'password_2', 0),
 (3, 'User_3', 'password_3', 1);
 
-INSERT INTO public.show_ratings (user_id, show_id, mark)
+INSERT INTO public.likes (user_id, show_id, mark)
 VALUES
 (1, 60574, 1),
 (1, 62688, 0),

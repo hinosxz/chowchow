@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Embeddable
-public class ShowRatingKey implements Serializable {
+public class LikeKey implements Serializable {
 
   @Column(name = "user_id")
   private Long userId;
@@ -16,9 +16,9 @@ public class ShowRatingKey implements Serializable {
   @Column(name = "show_id")
   private Long showId;
 
-  public ShowRatingKey() {}
+  public LikeKey() {}
 
-  public ShowRatingKey(UserEntity userEntity, Long showId) {
+  public LikeKey(UserEntity userEntity, Long showId) {
     this.userId = userEntity.getId();
     this.showId = showId;
   }
@@ -33,7 +33,7 @@ public class ShowRatingKey implements Serializable {
       return false;
     }
 
-    ShowRatingKey that = (ShowRatingKey) o;
+    LikeKey that = (LikeKey) o;
 
     return new EqualsBuilder()
         .append(this.userId, that.userId)

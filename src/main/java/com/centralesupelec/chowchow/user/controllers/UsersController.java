@@ -1,7 +1,7 @@
 package com.centralesupelec.chowchow.user.controllers;
 
 import com.centralesupelec.chowchow.TMDB.service.SearchService;
-import com.centralesupelec.chowchow.likes.controllers.ShowRatingDTO;
+import com.centralesupelec.chowchow.likes.controllers.LikeDTO;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UsersService;
 import java.util.List;
@@ -39,46 +39,45 @@ public class UsersController {
     return this.usersService.getUserById(id).map(UserDTO::fromEntity);
   }
 
-  public List<LikedShowDTO> getLikedShows(Long id) {
-    Optional<UserDTO> maybeUserDTO = this.getUserById(id);
-    if (!maybeUserDTO.isPresent()) {
+  public List<LikeDTO> getLikedShows(Long id) {
+    Optional<UserEntity> maybeUser = this.usersService.getUserById(id);
+    if (!maybeUser.isPresent()) {
       return null;
     }
-    List<CompletableFuture<LikedShowDTO>> likedShowsDTOPromises =
-        maybeUserDTO.get().getLikedShows().stream()
+    List<CompletableFuture<LikeDTO>> likeDTOPromises =
+        maybeUser.get().getLikedShows().stream()
             .map(
-                showRatingDTO ->
+                like ->
                     this.searchService
-                        .findShowById(showRatingDTO.getShowId())
-                        .thenApply(
-                            tmdbShowDTO -> new LikedShowDTO(showRatingDTO.getMark(), tmdbShowDTO)))
+                        .findShowById(like.getShowId())
+                        .thenApply(tmdbShowDTO -> new LikeDTO(like.getMark(), tmdbShowDTO)))
             .collect(Collectors.toList());
 
-    return likedShowsDTOPromises.stream()
-        .map(likedShowsDTOPromise -> likedShowsDTOPromise.join())
+    return likeDTOPromises.stream()
+        .map(likedDTOPromise -> likedDTOPromise.join())
         .collect(Collectors.toList());
   }
 
-  public boolean likeShow(ShowRatingDTO showRatingDTO, Long userId) {
+  public boolean likeShow(LikeDTO likeDTO, Long userId) {
     Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
     if (!maybeUser.isPresent()) {
       LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
       return false;
     }
     UserEntity user = maybeUser.get();
-    boolean success = user.likeShow(showRatingDTO.getMark(), showRatingDTO.getShowId());
+    boolean success = user.likeShow(likeDTO.getMark(), likeDTO.getTmdbShowDTO().getId());
     this.usersService.saveUser(user);
     return success;
   }
 
-  public boolean updateMark(ShowRatingDTO showRatingDTO, Long userId) {
+  public boolean updateMark(LikeDTO likeDTO, Long userId) {
     Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
     if (!maybeUser.isPresent()) {
       LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
       return false;
     }
     UserEntity user = maybeUser.get();
-    boolean success = user.updateMark(showRatingDTO.getMark(), showRatingDTO.getShowId());
+    boolean success = user.updateMark(likeDTO.getMark(), likeDTO.getTmdbShowDTO().getId());
     this.usersService.saveUser(user);
     return success;
   }
