@@ -34,9 +34,10 @@ matrix:
     - language: node_js
       node_js:
         - "stable"
+      before_install: cd src/main/javascript
       cache:
         directories:
-          - node_modules
+          - src/main/javascript/node_modules
       script:
         - npm test
         - npm run build
