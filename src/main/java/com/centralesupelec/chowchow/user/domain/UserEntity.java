@@ -1,32 +1,30 @@
 package com.centralesupelec.chowchow.user.domain;
 
-import com.centralesupelec.chowchow.show.domain.ShowEntity;
-import com.centralesupelec.chowchow.showRating.domain.Mark;
-import com.centralesupelec.chowchow.showRating.domain.ShowRatingEntity;
+import com.centralesupelec.chowchow.likes.domain.Like;
+import com.centralesupelec.chowchow.likes.domain.Mark;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "Users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "TYPE")
-@DiscriminatorValue("USER")
 public class UserEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(unique = true, nullable = false)
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<ShowRatingEntity> likedShows;
-
   @Column private String username;
 
   @Column(nullable = false)
   private String password;
+
+  @Column private SubscriptionType subscriptionType;
+
+  @Column(unique = true, nullable = false)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Like> likedShows;
 
   public Long getId() {
     return id;
@@ -40,7 +38,11 @@ public class UserEntity {
     return password;
   }
 
-  public Set<ShowRatingEntity> getLikedShows() {
+  public SubscriptionType getSubscriptionType() {
+    return subscriptionType;
+  }
+
+  public List<Like> getLikedShows() {
     return likedShows;
   }
 
@@ -52,28 +54,40 @@ public class UserEntity {
     this.password = password;
   }
 
-  public void setLikedShows(Set<ShowRatingEntity> likedShows) {
+  public void setSubscriptionType(SubscriptionType subscriptionType) {
+    this.subscriptionType = subscriptionType;
+  }
+
+  public void setLikedShows(List<Like> likedShows) {
     this.likedShows = likedShows;
   }
 
-  public void likeShow(Mark mark, ShowEntity show) {
-    Optional<ShowRatingEntity> maybeShowRating =
-        this.likedShows.stream()
-            .filter(
-                showRatingEntity ->
-                    Objects.equals(showRatingEntity.getShow().getId(), show.getId()))
-            .findAny();
+  public boolean likeShow(Mark mark, Long showId) {
+    Optional<Like> maybeShowRating =
+        this.likedShows.stream().filter(like -> Objects.equals(like.getShowId(), showId)).findAny();
+    if (maybeShowRating.isPresent()) {
+      return false;
+    } else {
+      this.likedShows.add(new Like(this, showId, mark));
+      return true;
+    }
+  }
+
+  public boolean updateMark(Mark mark, Long showId) {
+    Optional<Like> maybeShowRating =
+        this.likedShows.stream().filter(like -> Objects.equals(like.getShowId(), showId)).findAny();
     if (maybeShowRating.isPresent()) {
       maybeShowRating.get().setMark(mark);
+      return true;
     } else {
-      this.likedShows.add(new ShowRatingEntity(this, show, mark));
+      return false;
     }
   }
 
   public void unlikeShow(Long showId) {
     this.likedShows.stream()
-        .filter(showRatingEntity -> Objects.equals(showRatingEntity.getShow().getId(), showId))
+        .filter(like -> Objects.equals(like.getShowId(), showId))
         .findAny()
-        .ifPresent(showRatingEntity -> this.likedShows.remove(showRatingEntity));
+        .ifPresent(like -> this.likedShows.remove(like));
   }
 }

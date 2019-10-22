@@ -3,8 +3,9 @@ package com.centralesupelec.chowchow.TMDB.service;
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBSearchDTO;
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBShowDTO;
 import com.centralesupelec.chowchow.lib.TMDBAPI;
+import java.util.concurrent.CompletableFuture;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -21,17 +22,18 @@ public class SearchService {
     this.TMDBAPI = TMDBAPI;
   }
 
-  public ResponseEntity<TMDBSearchDTO> findShowsByName(String name) throws HttpStatusCodeException {
+  public TMDBSearchDTO findShowsByName(String name) throws HttpStatusCodeException {
     UriComponentsBuilder urlBuilder =
         UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/search/tv")
             .queryParam("query", name);
-    return TMDBAPI.get(urlBuilder, TMDBSearchDTO.class);
+    return TMDBAPI.get(urlBuilder, TMDBSearchDTO.class).getBody();
   }
 
-  public ResponseEntity<TMDBShowDTO> findShowById(int id) throws HttpStatusCodeException {
+  @Async
+  public CompletableFuture<TMDBShowDTO> findShowById(Long id) throws HttpStatusCodeException {
     UriComponentsBuilder urlBuilder =
         UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/tv")
             .path(String.format("/%d", id));
-    return TMDBAPI.get(urlBuilder, TMDBShowDTO.class);
+    return CompletableFuture.completedFuture(TMDBAPI.get(urlBuilder, TMDBShowDTO.class).getBody());
   }
 }

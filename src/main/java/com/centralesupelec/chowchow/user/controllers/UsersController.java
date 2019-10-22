@@ -1,14 +1,11 @@
 package com.centralesupelec.chowchow.user.controllers;
 
-import com.centralesupelec.chowchow.show.controllers.ShowDTO;
-import com.centralesupelec.chowchow.show.domain.ShowEntity;
-import com.centralesupelec.chowchow.show.service.ShowsService;
-import com.centralesupelec.chowchow.showRating.controllers.ShowRatingDTO;
+import com.centralesupelec.chowchow.TMDB.service.SearchService;
+import com.centralesupelec.chowchow.likes.controllers.LikeDTO;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
-import com.centralesupelec.chowchow.user.service.UsersServiceImpl;
-import java.util.HashSet;
+import com.centralesupelec.chowchow.user.service.UsersService;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -18,87 +15,86 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class UsersController {
+  private final Logger LOGGER = LoggerFactory.getLogger(UsersController.class);
 
-  private final UsersServiceImpl usersServiceImpl;
-  private final ShowsService showsService;
-
-  private final Logger logger = LoggerFactory.getLogger(UsersController.class);
+  private final UsersService usersService;
+  private final SearchService searchService;
 
   @Autowired
-  public UsersController(UsersServiceImpl usersServiceImpl, ShowsService showsService) {
-    this.usersServiceImpl = usersServiceImpl;
-    this.showsService = showsService;
+  public UsersController(UsersService usersService, SearchService searchService) {
+    this.usersService = usersService;
+    this.searchService = searchService;
   }
 
   public boolean createUser(UserDTO userDTO) {
-    Optional<UserEntity> maybeUser = this.usersServiceImpl.getUserByUsername(userDTO.getUsername());
+    Optional<UserEntity> maybeUser = this.usersService.getUserByUsername(userDTO.getUsername());
     if (maybeUser.isPresent()) {
       return false;
     }
-    usersServiceImpl.saveUser(UserDTO.toEntity(userDTO));
+    usersService.saveUser(UserDTO.toEntity(userDTO));
     return true;
   }
 
   public Optional<UserDTO> getUserById(Long id) {
-    return this.usersServiceImpl.getUserById(id).map(UserDTO::fromEntity);
+    return this.usersService.getUserById(id).map(UserDTO::fromEntity);
   }
 
-  public Set<ShowDTO> getLikedShows(Long id) {
-    Optional<UserDTO> maybeUserDTO = this.getUserById(id);
-    if (!maybeUserDTO.isPresent()) {
+  public List<LikeDTO> getLikedShows(Long id) {
+    Optional<UserEntity> maybeUser = this.usersService.getUserById(id);
+    if (!maybeUser.isPresent()) {
       return null;
     }
-    Set<ShowRatingDTO> showRatings = maybeUserDTO.get().getLikedShows();
-    Set<CompletableFuture<ShowDTO>> showSet = new HashSet<>();
-
-    Set<CompletableFuture<Optional<ShowDTO>>> maybeShowDTOPromises =
-        showRatings.stream()
-            .map(showRating -> showRating.getShowId())
-            .map(showRatingId -> this.showsService.getShowById(showRatingId))
+    List<CompletableFuture<LikeDTO>> likeDTOPromises =
+        maybeUser.get().getLikedShows().stream()
             .map(
-                maybeShowEntityPromise ->
-                    maybeShowEntityPromise.thenApply(
-                        maybeShowEntity ->
-                            maybeShowEntity.map(showEntity -> ShowDTO.fromEntity(showEntity))))
-            .collect(Collectors.toSet());
+                like ->
+                    this.searchService
+                        .findShowById(like.getShowId())
+                        .thenApply(tmdbShowDTO -> new LikeDTO(like.getMark(), tmdbShowDTO)))
+            .collect(Collectors.toList());
 
-    Set<ShowDTO> showDTOS =
-        maybeShowDTOPromises.stream()
-            .map(maybeShowDTOPromise -> maybeShowDTOPromise.join())
-            .filter(maybeShowDTO -> maybeShowDTO.isPresent())
-            .map(maybeShowDTO -> maybeShowDTO.get())
-            .collect(Collectors.toSet());
-
-    return showDTOS;
+    return likeDTOPromises.stream()
+        .map(likedDTOPromise -> likedDTOPromise.join())
+        .collect(Collectors.toList());
   }
 
-  public boolean likeShow(ShowRatingDTO showRatingDTO, Long userId) {
-    Optional<UserEntity> maybeUser = this.usersServiceImpl.getUserById(userId);
+  public boolean likeShow(LikeDTO likeDTO, Long userId) {
+    Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
     if (!maybeUser.isPresent()) {
-      logger.warn("Unsuccessful attempts to find user with id {}", userId);
-      return false;
-    }
-    Optional<ShowEntity> maybeShow = showsService.getShowById(showRatingDTO.getShowId()).join();
-    if (!maybeShow.isPresent()) {
-      logger.warn("Unsuccessful attempts to find user with id {}", userId);
+      LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
       return false;
     }
     UserEntity user = maybeUser.get();
-    ShowEntity show = maybeShow.get();
-    user.likeShow(showRatingDTO.getMark(), show);
-    this.usersServiceImpl.saveUser(user);
-    return true;
+    boolean success = user.likeShow(likeDTO.getMark(), likeDTO.getTmdbShowDTO().getId());
+    this.usersService.saveUser(user);
+    return success;
+  }
+
+  public boolean updateMark(LikeDTO likeDTO, Long userId) {
+    Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
+    if (!maybeUser.isPresent()) {
+      LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
+      return false;
+    }
+    UserEntity user = maybeUser.get();
+    boolean success = user.updateMark(likeDTO.getMark(), likeDTO.getTmdbShowDTO().getId());
+    this.usersService.saveUser(user);
+    return success;
   }
 
   public boolean unlikeShow(Long showId, Long userId) {
-    Optional<UserEntity> maybeUserDTO = this.usersServiceImpl.getUserById(userId);
+    Optional<UserEntity> maybeUserDTO = this.usersService.getUserById(userId);
     if (!maybeUserDTO.isPresent()) {
-      logger.warn("Unsuccessful attempts to find user with id {}", userId);
+      LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
       return false;
     }
     UserEntity user = maybeUserDTO.get();
     user.unlikeShow(showId);
-    this.usersServiceImpl.saveUser(user);
+    this.usersService.saveUser(user);
+    return true;
+  }
+
+  public boolean getUpcomingEpisodesForUser(Long userId) {
     return true;
   }
 }

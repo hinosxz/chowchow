@@ -1,6 +1,5 @@
-package com.centralesupelec.chowchow.showRating.domain;
+package com.centralesupelec.chowchow.likes.domain;
 
-import com.centralesupelec.chowchow.show.domain.ShowEntity;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -9,7 +8,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Embeddable
-public class ShowRatingKey implements Serializable {
+public class LikeKey implements Serializable {
 
   @Column(name = "user_id")
   private Long userId;
@@ -17,11 +16,11 @@ public class ShowRatingKey implements Serializable {
   @Column(name = "show_id")
   private Long showId;
 
-  public ShowRatingKey() {}
+  public LikeKey() {}
 
-  public ShowRatingKey(UserEntity userEntity, ShowEntity showEntity) {
+  public LikeKey(UserEntity userEntity, Long showId) {
     this.userId = userEntity.getId();
-    this.showId = showEntity.getId();
+    this.showId = showId;
   }
 
   @Override
@@ -34,7 +33,7 @@ public class ShowRatingKey implements Serializable {
       return false;
     }
 
-    ShowRatingKey that = (ShowRatingKey) o;
+    LikeKey that = (LikeKey) o;
 
     return new EqualsBuilder()
         .append(this.userId, that.userId)
