@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -21,22 +22,16 @@ public class UsersController {
 
   private final UsersService usersService;
   private final ShowsService showsService;
+  private final PasswordEncoder passwordEncoder;
 
   private final Logger logger = LoggerFactory.getLogger(UsersController.class);
 
   @Autowired
-  public UsersController(UsersService usersService, ShowsService showsService) {
+  public UsersController(
+      UsersService usersService, ShowsService showsService, PasswordEncoder passwordEncoder) {
     this.usersService = usersService;
     this.showsService = showsService;
-  }
-
-  public boolean createUser(UserDTO userDTO) {
-    Optional<UserEntity> maybeUser = this.usersService.getUserByUsername(userDTO.getUsername());
-    if (maybeUser.isPresent()) {
-      return false;
-    }
-    usersService.saveUser(UserDTO.toEntity(userDTO));
-    return true;
+    this.passwordEncoder = passwordEncoder;
   }
 
   public Optional<UserDTO> getUserById(Long id) {

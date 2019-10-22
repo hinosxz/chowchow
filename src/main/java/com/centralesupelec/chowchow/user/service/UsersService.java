@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +26,10 @@ public class UsersService implements UserDetailsService {
   }
 
   public Optional<UserEntity> getUserByUsername(String username) {
-    return Optional.ofNullable(this.userRepository.findByUsername(username));
+    Optional<UserEntity> maybeUserEntity =
+        Optional.ofNullable(this.userRepository.findByUsernameEquals(username));
+    System.out.println(maybeUserEntity.orElse(null));
+    return maybeUserEntity;
   }
 
   public Optional<UserEntity> saveUser(UserEntity userEntity) {
@@ -34,6 +38,10 @@ public class UsersService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) {
-    return this.getUserByUsername(username).get();
+    return this.getUserByUsername(username)
+        .orElseThrow(
+            () ->
+                new UsernameNotFoundException(
+                    String.format("Cannot find user with username; %s", username)));
   }
 }

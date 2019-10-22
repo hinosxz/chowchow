@@ -1,7 +1,6 @@
 package com.centralesupelec.chowchow.user.web;
 
 import com.centralesupelec.chowchow.showRating.controllers.ShowRatingDTO;
-import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,12 +17,6 @@ public class UsersWebController {
   @Autowired
   public UsersWebController(UsersController usersController) {
     this.usersController = usersController;
-  }
-
-  @RequestMapping(path = "", method = RequestMethod.POST)
-  public ResponseEntity createUser(@RequestBody UserDTO userDTO) {
-    boolean result = this.usersController.createUser(userDTO);
-    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @RequestMapping(
