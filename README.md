@@ -21,5 +21,13 @@ You can now run chowchow using docker-compose by running:
 Finally you can set up the database by running the query in `./setup_postgres_db.sql`:
 `docker exec -it chowchow-db psql -U postgres -d chowchow -c "$(cat setup_postgres_db.sql)"`
 
+### Setting-up the front-end
+Run the following commands
+```
+cd src/main/javascript
+yarn start
+```
+You'll be able to test the UI on `localhost:3000`
+
 ## API Documentation
 Available when the server is running at `/swagger-ui.html`
