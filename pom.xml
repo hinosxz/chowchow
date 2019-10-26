@@ -85,11 +85,6 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>6.0.6</version>
-                <configuration>
-                    <url>jdbc:postgresql://localhost:5432/chowchow</url>
-                    <user>postgres</user>
-                    <password>password</password>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.cosium.code</groupId>

@@ -12,8 +12,8 @@ import javax.persistence.*;
 public class UserEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
   @Column private String username;
 
@@ -26,7 +26,7 @@ public class UserEntity {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Like> likedShows;
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 
@@ -62,7 +62,7 @@ public class UserEntity {
     this.likedShows = likedShows;
   }
 
-  public boolean likeShow(Mark mark, Long showId) {
+  public boolean likeShow(Mark mark, Integer showId) {
     Optional<Like> maybeShowRating =
         this.likedShows.stream().filter(like -> Objects.equals(like.getShowId(), showId)).findAny();
     if (maybeShowRating.isPresent()) {
@@ -73,7 +73,7 @@ public class UserEntity {
     }
   }
 
-  public boolean updateMark(Mark mark, Long showId) {
+  public boolean updateMark(Mark mark, Integer showId) {
     Optional<Like> maybeShowRating =
         this.likedShows.stream().filter(like -> Objects.equals(like.getShowId(), showId)).findAny();
     if (maybeShowRating.isPresent()) {
@@ -84,7 +84,7 @@ public class UserEntity {
     }
   }
 
-  public void unlikeShow(Long showId) {
+  public void unlikeShow(Integer showId) {
     this.likedShows.stream()
         .filter(like -> Objects.equals(like.getShowId(), showId))
         .findAny()

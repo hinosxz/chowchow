@@ -35,20 +35,20 @@ public class AlertController {
     return now.until(episode.getAirDate(), ChronoUnit.DAYS) < ALERT_THRESHOLD;
   }
 
-  public List<TMDBEpisodeDTO> getUpcomingEpisodesForUser(Long userId) {
+  public List<TMDBEpisodeDTO> getUpcomingEpisodesForUser(Integer userId) {
     Optional<UserEntity> maybeUserDTO = this.usersService.getUserById(userId);
     if (!maybeUserDTO.isPresent()) {
       logger.warn("Unsuccessful attempts to find user with id {}", userId);
       return new ArrayList<>();
     }
-    List<Long> likedShowIds =
+    List<Integer> likedShowIds =
         maybeUserDTO.get().getLikedShows().stream()
             .map(likedShow -> likedShow.getShowId())
             .collect(Collectors.toList());
     return this.getUpcomingEpisodes(likedShowIds);
   }
 
-  private List<TMDBEpisodeDTO> getUpcomingEpisodes(List<Long> tmdbIds)
+  private List<TMDBEpisodeDTO> getUpcomingEpisodes(List<Integer> tmdbIds)
       throws HttpStatusCodeException {
     return this.alertService.findNextEpisodesByShowIds(tmdbIds).stream()
         .filter(episode -> this.isEpisodeSoon(episode))

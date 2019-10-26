@@ -25,7 +25,7 @@ public class AlertWebController {
 
   @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity getUpcomingEpisodes() {
-    Long userId = 1L;
+    Integer userId = 1;
     try {
       return ResponseEntity.status(HttpStatus.OK)
           .body(this.alertController.getUpcomingEpisodesForUser(userId));

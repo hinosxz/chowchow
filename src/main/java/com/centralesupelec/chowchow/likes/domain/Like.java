@@ -14,13 +14,13 @@ public class Like {
   private UserEntity user;
 
   @Column(name = "show_id", insertable = false, updatable = false)
-  private Long showId;
+  private Integer showId;
 
   @Enumerated private Mark mark;
 
   public Like() {}
 
-  public Like(UserEntity userEntity, Long showId, Mark mark) {
+  public Like(UserEntity userEntity, Integer showId, Mark mark) {
     this.id = new LikeKey(userEntity, showId);
     this.user = userEntity;
     this.showId = showId;
@@ -35,7 +35,7 @@ public class Like {
     return user;
   }
 
-  public Long getShowId() {
+  public Integer getShowId() {
     return showId;
   }
 
@@ -47,7 +47,7 @@ public class Like {
     this.user = user;
   }
 
-  public void setShowId(Long showId) {
+  public void setShowId(Integer showId) {
     this.showId = showId;
   }
 

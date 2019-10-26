@@ -1,25 +1,29 @@
 # Chowchow
 ChowChow, your daily showEntity manager
 
-## Running into Docker container
+## Running the app locally
 
 ### Setting up environment variables
-Add a `.env` file at the root of the app with a valid `TMDB_API_KEY`.
+Add a `.env` file at the root of the app with a valid config
+
+`.env.default` contains all variables that are necessary to run the app with default params
+
+`TMDB_API_KEY` needs to be a valid API key that you'll get on the TMDB website.
 
 ### Packaging the app
 First of all you have to package the app:
 `./mvnw -X clean package`
 
 ### Setting up the containers
-Then you need to build the chowchow-api image by running:
-`docker build -f dev.Dockerfile ./ -t chowchow-api`
-
-You can now run chowchow using docker-compose by running:
-`docker-compose up`
+Then you can build and run the containers using `docker-compose`
+```
+docker-compose build
+docker-compose up
+```
 
 ### Setting up the database
-Finally you can set up the database by running the query in `./setup_postgres_db.sql`:
-`docker exec -it chowchow-db psql -U postgres -d chowchow -c "$(cat setup_postgres_db.sql)"`
+To be able to use the app, you have to initialize the DB by running migrations
+`./mvnw clean flyway:migrate` will do the trick
 
 ## API Documentation
 Available when the server is running at `/swagger-ui.html`
