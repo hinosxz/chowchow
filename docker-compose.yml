@@ -19,7 +19,7 @@ services:
   chowchow-api:
     build:
       context: .
-      dockerfile: dev.Dockerfile
+      dockerfile: Dockerfile
     container_name: chowchow-api
     env_file:
       - .env
