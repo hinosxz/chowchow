@@ -5,11 +5,11 @@ jobs:
   include:
     - if: type = pull_request
       script:
-        - ./mvnw -X clean package
+        - ./mvnw clean package
     - if: type != pull_request and branch IN (staging,master)
       before_script: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
       script:
-        - ./mvnw -X clean package
+        - ./mvnw clean package
         - docker build -t chowchow .
         - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME/web
         - docker push registry.heroku.com/$HEROKU_APP_NAME/web
