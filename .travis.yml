@@ -1,33 +1,49 @@
-language: java
-jdk: openjdk11
-services: docker
-
-before_script:
-  - docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-
-jobs:
+matrix:
   include:
-    - stage: build
-      if: type = pull_request
-      verbose: true
+    - language: java
+      jdk: openjdk11
+      services: docker
+      before_script:
+        - docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+      jobs:
+        include:
+          - stage: build
+            if: type = pull_request
+            verbose: true
+            script:
+              - ./mvnw -X clean package
+          - stage: build and deploy
+            if: branch = master AND type != pull_request
+            verbose: true
+            script:
+              - ./mvnw -X clean package
+              - docker build -f prod.Dockerfile -t chowchow .
+              - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_PROD/web
+              - docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web
+              - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME_PROD
+            after_success:
+              - bash ./scripts/merge-prod-to-staging.sh
+          - stage: build and deploy
+            if: branch = staging
+            script:
+              - ./mvnw -X clean package
+              - docker build -f staging.Dockerfile -t chowchow .
+              - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
+              - docker push registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
+              - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME_STAGING
+    - language: node_js
+      node_js:
+        - "stable"
+      before_install: cd src/main/javascript
+      cache:
+        directories:
+          - src/main/javascript/node_modules
       script:
-        - ./mvnw -X clean package
-    - stage: build and deploy
-      if: branch = master AND type != pull_request
-      verbose: true
-      script:
-        - ./mvnw -X clean package
-        - docker build -f prod.Dockerfile -t chowchow .
-        - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_PROD/web
-        - docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web
-        - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME_PROD
-      after_success:
-        - bash ./scripts/merge-prod-to-staging.sh
-    - stage: build and deploy
-      if: branch = staging
-      script:
-        - ./mvnw -X clean package
-        - docker build -f staging.Dockerfile -t chowchow .
-        - docker tag chowchow registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
-        - docker push registry.heroku.com/$HEROKU_APP_NAME_STAGING/web
-        - docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME_STAGING
+        - npm test
+        - npm run build
+      deploy:
+        provider: heroku
+        api_key: $HEROKU_API_KEY
+        app:
+          master: chowchow-ui-prod
+          staging: chowchow-ui-staging

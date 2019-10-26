@@ -25,5 +25,13 @@ docker-compose up
 To be able to use the app, you have to initialize the DB by running migrations
 `./mvnw clean flyway:migrate` will do the trick
 
+### Setting-up the front-end
+Run the following commands
+```
+cd src/main/javascript
+yarn start
+```
+You'll be able to test the UI on `localhost:3000`
+
 ## API Documentation
 Available when the server is running at `/swagger-ui.html`
