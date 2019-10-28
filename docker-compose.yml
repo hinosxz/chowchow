@@ -1,6 +1,5 @@
 version: "3"
 services:
-
   chowchow-db:
     image: postgres:latest
     expose:
@@ -14,9 +13,7 @@ services:
     restart: unless-stopped
 
   chowchow-api:
-    build:
-      context: .
-      dockerfile: dev.Dockerfile
+    build: .
     container_name: chowchow-api
     env_file:
       - .env
