@@ -22,8 +22,8 @@ docker-compose up
 ```
 
 ### Setting up the database
-To be able to use the app, you have to initialize the DB by running migrations
-`./mvnw clean flyway:migrate` will do the trick
+The database schema is automatically created by Flyway migrations 
+and validated by Hibernate.
 
 ### Setting-up the front-end
 Run the following commands
