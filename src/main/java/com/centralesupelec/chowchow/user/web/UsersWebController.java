@@ -1,14 +1,14 @@
 package com.centralesupelec.chowchow.user.web;
 
+import com.centralesupelec.chowchow.likes.controllers.LikeDTO;
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -23,7 +23,48 @@ public class UsersWebController {
 
   @RequestMapping(path = "", method = RequestMethod.POST)
   public ResponseEntity createUser(@RequestBody UserDTO userDTO) {
-    boolean result = this.usersController.createUser(userDTO);
-    return new ResponseEntity<>(result, HttpStatus.OK);
+    return new ResponseEntity<>(this.usersController.createUser(userDTO), HttpStatus.OK);
+  }
+
+  @RequestMapping(
+      path = "/{id}",
+      method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserDTO> getUserById(@PathVariable(value = "id") Long userId) {
+    return this.usersController
+        .getUserById(userId)
+        .map(userDTO -> new ResponseEntity<>(userDTO, HttpStatus.OK))
+        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+  }
+
+  @RequestMapping(
+      path = "/likes",
+      method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<LikeDTO>> getLikedShows() {
+    // TODO Chercher l'ID User dans la session
+    Long userId = 1L;
+    return new ResponseEntity<>(this.usersController.getLikedShows(userId), HttpStatus.OK);
+  }
+
+  @RequestMapping(path = "/likes", method = RequestMethod.POST)
+  public ResponseEntity likeShow(@RequestBody LikeDTO likeDTO) {
+    // TODO Chercher l'ID User dans la session
+    Long userId = 1L;
+    return new ResponseEntity<>(this.usersController.likeShow(likeDTO, userId), HttpStatus.OK);
+  }
+
+  @RequestMapping(path = "/likes", method = RequestMethod.PUT)
+  public ResponseEntity updateMark(@RequestBody LikeDTO likeDTO) {
+    // TODO Chercher l'ID User dans la session
+    Long userId = 1L;
+    return new ResponseEntity<>(this.usersController.updateMark(likeDTO, userId), HttpStatus.OK);
+  }
+
+  @RequestMapping(path = "/likes/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity unlikeShow(@PathVariable("id") Long showId) {
+    // TODO Chercher l'ID User dans la session
+    Long userId = 1L;
+    return new ResponseEntity<>(this.usersController.unlikeShow(showId, userId), HttpStatus.OK);
   }
 }

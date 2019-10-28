@@ -52,51 +52,51 @@ public class TMDBEpisodeDTO {
   }
 
   public LocalDate getAirDate() {
-    return this.airDate;
+    return airDate;
   }
 
   public int getEpisodeNumber() {
-    return this.episodeNumber;
+    return episodeNumber;
   }
 
   public int getId() {
-    return this.id;
+    return id;
   }
 
   public String getName() {
-    return this.name;
+    return name;
   }
 
   public String getOverview() {
-    return this.overview;
+    return overview;
   }
 
   public String getProductionCode() {
-    return this.productionCode;
+    return productionCode;
   }
 
   public int getSeasonNumber() {
-    return this.seasonNumber;
+    return seasonNumber;
   }
 
   public int getShowId() {
-    return this.showId;
+    return showId;
   }
 
   public String getStillPath() {
-    return this.stillPath;
+    return stillPath;
   }
 
   public double getVoteAverage() {
-    return this.voteAverage;
+    return voteAverage;
   }
 
   public int getVoteCount() {
-    return this.voteCount;
+    return voteCount;
   }
 
   @Override
   public String toString() {
-    return this.getName();
+    return getName();
   }
 }

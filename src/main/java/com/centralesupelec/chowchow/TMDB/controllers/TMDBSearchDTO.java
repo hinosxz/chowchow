@@ -23,23 +23,23 @@ public class TMDBSearchDTO {
   }
 
   public int getPage() {
-    return this.page;
+    return page;
   }
 
   public int getTotalResults() {
-    return this.totalResults;
+    return totalResults;
   }
 
   public int getTotalPages() {
-    return this.totalPages;
+    return totalPages;
   }
 
   public TMDBSearchShowDTO[] getResults() {
-    return this.results;
+    return results;
   }
 
   @Override
   public String toString() {
-    return Arrays.toString(this.getResults());
+    return Arrays.toString(getResults());
   }
 }
