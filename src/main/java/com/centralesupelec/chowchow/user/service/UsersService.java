@@ -18,7 +18,7 @@ public class UsersService {
     this.userRepository = userRepository;
   }
 
-  public Optional<UserEntity> getUserById(Long id) {
+  public Optional<UserEntity> getUserById(Integer id) {
     return Optional.ofNullable(this.userRepository.findById(id));
   }
 

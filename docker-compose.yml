@@ -2,9 +2,6 @@ version: "3"
 services:
   chowchow-db:
     image: postgres:latest
-    container_name: chowchow-db
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
     expose:
       - 5432
     ports:
@@ -20,6 +17,8 @@ services:
     container_name: chowchow-api
     env_file:
       - .env
+    environment:
+      - DB_URL=chowchow-db
     expose:
       - 8080
     ports:
@@ -29,5 +28,3 @@ services:
       - chowchow-db
     links:
       - chowchow-db
-volumes:
-  postgres-data:

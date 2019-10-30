@@ -9,13 +9,13 @@ import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class UserDTO {
-  private final Long id;
+  private final Integer id;
   private final String username;
   private final SubscriptionType subscriptionType;
 
   @JsonCreator
   public UserDTO(
-      @JsonProperty("id") Long id,
+      @JsonProperty("id") Integer id,
       @JsonProperty("username") String username,
       @JsonProperty("subscriptionType") SubscriptionType subscriptionType) {
     this.id = id;
@@ -38,7 +38,7 @@ public class UserDTO {
     return !Objects.isNull(subscriptionType);
   }
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 

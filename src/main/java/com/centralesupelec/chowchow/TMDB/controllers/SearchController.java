@@ -19,7 +19,7 @@ public class SearchController {
     return this.searchService.findShowsByName(name);
   }
 
-  public TMDBShowDTO findShowById(Long id) throws HttpStatusCodeException {
+  public TMDBShowDTO findShowById(Integer id) throws HttpStatusCodeException {
     return this.searchService.findShowById(id).join();
   }
 }

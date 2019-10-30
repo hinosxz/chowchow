@@ -11,14 +11,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class LikeKey implements Serializable {
 
   @Column(name = "user_id")
-  private Long userId;
+  private Integer userId;
 
   @Column(name = "show_id")
-  private Long showId;
+  private Integer showId;
 
   public LikeKey() {}
 
-  public LikeKey(UserEntity userEntity, Long showId) {
+  public LikeKey(UserEntity userEntity, Integer showId) {
     this.userId = userEntity.getId();
     this.showId = showId;
   }

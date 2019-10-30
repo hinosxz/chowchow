@@ -35,7 +35,7 @@ public class SearchWebController {
       path = "/{id}",
       method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity findShowById(@PathVariable Long id) {
+  public ResponseEntity findShowById(@PathVariable Integer id) {
     try {
       TMDBShowDTO search = this.searchController.findShowById(id);
       return ResponseEntity.status(HttpStatus.OK).body(search);
