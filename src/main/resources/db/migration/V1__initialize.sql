@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS Users CASCADE;
+CREATE TABLE Users (
+  id SERIAL,
+  username TEXT NOT NULL UNIQUE,
+  password TEXT NOT NULL ,
+  subscription_type INTEGER ,
+  PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS Likes CASCADE;
+CREATE TABLE Likes (
+  user_id SERIAL NOT NULL,
+  show_id SERIAL NOT NULL,
+  mark INTEGER,
+  FOREIGN KEY (user_id) REFERENCES Users(id) ON UPDATE CASCADE
+);

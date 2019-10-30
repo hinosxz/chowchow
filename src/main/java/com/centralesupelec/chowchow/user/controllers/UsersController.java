@@ -35,11 +35,11 @@ public class UsersController {
     return true;
   }
 
-  public Optional<UserDTO> getUserById(Long id) {
+  public Optional<UserDTO> getUserById(Integer id) {
     return this.usersService.getUserById(id).map(UserDTO::fromEntity);
   }
 
-  public List<LikeDTO> getLikedShows(Long id) {
+  public List<LikeDTO> getLikedShows(Integer id) {
     Optional<UserEntity> maybeUser = this.usersService.getUserById(id);
     if (!maybeUser.isPresent()) {
       return null;
@@ -58,7 +58,7 @@ public class UsersController {
         .collect(Collectors.toList());
   }
 
-  public boolean likeShow(LikeDTO likeDTO, Long userId) {
+  public boolean likeShow(LikeDTO likeDTO, Integer userId) {
     Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
     if (!maybeUser.isPresent()) {
       LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
@@ -70,7 +70,7 @@ public class UsersController {
     return success;
   }
 
-  public boolean updateMark(LikeDTO likeDTO, Long userId) {
+  public boolean updateMark(LikeDTO likeDTO, Integer userId) {
     Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
     if (!maybeUser.isPresent()) {
       LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
@@ -82,7 +82,7 @@ public class UsersController {
     return success;
   }
 
-  public boolean unlikeShow(Long showId, Long userId) {
+  public boolean unlikeShow(Integer showId, Integer userId) {
     Optional<UserEntity> maybeUserDTO = this.usersService.getUserById(userId);
     if (!maybeUserDTO.isPresent()) {
       LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
@@ -94,7 +94,7 @@ public class UsersController {
     return true;
   }
 
-  public boolean getUpcomingEpisodesForUser(Long userId) {
+  public boolean getUpcomingEpisodesForUser(Integer userId) {
     return true;
   }
 }

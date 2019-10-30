@@ -1,6 +1,7 @@
 package com.centralesupelec.chowchow.TMDB.service;
 
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBEpisodeDTO;
+import com.centralesupelec.chowchow.TMDB.controllers.TMDBShowDTO;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -21,19 +22,15 @@ public class AlertService {
   }
 
   @Async
-  public CompletableFuture<TMDBEpisodeDTO> findNextEpisodeByShowId(Long showId) {
-    return this.searchService
-        .findShowById(showId)
-        .thenApply(tmdbShowDTO -> tmdbShowDTO.getNextEpisodeToAir());
+  public CompletableFuture<TMDBEpisodeDTO> findNextEpisodeByShowId(Integer showId) {
+    return this.searchService.findShowById(showId).thenApply(TMDBShowDTO::getNextEpisodeToAir);
   }
 
-  public List<TMDBEpisodeDTO> findNextEpisodesByShowIds(List<Long> showIds) {
+  public List<TMDBEpisodeDTO> findNextEpisodesByShowIds(List<Integer> showIds) {
     List<CompletableFuture<TMDBEpisodeDTO>> promises =
-        showIds.stream()
-            .map(showId -> this.findNextEpisodeByShowId(showId))
-            .collect(Collectors.toList());
+        showIds.stream().map(this::findNextEpisodeByShowId).collect(Collectors.toList());
     return promises.stream()
-        .map(promise -> promise.join())
+        .map(CompletableFuture::join)
         .filter(episode -> !Objects.isNull(episode))
         .collect(Collectors.toList());
   }

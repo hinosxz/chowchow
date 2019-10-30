@@ -30,7 +30,7 @@ public class SearchService {
   }
 
   @Async
-  public CompletableFuture<TMDBShowDTO> findShowById(Long id) throws HttpStatusCodeException {
+  public CompletableFuture<TMDBShowDTO> findShowById(Integer id) throws HttpStatusCodeException {
     UriComponentsBuilder urlBuilder =
         UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/tv")
             .path(String.format("/%d", id));
