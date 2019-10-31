@@ -7,7 +7,9 @@ import {
   Menu, Icon, Layout,
 } from 'antd';
 
+import { SearchBar } from 'components/home/SearchBar/SearchBar';
 import { PageShow } from 'components/show/PageShow/PageShow';
+
 import './page-home.scss';
 
 const { Content, Footer, Sider } = Layout;
@@ -40,7 +42,7 @@ export const PageHome = withRouter(({ location }) => (
       <Content className={`${BLOCK}__content`}>
         <Switch>
           <Route exact path="/">
-              Home
+            <SearchBar />
           </Route>
           <Route path="/shows/:id">
             <PageShow />
