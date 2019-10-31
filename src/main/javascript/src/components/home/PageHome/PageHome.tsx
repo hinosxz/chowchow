@@ -16,10 +16,8 @@ const BLOCK = 'home_page-home';
 
 export const PageHome = withRouter(({ location }) => (
   <Layout style={{ minHeight: '100vh' }}>
-    <Sider>
-      <div className="logo" />
+    <Sider collapsed>
       <Menu
-        inlineCollapsed
         mode="inline"
         selectedKeys={[location.pathname]}
         theme="dark"
