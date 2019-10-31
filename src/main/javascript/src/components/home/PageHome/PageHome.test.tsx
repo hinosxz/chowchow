@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { PageHome } from './PageHome';
 
 it('renders without crashing', () => {
