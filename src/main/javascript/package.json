@@ -57,7 +57,8 @@
           ],
           "newlines-between": "always"
         }
-      ]
+      ],
+      "react/prop-types": 0
     },
     "settings": {
       "import/resolver": {

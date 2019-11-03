@@ -1,15 +1,15 @@
 export interface SearchShow {
-  original_name: string;
-  genre_ids: number[];
+  originalName: string;
+  genreIds: number[];
   name: string;
   popularity: number;
-  origin_country: string[];
-  vote_count: number;
-  first_air_date: string;
-  backdrop_path: string;
-  original_language: string;
+  originCountry: string[];
+  voteCount: number;
+  firstAirDate: [number, number, number];
+  backdropPath: string;
+  originalLanguage: string;
   id: number;
-  vote_average: number;
+  voteAverage: number;
   overview: string;
-  poster_path: string;
+  posterPath: string;
 }
