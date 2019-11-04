@@ -24,7 +24,6 @@ jobs:
         directories:
           - src/main/javascript/node_modules
       script:
-        - npm test
         - npm run build
       deploy:
         provider: heroku
