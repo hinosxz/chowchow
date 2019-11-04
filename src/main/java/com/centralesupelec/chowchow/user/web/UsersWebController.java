@@ -4,6 +4,7 @@ import com.centralesupelec.chowchow.likes.controllers.LikeDTO;
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,30 +42,26 @@ public class UsersWebController {
       path = "/likes",
       method = RequestMethod.GET,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<LikeDTO>> getLikedShows() {
-    // TODO Chercher l'ID User dans la session
-    Integer userId = 1;
+  public ResponseEntity<List<LikeDTO>> getLikedShows(HttpSession httpSession) {
+    Integer userId = (Integer) httpSession.getAttribute("USER_ID");
     return new ResponseEntity<>(this.usersController.getLikedShows(userId), HttpStatus.OK);
   }
 
   @RequestMapping(path = "/likes", method = RequestMethod.POST)
-  public ResponseEntity likeShow(@RequestBody LikeDTO likeDTO) {
-    // TODO Chercher l'ID User dans la session
-    Integer userId = 1;
+  public ResponseEntity likeShow(@RequestBody LikeDTO likeDTO, HttpSession httpSession) {
+    Integer userId = (Integer) httpSession.getAttribute("USER_ID");
     return new ResponseEntity<>(this.usersController.likeShow(likeDTO, userId), HttpStatus.OK);
   }
 
   @RequestMapping(path = "/likes", method = RequestMethod.PUT)
-  public ResponseEntity updateMark(@RequestBody LikeDTO likeDTO) {
-    // TODO Chercher l'ID User dans la session
-    Integer userId = 1;
+  public ResponseEntity updateMark(@RequestBody LikeDTO likeDTO, HttpSession httpSession) {
+    Integer userId = (Integer) httpSession.getAttribute("USER_ID");
     return new ResponseEntity<>(this.usersController.updateMark(likeDTO, userId), HttpStatus.OK);
   }
 
   @RequestMapping(path = "/likes/{id}", method = RequestMethod.DELETE)
-  public ResponseEntity unlikeShow(@PathVariable("id") Integer showId) {
-    // TODO Chercher l'ID User dans la session
-    Integer userId = 1;
+  public ResponseEntity unlikeShow(@PathVariable("id") Integer showId, HttpSession httpSession) {
+    Integer userId = (Integer) httpSession.getAttribute("USER_ID");
     return new ResponseEntity<>(this.usersController.unlikeShow(showId, userId), HttpStatus.OK);
   }
 }
