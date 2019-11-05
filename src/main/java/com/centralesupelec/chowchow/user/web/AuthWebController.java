@@ -1,6 +1,6 @@
 package com.centralesupelec.chowchow.user.web;
 
-import com.centralesupelec.chowchow.user.controllers.UserDTO;
+import com.centralesupelec.chowchow.user.controllers.RegisterUserDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class AuthWebController {
   }
 
   @RequestMapping(path = "/register", method = RequestMethod.POST)
-  public ResponseEntity createUser(@RequestBody UserDTO userDTO) {
-    return new ResponseEntity<>(this.usersController.createUser(userDTO), HttpStatus.OK);
+  public ResponseEntity registerUser(@RequestBody RegisterUserDTO registerUserDTO) {
+    return new ResponseEntity<>(this.usersController.registerUser(registerUserDTO), HttpStatus.OK);
   }
 }

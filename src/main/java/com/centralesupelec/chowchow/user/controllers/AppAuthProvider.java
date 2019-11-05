@@ -1,4 +1,4 @@
-package com.centralesupelec.chowchow.config;
+package com.centralesupelec.chowchow.user.controllers;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

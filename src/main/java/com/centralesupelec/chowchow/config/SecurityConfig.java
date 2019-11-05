@@ -1,5 +1,6 @@
 package com.centralesupelec.chowchow.config;
 
+import com.centralesupelec.chowchow.user.controllers.AppAuthProvider;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UsersService;
 import javax.servlet.http.HttpServletRequest;
