@@ -22,11 +22,6 @@ public class UsersWebController {
     this.usersController = usersController;
   }
 
-  @RequestMapping(path = "", method = RequestMethod.POST)
-  public ResponseEntity createUser(@RequestBody UserDTO userDTO) {
-    return new ResponseEntity<>(this.usersController.createUser(userDTO), HttpStatus.OK);
-  }
-
   @RequestMapping(
       path = "/{id}",
       method = RequestMethod.GET,
