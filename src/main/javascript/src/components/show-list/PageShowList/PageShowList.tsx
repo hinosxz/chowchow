@@ -3,8 +3,8 @@ import { Alert, Divider, Typography } from 'antd';
 
 import { Like } from 'lib/types';
 import { ShowItem } from 'components/show-list/ShowItem/ShowItem';
-import { api } from 'lib/api/api';
 import { Placeholder } from 'components/ui/Placeholder/Placeholder';
+import { useGetData } from 'lib/hooks';
 
 const BLOCK = 'show-list_page-show-list';
 const { Title } = Typography;
@@ -13,19 +13,7 @@ export const PageShowList: React.FunctionComponent = () => {
   const [data, setData] = React.useState<Like[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<any>(null);
-
-  React.useEffect(() => {
-    setIsLoading(true);
-    api.get('users/likes').json<Like[]>()
-      .then(like => {
-        setData(like);
-        setIsLoading(false);
-      })
-      .catch(err => {
-        setIsLoading(false);
-        setError(err);
-      });
-  }, []);
+  useGetData<Like[]>('likes', setData, setIsLoading, setError);
 
   return (
     <div className={BLOCK}>

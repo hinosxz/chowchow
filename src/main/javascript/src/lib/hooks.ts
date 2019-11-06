@@ -1,5 +1,27 @@
 import React from 'react';
 
+import { api } from 'lib/api/api';
+
+export function useGetData<ResponseType>(
+  path: string,
+  setData: (data: ResponseType) => void,
+  setIsLoading: (isLoading: boolean) => void,
+  setError: (error: any) => void,
+) {
+  React.useEffect(() => {
+    setIsLoading(true);
+    api.get(path).json<ResponseType>()
+      .then(like => {
+        setData(like);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        setIsLoading(false);
+        setError(err);
+      });
+  }, [path, setData, setError, setIsLoading]);
+}
+
 /**
  * Hook that persists a state in the browser's session storage
  * @param storageKey Key that'll be used to retrieve the data in the session storage

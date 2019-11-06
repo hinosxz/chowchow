@@ -49,7 +49,7 @@ public class LikesController {
       return false;
     }
     UserEntity user = maybeUser.get();
-    boolean success = user.likeShow(likeDTO.getMark(), likeDTO.getTmdbShowDTO().getId());
+    boolean success = user.likeShow(likeDTO.getMark(), likeDTO.getShow().getId());
     this.usersService.saveUser(user);
     return success;
   }
@@ -61,7 +61,7 @@ public class LikesController {
       return false;
     }
     UserEntity user = maybeUser.get();
-    boolean success = user.updateMark(likeDTO.getMark(), likeDTO.getTmdbShowDTO().getId());
+    boolean success = user.updateMark(likeDTO.getMark(), likeDTO.getShow().getId());
     this.usersService.saveUser(user);
     return success;
   }

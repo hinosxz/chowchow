@@ -23,7 +23,7 @@ interface CreatedBy {
   id: number;
   name: string;
   gender: number;
-  profilePath: string;
+  profile_path: string;
 }
 
 interface Genre {
@@ -33,72 +33,71 @@ interface Genre {
 
 interface Network {
   id: number;
-  logoPath: string;
+  logo_path: string;
   name: string;
-  originCountry: string;
+  origin_country: string;
 }
 
 interface Season {
-  airDate: [number, number, number];
-  episodeCount: number;
+  air_date: string;
+  episode_count: number;
   id: number;
   name: string;
   overview: string;
-  posterPath: string;
-  seasonNumber: number;
+  poster_path: string;
+  season_number: number;
 }
 
 interface ProductionCompany {
   id: number;
   name: string;
-  logoPath: string;
-  originCountry: string;
+  logo_path: string;
+  origin_country: string;
 }
 
 export interface Episode {
-
-  airDate: [number, number, number];
-  episodeNumber: number;
+  air_date: string;
+  episode_number: number;
   id: number;
   name: string;
   overview: string;
-  productionCode: string;
-  seasonNumber: number;
-  showId: number;
-  stillPath: string;
-  voteAverage: number;
-  voteCount: number;
+  production_code: string;
+  season_number: number;
+  show_id: number;
+  still_path: string;
+  vote_average: number;
+  vote_count: number;
 }
 
 export interface Show {
-  backdropPath: string;
-  createdBy: CreatedBy[];
-  episodeRunTime: number[];
-  firstAirDate: [number, number, number];
+  backdrop_path: string;
+  created_by: CreatedBy[];
+  episode_run_time: number[];
+  first_air_date: string;
   genres: Genre[];
   homepage: string;
   id: number;
-  inProduction: boolean;
+  in_production: boolean;
   languages: string[];
-  lastAirDate: [number, number, number];
-  lastEpisodeToAir: Episode;
+  last_air_date: string;
+  last_episode_to_air: Episode;
   name: string;
-  nextEpisodeToAir: Episode;
+  next_episode_to_air: Episode;
   networks: Network[];
-  numberOfEpisodes: number;
-  numberOfSeasons: number;
-  originCountry: string[];
-  originalLanguage: string;
-  originalName: string;
+  number_of_episodes: number;
+  number_of_seasons: number;
+  origin_country: string[];
+  origin_language: string;
+  original_name: string;
   overview: string;
   popularity: number;
-  posterPath: string;
-  productionCompanies: ProductionCompany[];
+  poster_path: string;
+  production_companies: ProductionCompany[];
   seasons: Season[];
   status: string;
   type: string;
-  voteAverage: number;
-  voteCount: number;
+  vote_average: number;
+  vote_count: number;
 }
 
 export interface Like {
