@@ -59,8 +59,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll()
         .antMatchers("/register")
         .permitAll()
-        .antMatchers("/**")
-        .authenticated()
+        // TODO: enable route guards when the front is ready
+        // .antMatchers("/**")
+        // .authenticated()
         .anyRequest()
         .permitAll();
   }
