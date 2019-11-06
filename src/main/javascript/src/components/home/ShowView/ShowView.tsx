@@ -5,6 +5,8 @@ import {
 
 import { SearchShow } from 'lib/types';
 
+import { parseDate } from 'lib/util';
+
 const { Item } = Descriptions;
 const { Paragraph } = Typography;
 
@@ -13,8 +15,8 @@ interface ShowViewProps {
 }
 
 export const ShowView: React.FunctionComponent<ShowViewProps> = ({ show }) => {
-  const firstAirDate = new Date(show.first_air_date).toLocaleDateString();
-  const originCountries = show.origin_country.join(', ');
+  const firstAirDate = parseDate(show.first_air_date).toLocaleDateString();
+  const originCountries = show.originCountry.join(', ');
   return (
     <Row gutter={[32, 16]}>
       <Col span={8}>
