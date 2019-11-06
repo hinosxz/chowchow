@@ -102,6 +102,6 @@ export interface Show {
 }
 
 export interface Like {
-  mark: number;
+  mark: 0 | 1 | 2 | null;
   show: Show;
 }
