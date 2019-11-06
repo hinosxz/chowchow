@@ -9,4 +9,9 @@
       width: 100%;
     }
   }
+
+  &__go-to-button {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
