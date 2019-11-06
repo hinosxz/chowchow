@@ -2,14 +2,17 @@ package com.centralesupelec.chowchow.user.domain;
 
 import com.centralesupelec.chowchow.likes.domain.Like;
 import com.centralesupelec.chowchow.likes.domain.Mark;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "Users")
-public class UserEntity {
+public class UserEntity implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -89,5 +92,30 @@ public class UserEntity {
         .filter(like -> Objects.equals(like.getShowId(), showId))
         .findAny()
         .ifPresent(like -> this.likedShows.remove(like));
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return false;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return false;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return false;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return false;
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return null;
   }
 }

@@ -26,12 +26,17 @@ public class UsersController {
     this.searchService = searchService;
   }
 
-  public boolean createUser(UserDTO userDTO) {
-    Optional<UserEntity> maybeUser = this.usersService.getUserByUsername(userDTO.getUsername());
+  public boolean registerUser(RegisterUserDTO registerUserDTO) {
+    Optional<UserEntity> maybeUser =
+        this.usersService.getUserByUsername(registerUserDTO.getUsername());
     if (maybeUser.isPresent()) {
       return false;
     }
-    usersService.saveUser(UserDTO.toEntity(userDTO));
+    UserEntity user = new UserEntity();
+    user.setUsername(registerUserDTO.getUsername());
+    user.setPassword(registerUserDTO.getPassword());
+    user.setSubscriptionType(registerUserDTO.getSubscriptionType());
+    usersService.saveUser(user);
     return true;
   }
 
@@ -53,9 +58,7 @@ public class UsersController {
                         .thenApply(tmdbShowDTO -> new LikeDTO(like.getMark(), tmdbShowDTO)))
             .collect(Collectors.toList());
 
-    return likeDTOPromises.stream()
-        .map(likedDTOPromise -> likedDTOPromise.join())
-        .collect(Collectors.toList());
+    return likeDTOPromises.stream().map(CompletableFuture::join).collect(Collectors.toList());
   }
 
   public boolean likeShow(LikeDTO likeDTO, Integer userId) {

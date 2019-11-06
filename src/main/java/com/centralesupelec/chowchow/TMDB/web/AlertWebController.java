@@ -1,6 +1,7 @@
 package com.centralesupelec.chowchow.TMDB.web;
 
 import com.centralesupelec.chowchow.TMDB.controllers.AlertController;
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class AlertWebController {
   }
 
   @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity getUpcomingEpisodes() {
-    Integer userId = 1;
+  public ResponseEntity getUpcomingEpisodes(HttpSession httpSession) {
+    Integer userId = (Integer) httpSession.getAttribute("USER_ID");
     try {
       return ResponseEntity.status(HttpStatus.OK)
           .body(this.alertController.getUpcomingEpisodesForUser(userId));
