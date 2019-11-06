@@ -1,0 +1,12 @@
+@import 'components/ui/ui-constants';
+
+.show-list_show-item {
+  padding: $spacing-md;
+
+  &__poster {
+    &__image {
+      box-shadow: $spacing-xs $spacing-xs $spacing-xs gray;
+      width: 100%;
+    }
+  }
+}
