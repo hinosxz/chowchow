@@ -241,6 +241,7 @@ public class TMDBShowDTO {
   private final String overview;
   private final double popularity;
   private final String posterPath;
+  private final List<ProductionCompanyDTO> productionCompanies;
   private final List<SeasonDTO> seasons;
   private final String status;
   private final String type;
@@ -271,6 +272,7 @@ public class TMDBShowDTO {
       @JsonProperty("overview") String overview,
       @JsonProperty("popularity") double popularity,
       @JsonProperty("poster_path") String posterPath,
+      @JsonProperty("production_companies") List<ProductionCompanyDTO> productionCompanies,
       @JsonProperty("seasons") List<SeasonDTO> seasons,
       @JsonProperty("status") String status,
       @JsonProperty("type") String type,
@@ -311,6 +313,7 @@ public class TMDBShowDTO {
     this.popularity = popularity;
     this.posterPath =
         posterPath != null ? "https://image.tmdb.org/t/p/original" + posterPath : null;
+    this.productionCompanies = productionCompanies;
     this.seasons = seasons;
     this.status = status;
     this.type = type;
