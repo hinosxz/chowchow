@@ -191,3 +191,9 @@ export interface Like {
   mark: number;
   show: Show;
 }
+
+export interface Alert {
+  showId: number;
+  showName: string;
+  nextEpisodeToAir: Episode;
+}
