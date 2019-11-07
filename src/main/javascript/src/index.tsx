@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
-
-import { PageHome } from './components/home/PageHome/PageHome';
 
 import './index.scss';
+import { Routes } from './components/Routes';
 
-ReactDOM.render(<Router><PageHome /></Router>, document.getElementById('root'));
+ReactDOM.render(<Routes />, document.getElementById('root'));
