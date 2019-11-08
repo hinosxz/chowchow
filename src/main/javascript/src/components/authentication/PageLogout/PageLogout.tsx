@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Card } from 'antd';
 
-import { AuthenticationState } from '../types';
-import { postLogout } from '../../../lib/api/login';
+import { AuthenticationState } from 'lib/types';
+import { postLogout } from 'lib/api/login';
 
 interface PageLogoutProps {
   isAuthenticated: boolean;

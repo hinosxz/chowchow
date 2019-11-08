@@ -4,16 +4,19 @@ import {
 } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 
+import { postLogin } from 'lib/api/login';
+import { AuthenticationState } from 'lib/types';
+
 import './login-form.scss';
-import { postLogin } from '../../../lib/api/login';
-import { AuthenticationState } from '../types';
 
-const BLOCK = 'login-form';
+const BLOCK = 'authentication__login-form';
 
-type LoginFormProps = FormComponentProps<{username: string, password: string}>
-& {authenticationState: AuthenticationState, setAuthenticationState: (value: AuthenticationState) => void};
+type LoginFormProps = FormComponentProps<{username: string, password: string}> & {
+  authenticationState: AuthenticationState,
+  setAuthenticationState: (value: AuthenticationState) => void
+};
 
-export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ form, authenticationState, setAuthenticationState }: LoginFormProps) => {
+export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ form, setAuthenticationState }: LoginFormProps) => {
   if (!form) {
     return null;
   }
@@ -31,7 +34,6 @@ export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ 
                 if (res) {
                   setAuthenticationState({ isAuthenticated: true });
                 }
-                console.log(authenticationState);
               },
             );
         }
@@ -68,7 +70,7 @@ export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ 
         </Button>
         Or
         {' '}
-        <a href="/test" className={`${BLOCK}__register`}>Register</a>
+        Register
       </Form.Item>
     </Form>
   );

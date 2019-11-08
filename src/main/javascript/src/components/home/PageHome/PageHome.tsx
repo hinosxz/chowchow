@@ -10,9 +10,9 @@ import {
 import { OptionType, SearchBar } from 'components/home/SearchBar/SearchBar';
 import { PageShow } from 'components/show/PageShow/PageShow';
 import { ShowView } from 'components/home/ShowView/ShowView';
+import { RoutePath } from 'components/RoutePath';
 
 import './page-home.scss';
-import { RoutePath } from '../../RoutePath';
 
 const { Content, Footer, Sider } = Layout;
 

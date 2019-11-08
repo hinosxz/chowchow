@@ -3,17 +3,17 @@ import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
 
+import { AuthenticationState } from 'lib/types';
+
 import { PageHome } from './home/PageHome/PageHome';
 import { RoutePath } from './RoutePath';
 import { PageLogin } from './authentication/PageLogin/PageLogin';
 import { PageLogout } from './authentication/PageLogout/PageLogout';
-import { AuthenticationState } from './authentication/types';
 
 export const Routes = () => {
   const [authenticationState, setAuthenticationState] = React.useState<AuthenticationState>({
     isAuthenticated: false,
   });
-  console.log(authenticationState);
   return (
     <Router>
       <Switch>
@@ -29,7 +29,7 @@ export const Routes = () => {
             setAuthenticationState={setAuthenticationState}
           />
         </Route>
-        <Route>
+        <Route path={RoutePath.home}>
           <PageHome />
         </Route>
       </Switch>

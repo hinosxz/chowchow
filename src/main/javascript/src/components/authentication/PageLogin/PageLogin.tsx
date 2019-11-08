@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Card } from 'antd';
 
-import { LoginForm } from '../LoginForm/LoginForm';
-import './page-login.scss';
-import { AuthenticationState } from '../types';
+import { LoginForm } from 'components/authentication/LoginForm/LoginForm';
+import { AuthenticationState } from 'lib/types';
 
-const BLOCK = 'page-login';
+import './page-login.scss';
+
+const BLOCK = 'authentication__page-login';
 
 interface PageLoginProps {
   authenticationState: AuthenticationState,
