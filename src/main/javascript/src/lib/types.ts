@@ -13,3 +13,7 @@ export interface SearchShow {
   overview: string;
   posterPath: string;
 }
+
+export interface AuthenticationState {
+  isAuthenticated: boolean
+}

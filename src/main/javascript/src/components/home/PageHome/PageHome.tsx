@@ -10,6 +10,7 @@ import {
 import { OptionType, SearchBar } from 'components/home/SearchBar/SearchBar';
 import { PageShow } from 'components/show/PageShow/PageShow';
 import { ShowView } from 'components/home/ShowView/ShowView';
+import { RoutePath } from 'components/RoutePath';
 
 import './page-home.scss';
 
@@ -27,16 +28,22 @@ export const PageHome = withRouter(({ location }) => {
           selectedKeys={[location.pathname]}
           theme="dark"
         >
-          <Menu.Item key="/">
-            <Link to="/">
+          <Menu.Item key={RoutePath.home}>
+            <Link to={RoutePath.home}>
               <Icon type="home" />
               <span>Home</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="/shows">
-            <Link to="/shows">
+          <Menu.Item key={RoutePath.shows}>
+            <Link to={RoutePath.shows}>
               <Icon type="unordered-list" />
               <span>My Shows</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to={RoutePath.logout}>
+              <Icon type="logout" />
+              <span>Logout</span>
             </Link>
           </Menu.Item>
         </Menu>
@@ -44,12 +51,12 @@ export const PageHome = withRouter(({ location }) => {
       <Layout>
         <Content className={`${BLOCK}__content`}>
           <Switch>
-            <Route exact path="/">
+            <Route exact path={RoutePath.home}>
               <SearchBar value={selectedShow} setValue={setSelectedShow} />
               <Divider />
               {selectedShow && selectedShow.value && <ShowView show={selectedShow.value} />}
             </Route>
-            <Route path="/shows/:id">
+            <Route path={`${RoutePath.shows}/:id`}>
               <PageShow />
             </Route>
           </Switch>
