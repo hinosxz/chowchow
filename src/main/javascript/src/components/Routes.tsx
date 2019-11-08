@@ -4,9 +4,9 @@ import {
 } from 'react-router-dom';
 
 import { AuthenticationState } from 'lib/types';
+import { RoutePath } from 'lib/constants';
 
 import { PageHome } from './home/PageHome/PageHome';
-import { RoutePath } from './RoutePath';
 import { PageLogin } from './authentication/PageLogin/PageLogin';
 import { PageLogout } from './authentication/PageLogout/PageLogout';
 
