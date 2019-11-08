@@ -49,7 +49,7 @@ export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ 
     <Form onSubmit={handleSubmit} className={`${BLOCK}`}>
       <Form.Item>
         {getFieldDecorator('username', {
-          rules: [{ required: true, message: 'Please input your username!' }],
+          rules: [{ required: true, message: 'Please enter a username!' }],
         })(
           <Input
             prefix={<Icon type="user" />}
@@ -59,7 +59,7 @@ export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ 
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('password', {
-          rules: [{ required: true, message: 'Please input your Password!' }],
+          rules: [{ required: true, message: 'Please enter your password' }],
         })(
           <Input
             prefix={<Icon type="lock" />}
