@@ -1,22 +1,27 @@
 import * as React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   Button, Form, Icon, Input,
 } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 
+import { useAuth } from 'context/authentication';
 import { postLogin } from 'lib/api/login';
-import { AuthenticationState } from 'lib/types';
+import { RoutePath } from 'lib/constants';
 
 import './login-form.scss';
 
 const BLOCK = 'authentication__login-form';
 
-type LoginFormProps = FormComponentProps<{username: string, password: string}> & {
-  authenticationState: AuthenticationState,
-  setAuthenticationState: (value: AuthenticationState) => void
-};
+type LoginFormProps = FormComponentProps<{username: string, password: string}>;
 
-export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ form, setAuthenticationState }: LoginFormProps) => {
+export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ form }: LoginFormProps) => {
+  const { setIsAuthenticated } = useAuth();
+  const { replace } = useHistory();
+  const { state: locationState } = useLocation();
+
+  const { from } = locationState || { from: { pathname: RoutePath.home } };
+
   if (!form) {
     return null;
   }
@@ -32,7 +37,8 @@ export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ 
             .then(
               res => {
                 if (res) {
-                  setAuthenticationState({ isAuthenticated: true });
+                  setIsAuthenticated(true);
+                  replace(from);
                 }
               },
             );
