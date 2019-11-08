@@ -6,9 +6,11 @@ import {
 import { AuthenticationState } from 'lib/types';
 import { RoutePath } from 'lib/constants';
 
-import { PageHome } from './home/PageHome/PageHome';
-import { PageLogin } from './authentication/PageLogin/PageLogin';
-import { PageLogout } from './authentication/PageLogout/PageLogout';
+import { PageHome } from './components/home/PageHome/PageHome';
+import { PageLogin } from './components/authentication/PageLogin/PageLogin';
+import { PageLogout } from './components/authentication/PageLogout/PageLogout';
+import { AppLayout } from './components/ui/AppLayout/AppLayout';
+import { PageShow } from './components/show/PageShow/PageShow';
 
 export const Routes = () => {
   const [authenticationState, setAuthenticationState] = React.useState<AuthenticationState>({
@@ -30,7 +32,14 @@ export const Routes = () => {
           />
         </Route>
         <Route path={RoutePath.home}>
-          <PageHome />
+          <AppLayout>
+            <Route exact path={RoutePath.home}>
+              <PageHome />
+            </Route>
+            <Route path={`${RoutePath.shows}/:id`}>
+              <PageShow />
+            </Route>
+          </AppLayout>
         </Route>
       </Switch>
     </Router>
