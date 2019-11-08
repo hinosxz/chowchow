@@ -12,8 +12,16 @@ interface PageLoginProps {
   setAuthenticationState: (value: AuthenticationState) => void;
 }
 
-export const PageLogin: React.FunctionComponent<PageLoginProps> = ({ authenticationState, setAuthenticationState }) => (
-  <Card className={`${BLOCK}__form`}>
-    <LoginForm authenticationState={authenticationState} setAuthenticationState={setAuthenticationState} />
+export const PageLogin: React.FunctionComponent<PageLoginProps> = ({
+  authenticationState,
+  setAuthenticationState,
+}) => (
+  <Card
+    className={`${BLOCK}__form`}
+  >
+    <LoginForm
+      authenticationState={authenticationState}
+      setAuthenticationState={setAuthenticationState}
+    />
   </Card>
 );

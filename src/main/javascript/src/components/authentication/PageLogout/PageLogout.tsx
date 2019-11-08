@@ -18,7 +18,7 @@ export const PageLogout: React.FunctionComponent<PageLogoutProps> = ({
   }
   return (
     <Card title="Logging out" loading={isAuthenticated}>
-      {isAuthenticated ? null : 'You are logged out'}
+      {isAuthenticated ? false : 'You are logged out'}
     </Card>
   );
 };
