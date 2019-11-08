@@ -11,7 +11,7 @@ import { RoutePath } from 'lib/constants';
 
 import './login-form.scss';
 
-const BLOCK = 'authentication__login-form';
+const BLOCK = 'authentication_login-form';
 
 type LoginFormProps = FormComponentProps<{username: string, password: string}>;
 
@@ -35,11 +35,9 @@ export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ 
           const { username, password } = values;
           postLogin(username, password)
             .then(
-              res => {
-                if (res) {
-                  setIsAuthenticated(true);
-                  replace(from);
-                }
+              () => {
+                setIsAuthenticated(true);
+                replace(from);
               },
             );
         }
