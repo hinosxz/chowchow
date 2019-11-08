@@ -12,7 +12,6 @@ import { PageShow } from 'components/show/PageShow/PageShow';
 import { ShowView } from 'components/home/ShowView/ShowView';
 
 import './page-home.scss';
-import { AuthenticationState } from '../../authentication/PageLogin/PageLogin';
 
 const { Content, Footer, Sider } = Layout;
 

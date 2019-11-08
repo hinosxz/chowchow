@@ -1,9 +1,5 @@
 import { api } from './api';
 
-interface LoginResponse {
-  success: boolean
-}
-
 export function postLogin(username: string, password: string) {
   return api.post('login', {
     headers: {
@@ -14,5 +10,5 @@ export function postLogin(username: string, password: string) {
 }
 
 export function postLogout() {
-  return api.post('logout').json<LoginResponse>();
+  return api.post('logout').text();
 }

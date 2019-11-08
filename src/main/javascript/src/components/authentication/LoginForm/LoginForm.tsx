@@ -3,16 +3,17 @@ import {
   Button, Form, Icon, Input,
 } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
-import { useHistory } from 'react-router-dom';
 
 import './login-form.scss';
 import { postLogin } from '../../../lib/api/login';
+import { AuthenticationState } from '../types';
 
 const BLOCK = 'login-form';
 
-type LoginFormProps = FormComponentProps<{username: string, password: string}>;
+type LoginFormProps = FormComponentProps<{username: string, password: string}>
+& {authenticationState: AuthenticationState, setAuthenticationState: (value: AuthenticationState) => void};
 
-export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ form }: LoginFormProps) => {
+export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ form, authenticationState, setAuthenticationState }: LoginFormProps) => {
   if (!form) {
     return null;
   }
@@ -26,11 +27,11 @@ export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ 
           const { username, password } = values;
           postLogin(username, password)
             .then(
-              response => {
-                if (response) {
-                  const history = useHistory();
-                  history.push('/test');
+              res => {
+                if (res) {
+                  setAuthenticationState({ isAuthenticated: true });
                 }
+                console.log(authenticationState);
               },
             );
         }

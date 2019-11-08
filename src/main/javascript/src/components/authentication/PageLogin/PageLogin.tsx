@@ -3,19 +3,17 @@ import { Card } from 'antd';
 
 import { LoginForm } from '../LoginForm/LoginForm';
 import './page-login.scss';
+import { AuthenticationState } from '../types';
 
 const BLOCK = 'page-login';
 
-export interface AuthenticationState {
-  isAuthenticated: boolean
-}
-
 interface PageLoginProps {
+  authenticationState: AuthenticationState,
   setAuthenticationState: (value: AuthenticationState) => void;
 }
 
-export const PageLogin: React.FunctionComponent<PageLoginProps> = ({ setAuthenticationState }) => (
+export const PageLogin: React.FunctionComponent<PageLoginProps> = ({ authenticationState, setAuthenticationState }) => (
   <Card className={`${BLOCK}__form`}>
-    <LoginForm />
+    <LoginForm authenticationState={authenticationState} setAuthenticationState={setAuthenticationState} />
   </Card>
 );
