@@ -12,9 +12,10 @@ import { PageLogout } from './components/authentication/PageLogout/PageLogout';
 import { AppLayout } from './components/ui/AppLayout/AppLayout';
 import { PageShow } from './components/show/PageShow/PageShow';
 import { PrivateRoute } from './components/authentication/PrivateRoute/PrivateRoute';
+import { useBooleanStateWithSessionStorage } from './lib/hooks';
 
 export const Routes = () => {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useBooleanStateWithSessionStorage('isAuthenticated');
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
