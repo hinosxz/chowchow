@@ -2,6 +2,7 @@ package com.centralesupelec.chowchow.user.web;
 
 import com.centralesupelec.chowchow.user.controllers.UserDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +20,8 @@ public class UsersWebController {
     this.usersController = usersController;
   }
 
+  // TODO: Do we still need this ?
+  @ApiOperation(value = "Fetch a user using a given id")
   @RequestMapping(
       path = "/{id}",
       method = RequestMethod.GET,
