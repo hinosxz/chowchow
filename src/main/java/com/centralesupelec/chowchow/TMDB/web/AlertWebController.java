@@ -29,7 +29,7 @@ public class AlertWebController {
     Integer userId = (Integer) httpSession.getAttribute("USER_ID");
     try {
       return ResponseEntity.status(HttpStatus.OK)
-          .body(this.alertController.getUpcomingEpisodesForUser(userId));
+          .body(this.alertController.getAlertsForUser(userId));
     } catch (HttpStatusCodeException e) {
       // e has already been processed by our custom RestTemplateResponseErrorHandler so the error is
       // right

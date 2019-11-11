@@ -104,3 +104,9 @@ export interface Like {
   mark: 0 | 1 | 2 | null;
   show: Show;
 }
+
+export interface Alert {
+  show_id: number;
+  show_name: string;
+  episode: Episode;
+}
