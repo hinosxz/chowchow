@@ -1,5 +1,3 @@
-export function parseDate(date: [number, number, number]) {
-  const [year, month, day] = date;
-  const isoString = `${year}-${month}-${day}`;
+export function parseDate(isoString: string) {
   return new Date(isoString);
 }

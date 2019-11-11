@@ -35,12 +35,12 @@ export const Alerts: React.FunctionComponent = () => {
           itemLayout="horizontal"
           dataSource={data}
           renderItem={alert => {
-            const { nextEpisodeToAir: episode } = alert;
-            const airDate = parseDate(episode.airDate).toLocaleDateString();
+            const { episode } = alert;
+            const airDate = parseDate(episode.air_date).toLocaleDateString();
             return (
               <List.Item>
                 <List.Item.Meta
-                  title={`${alert.showName}: ${episode.seasonNumber}x${episode.episodeNumber}, ${episode.name}, Airs on: ${airDate}`}
+                  title={`${alert.show_name}: ${episode.season_number}x${episode.episode_number}, ${episode.name}, Airs on: ${airDate}`}
                   description={episode.overview}
                 />
               </List.Item>

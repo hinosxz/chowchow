@@ -1,5 +1,6 @@
 package com.centralesupelec.chowchow.TMDB.controllers;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,9 +11,10 @@ public class AlertDTO {
 
   @JsonCreator
   AlertDTO(
-      @JsonProperty("id") Integer showId,
-      @JsonProperty("name") String showName,
-      @JsonProperty("next_episode_to_air") TMDBEpisodeDTO nextEpisodeToAir) {
+      @JsonProperty("show_id") @JsonAlias({"id"}) Integer showId,
+      @JsonProperty("show_name") @JsonAlias({"name"}) String showName,
+      @JsonProperty("episode") @JsonAlias({"next_episode_to_air"})
+          TMDBEpisodeDTO nextEpisodeToAir) {
 
     this.showId = showId;
     this.showName = showName;
