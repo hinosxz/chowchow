@@ -1,24 +1,17 @@
 import * as React from 'react';
 import { Card } from 'antd';
 
-import { AuthenticationState } from 'lib/types';
 import { postLogout } from 'lib/api/login';
+import { useAuth } from 'context/authentication';
 
-interface PageLogoutProps {
-  isAuthenticated: boolean;
-  setAuthenticationState: (value: AuthenticationState) => void;
-}
-
-export const PageLogout: React.FunctionComponent<PageLogoutProps> = ({
-  isAuthenticated,
-  setAuthenticationState,
-}) => {
+export const PageLogout: React.FunctionComponent = () => {
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   if (isAuthenticated) {
-    postLogout().then(() => setAuthenticationState({ isAuthenticated: false }));
+    postLogout().then(() => setIsAuthenticated(false));
   }
   return (
     <Card title="Logging out" loading={isAuthenticated}>
-      {isAuthenticated ? false : 'You are logged out'}
+      {isAuthenticated ? null : 'You are logged out'}
     </Card>
   );
 };

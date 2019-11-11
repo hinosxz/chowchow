@@ -6,7 +6,6 @@ import com.centralesupelec.chowchow.user.service.UsersService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +16,6 @@ import org.springframework.security.web.authentication.Http403ForbiddenEntryPoin
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
-import org.springframework.security.web.session.SessionManagementFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -30,11 +28,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     this.usersService = usersService;
   }
 
-  @Bean
-  CorsFilter corsFilter() {
-    return new CorsFilter();
-  }
-
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(this.usersService);
@@ -43,22 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
 
-    http.addFilterBefore(corsFilter(), SessionManagementFilter.class)
-        .exceptionHandling()
-        .authenticationEntryPoint(new Http403ForbiddenEntryPoint() {})
+    http.cors()
         .and()
         .csrf()
         .disable()
-        .authenticationProvider(this.getAppAuthProvider())
-        .formLogin()
-        .loginProcessingUrl("/login")
-        .successHandler(new AuthenticationLoginSuccessHandler())
-        .failureHandler(new SimpleUrlAuthenticationFailureHandler())
-        .and()
-        .logout()
-        .logoutUrl("/logout")
-        .logoutSuccessHandler(new AuthenticationLogoutSuccessHandler())
-        .invalidateHttpSession(true)
+        .exceptionHandling()
+        .authenticationEntryPoint(new Http403ForbiddenEntryPoint() {})
         .and()
         .authorizeRequests()
         .antMatchers("/login")
@@ -69,8 +52,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll()
         .antMatchers("/**")
         .authenticated()
-        .anyRequest()
-        .permitAll();
+        .and()
+        .authenticationProvider(this.getAppAuthProvider())
+        .formLogin()
+        .loginProcessingUrl("/login")
+        .successHandler(new AuthenticationLoginSuccessHandler())
+        .failureHandler(new SimpleUrlAuthenticationFailureHandler())
+        .and()
+        .logout()
+        .logoutUrl("/logout")
+        .logoutSuccessHandler(new AuthenticationLogoutSuccessHandler())
+        .invalidateHttpSession(true);
   }
 
   private static class AuthenticationLoginSuccessHandler

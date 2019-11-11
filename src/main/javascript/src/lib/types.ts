@@ -14,6 +14,7 @@ export interface SearchShow {
   posterPath: string;
 }
 
-export interface AuthenticationState {
-  isAuthenticated: boolean
+export interface AuthContextType {
+  isAuthenticated: boolean;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
 }
