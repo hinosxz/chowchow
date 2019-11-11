@@ -1,17 +1,17 @@
 export interface SearchShow {
-  originalName: string;
-  genreIds: number[];
+  original_name: string;
+  genre_ids: number[];
   name: string;
   popularity: number;
-  originCountry: string[];
-  voteCount: number;
-  firstAirDate: [number, number, number];
-  backdropPath: string;
-  originalLanguage: string;
+  origin_country: string[];
+  vote_count: number;
+  first_air_date: string;
+  backdrop_path: string;
+  original_language: string;
   id: number;
-  voteAverage: number;
+  vote_average: number;
   overview: string;
-  posterPath: string;
+  poster_path: string;
 }
 
 export interface AuthContextType {

@@ -13,20 +13,19 @@ interface ShowViewProps {
 }
 
 export const ShowView: React.FunctionComponent<ShowViewProps> = ({ show }) => {
-  const [year, month, day] = show.firstAirDate;
-  const firstAirDate = new Date(year, month, day).toLocaleDateString();
-  const originCountries = show.originCountry.join(', ');
+  const firstAirDate = new Date(show.first_air_date).toLocaleDateString();
+  const originCountries = show.origin_country.join(', ');
   return (
     <Row gutter={[32, 16]}>
       <Col span={8}>
-        <Card bodyStyle={{ padding: 0 }} cover={<img alt="Poster" src={show.posterPath} />} title={show.name} />
+        <Card bodyStyle={{ padding: 0 }} cover={<img alt="Poster" src={show.poster_path} />} title={show.name} />
       </Col>
       <Col span={16}>
         <Descriptions title="Show Summary">
           <Item label="First Air Date">{firstAirDate}</Item>
           <Item label="Popularity">{show.popularity}</Item>
-          <Item label="Vote Average">{show.voteAverage}</Item>
-          <Item label="Original Language">{show.originalLanguage}</Item>
+          <Item label="Vote Average">{show.vote_average}</Item>
+          <Item label="Original Language">{show.original_language}</Item>
           <Item label="Origin Countries">{originCountries}</Item>
         </Descriptions>
 
