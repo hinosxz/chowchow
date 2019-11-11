@@ -1,5 +1,7 @@
 package com.centralesupelec.chowchow.user.domain;
 
+import com.centralesupelec.chowchow.lib.ShowIsAlreadyLikedException;
+import com.centralesupelec.chowchow.lib.ShowIsNotLikedException;
 import com.centralesupelec.chowchow.likes.domain.Like;
 import com.centralesupelec.chowchow.likes.domain.Mark;
 import java.util.Collection;
@@ -65,33 +67,32 @@ public class UserEntity implements UserDetails {
     this.likedShows = likedShows;
   }
 
-  public boolean likeShow(Mark mark, Integer showId) {
+  public void likeShow(Mark mark, Integer showId) throws ShowIsAlreadyLikedException {
     Optional<Like> maybeShowRating =
         this.likedShows.stream().filter(like -> Objects.equals(like.getShowId(), showId)).findAny();
     if (maybeShowRating.isPresent()) {
-      return false;
-    } else {
-      this.likedShows.add(new Like(this, showId, mark));
-      return true;
+      throw new ShowIsAlreadyLikedException();
     }
+    this.likedShows.add(new Like(this, showId, mark));
   }
 
-  public boolean updateMark(Mark mark, Integer showId) {
+  public void updateMark(Mark mark, Integer showId) throws ShowIsNotLikedException {
     Optional<Like> maybeShowRating =
         this.likedShows.stream().filter(like -> Objects.equals(like.getShowId(), showId)).findAny();
-    if (maybeShowRating.isPresent()) {
-      maybeShowRating.get().setMark(mark);
-      return true;
-    } else {
-      return false;
+    if (!maybeShowRating.isPresent()) {
+      throw new ShowIsNotLikedException();
     }
+    maybeShowRating.get().setMark(mark);
   }
 
-  public void unlikeShow(Integer showId) {
-    this.likedShows.stream()
-        .filter(like -> Objects.equals(like.getShowId(), showId))
-        .findAny()
-        .ifPresent(like -> this.likedShows.remove(like));
+  public void unlikeShow(Integer showId) throws ShowIsNotLikedException {
+    Optional<Like> maybeLikedShow =
+        this.likedShows.stream().filter(like -> Objects.equals(like.getShowId(), showId)).findAny();
+    if (!maybeLikedShow.isPresent()) {
+      throw new ShowIsNotLikedException();
+    }
+    Like likedShow = maybeLikedShow.get();
+    this.likedShows.remove(likedShow);
   }
 
   @Override
