@@ -1,8 +1,10 @@
+@import 'components/ui/ui-constants';
+
 .ui_app-layout {
   &__footer {
     text-align: center;
   }
   &__content {
-    padding: 1em;
+    padding: $spacing-md;
   }
 }

@@ -8,19 +8,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class LikeDTO {
 
   private final Mark mark;
-  private final TMDBShowDTO tmdbShowDTO;
+  private final TMDBShowDTO show;
 
   @JsonCreator
-  public LikeDTO(@JsonProperty("mark") Mark mark, @JsonProperty("show") TMDBShowDTO tmdbShowDTO) {
+  public LikeDTO(@JsonProperty("mark") Mark mark, @JsonProperty("show") TMDBShowDTO show) {
     this.mark = mark;
-    this.tmdbShowDTO = tmdbShowDTO;
+    this.show = show;
   }
 
   public Mark getMark() {
     return mark;
   }
 
-  public TMDBShowDTO getTmdbShowDTO() {
-    return tmdbShowDTO;
+  public TMDBShowDTO getShow() {
+    return show;
   }
 }
