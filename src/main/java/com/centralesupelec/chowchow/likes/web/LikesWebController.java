@@ -54,7 +54,7 @@ public class LikesWebController {
   @ApiOperation(
       value = "Delete a show with a given id from the logged user's liked shows",
       notes = "The user is retrieved using the logged user id.")
-  @RequestMapping(path = "/likes/{id}", method = RequestMethod.DELETE)
+  @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
   public ResponseEntity unlikeShow(@PathVariable("id") Integer showId, HttpSession httpSession) {
     Integer userId = (Integer) httpSession.getAttribute("USER_ID");
     return new ResponseEntity<>(this.likesController.unlikeShow(showId, userId), HttpStatus.OK);
