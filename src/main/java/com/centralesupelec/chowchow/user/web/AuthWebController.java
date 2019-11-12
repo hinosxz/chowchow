@@ -2,6 +2,7 @@ package com.centralesupelec.chowchow.user.web;
 
 import com.centralesupelec.chowchow.user.controllers.RegisterUserDTO;
 import com.centralesupelec.chowchow.user.controllers.UsersController;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,10 @@ public class AuthWebController {
     this.usersController = usersController;
   }
 
+  @ApiOperation(
+      value = "Register a new user",
+      notes =
+          "The newly created user will have the given username, password and subscription type.")
   @RequestMapping(path = "/register", method = RequestMethod.POST)
   public ResponseEntity registerUser(@RequestBody RegisterUserDTO registerUserDTO) {
     return new ResponseEntity<>(this.usersController.registerUser(registerUserDTO), HttpStatus.OK);

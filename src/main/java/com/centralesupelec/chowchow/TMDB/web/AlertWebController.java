@@ -1,6 +1,7 @@
 package com.centralesupelec.chowchow.TMDB.web;
 
 import com.centralesupelec.chowchow.TMDB.controllers.AlertController;
+import io.swagger.annotations.ApiOperation;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,10 @@ public class AlertWebController {
     this.alertController = alertController;
   }
 
+  @ApiOperation(
+      value = "Get all the upcoming episodes for the logged user",
+      notes =
+          "The user is retrieved using the logged user id, then TMDB api is used to retrieve the upcoming episodes.")
   @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity getUpcomingEpisodes(HttpSession httpSession) {
     Integer userId = (Integer) httpSession.getAttribute("USER_ID");
