@@ -1,9 +1,14 @@
 @import 'components/ui/ui-constants';
 
 .show_page-show {
-  &__content {
+  &__wrapper {
     background-size: 100%;
     box-shadow: 0 0 $spacing-md gray;
     height: 100%;
+    padding: $spacing-xl;
+  }
+  &__content {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: $spacing-md;
   }
 }
