@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
-  Alert, Col, PageHeader, Row, Tag, Typography,
+  Alert, Button, Col, Collapse, Drawer, PageHeader, Row, Tag, Typography,
 } from 'antd';
 
 import { Like } from 'lib/types';
@@ -14,9 +14,12 @@ import { ClickableMark } from 'components/ui/ClickableMark/ClickableMark';
 import './page-show.scss';
 
 const BLOCK = 'show_page-show';
+const { Panel } = Collapse;
 const { Title, Text } = Typography;
 
 export const PageShow: React.FunctionComponent = () => {
+  const [isDrawerVisible, setIsDrawerVisible] = React.useState(false);
+
   const { id } = useParams();
   const { replace } = useHistory();
 
@@ -63,14 +66,25 @@ export const PageShow: React.FunctionComponent = () => {
             <Title level={4}>First Air Date</Title>
             <Text>{parseDate(show.first_air_date).toLocaleDateString()}</Text>
             {show.next_episode_to_air && (
-              <>
+              <div>
                 <Title level={4}>Next episode</Title>
                 <Text>{`${show.next_episode_to_air.season_number}x${show.next_episode_to_air.episode_number}, ${show.next_episode_to_air.name}, airs on: ${parseDate(show.next_episode_to_air.air_date).toLocaleDateString()}`}</Text>
-              </>
+              </div>
             )}
+            <div className={`${BLOCK}__open-panel`}><Button onClick={() => setIsDrawerVisible(true)}>See details</Button></div>
           </Col>
         </Row>
       </div>
+      <Drawer
+        title="Show details"
+        closable
+        visible={isDrawerVisible}
+        onClose={() => setIsDrawerVisible(false)}
+      >
+        <Collapse accordion>
+          {show.seasons.map(season => <Panel header={season.name} key={season.id} />)}
+        </Collapse>
+      </Drawer>
     </>
   );
 };
