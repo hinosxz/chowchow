@@ -1,0 +1,9 @@
+@import 'components/ui/ui-constants';
+
+.show_page-show {
+  &__content {
+    background-size: 100%;
+    box-shadow: 0 0 $spacing-md gray;
+    height: 100%;
+  }
+}
