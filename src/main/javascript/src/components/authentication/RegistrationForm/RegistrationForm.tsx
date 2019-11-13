@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Alert, Button, Form, Icon, Input,
+  Button, Form, Icon, Input, notification,
 } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 
@@ -8,13 +8,25 @@ import { postRegister } from 'lib/api/register';
 
 const BLOCK = 'authentication_login-form';
 
+const openSuccessNotification = () => {
+  notification.success({
+    message: 'Success',
+    description:
+      'You\'re successfully registered in our database. Please login using the login tab.',
+  });
+};
+
+const openErrorNotification = (description: string) => {
+  notification.error({
+    message: 'Error',
+    description,
+  });
+};
+
 type RegistrationFormProps = FormComponentProps<{username: string, password: string}>;
 
 export const RegistrationForm = Form.create<RegistrationFormProps>({ name: 'login_form' })(
   ({ form }: RegistrationFormProps) => {
-    const [error, setError] = React.useState();
-    const [isSuccess, setIsSuccess] = React.useState();
-
     if (!form) {
       return null;
     }
@@ -30,15 +42,13 @@ export const RegistrationForm = Form.create<RegistrationFormProps>({ name: 'logi
               .then(
                 res => {
                   if (res) {
-                    setIsSuccess(true);
-                    setError(false);
+                    openSuccessNotification();
                   } else {
-                    setIsSuccess(false);
-                    setError('Cannot register with this username/password');
+                    openErrorNotification('This username is already used, please choose another.');
                   }
                 },
               )
-              .catch(setError);
+              .catch(() => openErrorNotification('Couldn\'t register this user at the moment. Please retry in a few seconds.'));
           }
         });
       }
@@ -71,20 +81,6 @@ export const RegistrationForm = Form.create<RegistrationFormProps>({ name: 'logi
           <Button type="primary" htmlType="submit" block>
             Sign up
           </Button>
-        </Form.Item>
-        <Form.Item>
-          {isSuccess && (
-          <Alert
-            message="You're successfully registered in our database. Please login using the above tab."
-            type="success"
-          />
-          )}
-          {error && (
-          <Alert
-            message="Couldn't register this user in our database. Please check that your username/password is correct or retry in a few seconds."
-            type="error"
-          />
-          )}
         </Form.Item>
       </Form>
     );
