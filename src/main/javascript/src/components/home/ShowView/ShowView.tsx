@@ -16,11 +16,12 @@ const { Item } = Descriptions;
 const { Paragraph } = Typography;
 
 interface ShowViewProps {
+  isLiked: boolean;
   show: SearchShow;
 }
 
-export const ShowView: React.FunctionComponent<ShowViewProps> = ({ show }) => {
-  const [isLikeDisabled, setIsLikeDisabled] = React.useState(false);
+export const ShowView: React.FunctionComponent<ShowViewProps> = ({ isLiked, show }) => {
+  const [isLikeDisabled, setIsLikeDisabled] = React.useState(isLiked);
   const [error, setError] = React.useState(null);
 
   const firstAirDate = parseDate(show.first_air_date).toLocaleDateString();

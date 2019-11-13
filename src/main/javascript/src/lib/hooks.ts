@@ -4,7 +4,7 @@ import { api } from 'lib/api/api';
 
 export function useGetData<ResponseType>(
   path: string,
-  setData: (data: ResponseType) => void,
+  setData: (data: ResponseType | null) => void,
   setIsLoading: (isLoading: boolean) => void,
   setError: (error: any) => void,
 ) {
@@ -14,8 +14,10 @@ export function useGetData<ResponseType>(
       .then(like => {
         setData(like);
         setIsLoading(false);
+        setError(null);
       })
       .catch(err => {
+        setData(null);
         setIsLoading(false);
         setError(err);
       });
