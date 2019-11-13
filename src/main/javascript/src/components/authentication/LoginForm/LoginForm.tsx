@@ -72,9 +72,6 @@ export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ 
         <Button type="primary" htmlType="submit" className={`${BLOCK}__button`}>
           Log in
         </Button>
-        Or
-        {' '}
-        Register
       </Form.Item>
     </Form>
   );
