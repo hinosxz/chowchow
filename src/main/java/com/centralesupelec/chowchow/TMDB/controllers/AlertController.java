@@ -51,7 +51,10 @@ public class AlertController {
 
   private List<AlertDTO> getAlerts(List<Integer> tmdbIds) throws HttpStatusCodeException {
     return this.alertService.findAlertsByShowIds(tmdbIds).stream()
-        .filter(alert -> this.isEpisodeSoon(alert.getNextEpisodeToAir()))
+        .filter(
+            alert ->
+                alert.getNextEpisodeToAir() != null
+                    && this.isEpisodeSoon(alert.getNextEpisodeToAir()))
         .collect(Collectors.toList());
   }
 }
