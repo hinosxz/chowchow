@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 @RequestMapping(path = "/likes")
@@ -32,6 +33,22 @@ public class LikesWebController {
   }
 
   @ApiOperation(
+      value = "Get a specific show liked by the logged user",
+      notes = "The user is retrieved using the logged user id.")
+  @RequestMapping(
+      path = "/{id}",
+      method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity getLikedShow(@PathVariable("id") Integer showId, HttpSession httpSession) {
+    Integer userId = (Integer) httpSession.getAttribute("USER_ID");
+    try {
+      return new ResponseEntity<>(this.likesController.getLikedShow(showId, userId), HttpStatus.OK);
+    } catch (HttpClientErrorException error) {
+      return ResponseEntity.status(error.getStatusCode()).body(error.getMessage());
+    }
+  }
+
+  @ApiOperation(
       value = "Add a show with a given id to the logged user's liked shows",
       notes =
           "The user is retrieved using the logged user id. A mark between 0 and 2 (included) can be provided to set a rating.")
@@ -45,10 +62,12 @@ public class LikesWebController {
       value = "Update the mark of a given show liked by the logged user",
       notes =
           " The user is retrieved using the logged user id. The mark must be between 0 and 2 (included).")
-  @RequestMapping(method = RequestMethod.PUT)
-  public ResponseEntity updateMark(@RequestBody LikeDTO likeDTO, HttpSession httpSession) {
+  @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
+  public ResponseEntity updateMark(
+      @RequestBody LikeDTO likeDTO, HttpSession httpSession, @PathVariable("id") Integer showId) {
     Integer userId = (Integer) httpSession.getAttribute("USER_ID");
-    return new ResponseEntity<>(this.likesController.updateMark(likeDTO, userId), HttpStatus.OK);
+    return new ResponseEntity<>(
+        this.likesController.updateMark(showId, likeDTO, userId), HttpStatus.OK);
   }
 
   @ApiOperation(
