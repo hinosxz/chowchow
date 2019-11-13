@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Collapse } from 'antd';
 
 import { LoginForm } from 'components/authentication/LoginForm/LoginForm';
+import { RegistrationForm } from 'components/authentication/RegistrationForm/RegistrationForm';
 
 import './page-login.scss';
 
@@ -19,7 +20,7 @@ export const PageLogin: React.FunctionComponent = () => (
       <LoginForm />
     </Panel>
     <Panel header="Register" key={Panels.REGISTER}>
-        Register
+      <RegistrationForm />
     </Panel>
   </Collapse>
 );

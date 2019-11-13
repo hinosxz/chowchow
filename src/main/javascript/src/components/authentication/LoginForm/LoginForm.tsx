@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
   Button, Form, Icon, Input,
@@ -8,8 +8,6 @@ import { FormComponentProps } from 'antd/es/form';
 import { useAuth } from 'context/authentication';
 import { postLogin } from 'lib/api/login';
 import { RoutePath } from 'lib/constants';
-
-import './login-form.scss';
 
 const BLOCK = 'authentication_login-form';
 
@@ -69,7 +67,7 @@ export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ 
         )}
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" className={`${BLOCK}__button`}>
+        <Button type="primary" htmlType="submit" block>
           Log in
         </Button>
       </Form.Item>
