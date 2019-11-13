@@ -1,10 +1,12 @@
 import React from 'react';
 import {
-  Card, Col, Descriptions, Row, Typography,
+  Button,
+  Card, Col, Descriptions, Icon, Row, Typography,
 } from 'antd';
 
 import { SearchShow } from 'lib/types';
 import { parseDate } from 'lib/util';
+import { postLikes } from 'lib/api/likes';
 
 const { Item } = Descriptions;
 const { Paragraph } = Typography;
@@ -14,6 +16,8 @@ interface ShowViewProps {
 }
 
 export const ShowView: React.FunctionComponent<ShowViewProps> = ({ show }) => {
+  const [isLikeDisabled, setIsLikeDisabled] = React.useState(false);
+
   const firstAirDate = parseDate(show.first_air_date).toLocaleDateString();
   const originCountries = show.origin_country.join(', ');
   return (
@@ -35,6 +39,11 @@ export const ShowView: React.FunctionComponent<ShowViewProps> = ({ show }) => {
             {show.overview}
           </Paragraph>
         </Descriptions>
+
+        <Button disabled={isLikeDisabled} type="primary" onClick={() => postLikes(show.id).then(setIsLikeDisabled)}>
+          Like
+          <Icon type="like" />
+        </Button>
       </Col>
     </Row>
   );
