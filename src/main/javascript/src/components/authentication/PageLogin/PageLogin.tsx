@@ -5,7 +5,7 @@ import { LoginForm } from 'components/authentication/LoginForm/LoginForm';
 
 import './page-login.scss';
 
-const BLOCK = 'authentication__page-login';
+const BLOCK = 'authentication_page-login';
 
 export const PageLogin: React.FunctionComponent = () => (
   <Card
