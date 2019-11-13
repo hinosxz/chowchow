@@ -8,10 +8,10 @@ import { Like } from 'lib/types';
 import { useGetData } from 'lib/hooks';
 import { Placeholder } from 'components/ui/Placeholder/Placeholder';
 import { RoutePath } from 'lib/constants';
+import { parseDate } from 'lib/util';
+import { ClickableMark } from 'components/ui/ClickableMark/ClickableMark';
 
 import './page-show.scss';
-import { parseDate } from '../../../lib/util';
-import { Mark } from '../../ui/Mark/Mark';
 
 const BLOCK = 'show_page-show';
 const { Title, Text } = Typography;
@@ -51,7 +51,7 @@ export const PageShow: React.FunctionComponent = () => {
       <div className={`${BLOCK}__wrapper`} style={{ backgroundImage: `url(${show.backdrop_path})` }}>
         <Row>
           <Col className={`${BLOCK}__content`} span={8}>
-            <Mark mark={mark} />
+            <ClickableMark mark={mark} showId={show.id} />
             <Title level={4}>Created by</Title>
             <Text>{show.created_by.map(creator => creator.name).join(', ')}</Text>
             <Title level={4}>Genres</Title>
