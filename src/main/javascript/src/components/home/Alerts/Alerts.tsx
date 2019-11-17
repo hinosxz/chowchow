@@ -8,7 +8,7 @@ import { parseDate } from 'lib/util';
 
 
 export const Alerts: React.FunctionComponent = () => {
-  const [data, setData] = React.useState<ShowAlert[]>([]);
+  const [data, setData] = React.useState<ShowAlert[] | null>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<any>(null);
   useGetData<ShowAlert[]>('alerts', setData, setIsLoading, setError);
@@ -30,7 +30,7 @@ export const Alerts: React.FunctionComponent = () => {
 
   return (
     <Alert
-      message={data.length === 0 ? 'None of your favorite shows have upcoming episodes' : (
+      message={!data || data.length === 0 ? 'None of your favorite shows have upcoming episodes' : (
         <List
           itemLayout="horizontal"
           dataSource={data}

@@ -2,8 +2,8 @@ import React from 'react';
 import { Divider, Typography } from 'antd';
 
 import { OptionType, SearchBar } from 'components/home/SearchBar/SearchBar';
-import { ShowView } from 'components/home/ShowView/ShowView';
 import { Alerts } from 'components/home/Alerts/Alerts';
+import { ShowViewContainer } from 'components/home/ShowView/ShowViewContainer';
 
 const { Title } = Typography;
 
@@ -17,7 +17,7 @@ export const PageHome: React.FunctionComponent = () => {
       <Title level={2}>Search</Title>
       <SearchBar value={selectedShow} setValue={setSelectedShow} />
       <Divider />
-      {selectedShow && selectedShow.value && <ShowView show={selectedShow.value} />}
+      {selectedShow && selectedShow.value && <ShowViewContainer show={selectedShow.value} />}
     </>
   );
 };

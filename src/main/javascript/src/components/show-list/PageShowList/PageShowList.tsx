@@ -10,7 +10,7 @@ const BLOCK = 'show-list_page-show-list';
 const { Title } = Typography;
 
 export const PageShowList: React.FunctionComponent = () => {
-  const [data, setData] = React.useState<Like[]>([]);
+  const [data, setData] = React.useState<Like[] | null>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<any>(null);
   useGetData<Like[]>('likes', setData, setIsLoading, setError);
@@ -25,7 +25,9 @@ export const PageShowList: React.FunctionComponent = () => {
           type="error"
         />
       )}
-      {isLoading ? <Placeholder /> : data.map(like => <ShowItem key={like.show.id} like={like} />)}
+      {isLoading
+        ? <Placeholder />
+        : (data || []).map(like => <ShowItem key={like.show.id} like={like} />)}
     </div>
   );
 };

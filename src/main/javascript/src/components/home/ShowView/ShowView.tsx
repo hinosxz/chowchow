@@ -1,19 +1,29 @@
 import React from 'react';
 import {
-  Card, Col, Descriptions, Row, Typography,
+  Alert,
+  Button,
+  Card, Col, Descriptions, Icon, Row, Typography,
 } from 'antd';
 
 import { SearchShow } from 'lib/types';
 import { parseDate } from 'lib/util';
+import { postLikes } from 'lib/api/likes';
 
+import './show-view.scss';
+
+const BLOCK = 'home_show-view';
 const { Item } = Descriptions;
 const { Paragraph } = Typography;
 
 interface ShowViewProps {
+  isLiked: boolean;
   show: SearchShow;
 }
 
-export const ShowView: React.FunctionComponent<ShowViewProps> = ({ show }) => {
+export const ShowView: React.FunctionComponent<ShowViewProps> = ({ isLiked, show }) => {
+  const [isLikeDisabled, setIsLikeDisabled] = React.useState(isLiked);
+  const [error, setError] = React.useState(null);
+
   const firstAirDate = parseDate(show.first_air_date).toLocaleDateString();
   const originCountries = show.origin_country.join(', ');
   return (
@@ -35,6 +45,24 @@ export const ShowView: React.FunctionComponent<ShowViewProps> = ({ show }) => {
             {show.overview}
           </Paragraph>
         </Descriptions>
+
+        <div className={`${BLOCK}__like`}>
+          <Button
+            disabled={isLikeDisabled}
+            type="primary"
+            onClick={() => postLikes(show.id).then(setIsLikeDisabled).catch(setError)}
+          >
+            Like
+            <Icon type="like" />
+          </Button>
+        </div>
+
+        {error && (
+          <Alert
+            message="Could not like this show. Please retry in a few seconds."
+            type="error"
+          />
+        )}
       </Col>
     </Row>
   );
