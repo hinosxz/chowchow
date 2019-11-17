@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
-  Button, Form, Icon, Input,
+  Button, Form, Icon, Input, notification,
 } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 
@@ -9,9 +9,14 @@ import { useAuth } from 'context/authentication';
 import { postLogin } from 'lib/api/login';
 import { RoutePath } from 'lib/constants';
 
-import './login-form.scss';
-
 const BLOCK = 'authentication_login-form';
+
+const openErrorNotification = () => {
+  notification.error({
+    message: 'Login Error',
+    description: 'The username/password is incorrect.',
+  });
+};
 
 type LoginFormProps = FormComponentProps<{username: string, password: string}>;
 
@@ -39,7 +44,8 @@ export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ 
                 setIsAuthenticated(true);
                 replace(from);
               },
-            );
+            )
+            .catch(openErrorNotification);
         }
       });
     }
@@ -69,12 +75,9 @@ export const LoginForm = Form.create<LoginFormProps>({ name: 'login_form' })(({ 
         )}
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" className={`${BLOCK}__button`}>
+        <Button type="primary" htmlType="submit" block>
           Log in
         </Button>
-        Or
-        {' '}
-        Register
       </Form.Item>
     </Form>
   );

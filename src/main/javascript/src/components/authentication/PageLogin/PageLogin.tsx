@@ -1,16 +1,26 @@
 import * as React from 'react';
-import { Card } from 'antd';
+import { Collapse } from 'antd';
 
 import { LoginForm } from 'components/authentication/LoginForm/LoginForm';
+import { RegistrationForm } from 'components/authentication/RegistrationForm/RegistrationForm';
 
 import './page-login.scss';
 
-const BLOCK = 'authentication__page-login';
+const BLOCK = 'authentication_page-login';
+const { Panel } = Collapse;
+
+enum Panels {
+  LOGIN = 'login',
+  REGISTER = 'register'
+}
 
 export const PageLogin: React.FunctionComponent = () => (
-  <Card
-    className={`${BLOCK}__form`}
-  >
-    <LoginForm />
-  </Card>
+  <Collapse className={BLOCK} accordion defaultActiveKey={Panels.LOGIN}>
+    <Panel header="Login" key={Panels.LOGIN}>
+      <LoginForm />
+    </Panel>
+    <Panel header="Register" key={Panels.REGISTER}>
+      <RegistrationForm />
+    </Panel>
+  </Collapse>
 );
