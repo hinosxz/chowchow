@@ -15,6 +15,7 @@ public class WebConfig {
       public void addCorsMappings(CorsRegistry registry) {
         registry
             .addMapping("/**")
+            .allowedMethods("GET", "PUT", "POST", "DELETE", "OPTIONS")
             .allowedOrigins(
                 "http://localhost:3000",
                 "https://chowchow-ui-staging.herokuapp.com",
