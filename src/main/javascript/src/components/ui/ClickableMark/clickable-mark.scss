@@ -1,0 +1,13 @@
+@import 'components/ui/ui-constants';
+
+.ui_clickable-mark {
+  font-size: 1.5rem;
+  padding: $spacing-xs 0;
+
+  &__icon {
+    margin-right: $spacing-sm;
+  }
+  &__icon:hover {
+    opacity: 0.5;
+  }
+}
