@@ -1,6 +1,9 @@
 package com.centralesupelec.chowchow.likes.controllers;
 
 import com.centralesupelec.chowchow.TMDB.service.SearchService;
+import com.centralesupelec.chowchow.lib.ShowIsAlreadyLikedException;
+import com.centralesupelec.chowchow.lib.ShowIsNotLikedException;
+import com.centralesupelec.chowchow.lib.UserNotFoundException;
 import com.centralesupelec.chowchow.likes.domain.Like;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UsersService;
@@ -28,10 +31,10 @@ public class LikesController {
     this.searchService = searchService;
   }
 
-  public List<LikeDTO> getLikedShows(Integer id) {
+  public List<LikeDTO> getLikedShows(Integer id) throws UserNotFoundException {
     Optional<UserEntity> maybeUser = this.usersService.getUserById(id);
     if (!maybeUser.isPresent()) {
-      return null;
+      throw new UserNotFoundException();
     }
     List<CompletableFuture<LikeDTO>> likeDTOPromises =
         maybeUser.get().getLikedShows().stream()
@@ -73,39 +76,36 @@ public class LikesController {
     return likeDTOPromise.join();
   }
 
-  public boolean likeShow(LikeDTO likeDTO, Integer userId) {
+  public void likeShow(LikeDTO likeDTO, Integer userId)
+      throws UserNotFoundException, ShowIsAlreadyLikedException {
     Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
     if (!maybeUser.isPresent()) {
-      LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
-      return false;
+      throw new UserNotFoundException();
     }
     UserEntity user = maybeUser.get();
-    boolean success = user.likeShow(likeDTO.getMark(), likeDTO.getShow().getId());
+    user.likeShow(likeDTO.getMark(), likeDTO.getShow().getId());
     this.usersService.saveUser(user);
-    return success;
   }
 
-  public boolean updateMark(Integer showId, LikeDTO likeDTO, Integer userId) {
+  public void updateMark(Integer showId, LikeDTO likeDTO, Integer userId)
+      throws UserNotFoundException, ShowIsNotLikedException {
     Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
     if (!maybeUser.isPresent()) {
-      LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
-      return false;
+      throw new UserNotFoundException();
     }
     UserEntity user = maybeUser.get();
-    boolean success = user.updateMark(likeDTO.getMark(), showId);
+    user.updateMark(likeDTO.getMark(), showId);
     this.usersService.saveUser(user);
-    return success;
   }
 
-  public boolean unlikeShow(Integer showId, Integer userId) {
+  public void unlikeShow(Integer showId, Integer userId)
+      throws UserNotFoundException, ShowIsNotLikedException {
     Optional<UserEntity> maybeUserDTO = this.usersService.getUserById(userId);
     if (!maybeUserDTO.isPresent()) {
-      LOGGER.warn("Unsuccessful attempts to find user with id {}", userId);
-      return false;
+      throw new UserNotFoundException();
     }
     UserEntity user = maybeUserDTO.get();
     user.unlikeShow(showId);
     this.usersService.saveUser(user);
-    return true;
   }
 }

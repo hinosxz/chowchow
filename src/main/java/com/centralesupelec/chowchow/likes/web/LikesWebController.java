@@ -1,5 +1,8 @@
 package com.centralesupelec.chowchow.likes.web;
 
+import com.centralesupelec.chowchow.lib.ShowIsAlreadyLikedException;
+import com.centralesupelec.chowchow.lib.ShowIsNotLikedException;
+import com.centralesupelec.chowchow.lib.UserNotFoundException;
 import com.centralesupelec.chowchow.likes.controllers.LikeDTO;
 import com.centralesupelec.chowchow.likes.controllers.LikesController;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +32,11 @@ public class LikesWebController {
   @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<LikeDTO>> getLikedShows(HttpSession httpSession) {
     Integer userId = (Integer) httpSession.getAttribute("USER_ID");
-    return new ResponseEntity<>(this.likesController.getLikedShows(userId), HttpStatus.OK);
+    try {
+      return new ResponseEntity<>(this.likesController.getLikedShows(userId), HttpStatus.OK);
+    } catch (UserNotFoundException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 
   @ApiOperation(
@@ -55,7 +62,14 @@ public class LikesWebController {
   @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity likeShow(@RequestBody LikeDTO likeDTO, HttpSession httpSession) {
     Integer userId = (Integer) httpSession.getAttribute("USER_ID");
-    return new ResponseEntity<>(this.likesController.likeShow(likeDTO, userId), HttpStatus.OK);
+    try {
+      this.likesController.likeShow(likeDTO, userId);
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (UserNotFoundException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    } catch (ShowIsAlreadyLikedException e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 
   @ApiOperation(
@@ -66,8 +80,14 @@ public class LikesWebController {
   public ResponseEntity updateMark(
       @RequestBody LikeDTO likeDTO, HttpSession httpSession, @PathVariable("id") Integer showId) {
     Integer userId = (Integer) httpSession.getAttribute("USER_ID");
-    return new ResponseEntity<>(
-        this.likesController.updateMark(showId, likeDTO, userId), HttpStatus.OK);
+    try {
+      this.likesController.updateMark(showId, likeDTO, userId);
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (UserNotFoundException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    } catch (ShowIsNotLikedException e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 
   @ApiOperation(
@@ -76,6 +96,13 @@ public class LikesWebController {
   @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
   public ResponseEntity unlikeShow(@PathVariable("id") Integer showId, HttpSession httpSession) {
     Integer userId = (Integer) httpSession.getAttribute("USER_ID");
-    return new ResponseEntity<>(this.likesController.unlikeShow(showId, userId), HttpStatus.OK);
+    try {
+      this.likesController.unlikeShow(showId, userId);
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (UserNotFoundException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    } catch (ShowIsNotLikedException e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 }

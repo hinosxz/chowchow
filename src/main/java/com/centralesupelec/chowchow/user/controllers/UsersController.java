@@ -1,5 +1,6 @@
 package com.centralesupelec.chowchow.user.controllers;
 
+import com.centralesupelec.chowchow.lib.UserAlreadyExistsException;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UsersService;
 import java.util.Optional;
@@ -16,18 +17,19 @@ public class UsersController {
     this.usersService = usersService;
   }
 
-  public boolean registerUser(RegisterUserDTO registerUserDTO) {
+  public Optional<UserDTO> registerUser(RegisterUserDTO registerUserDTO)
+      throws UserAlreadyExistsException {
     Optional<UserEntity> maybeUser =
         this.usersService.getUserByUsername(registerUserDTO.getUsername());
     if (maybeUser.isPresent()) {
-      return false;
+      throw new UserAlreadyExistsException();
     }
     UserEntity user = new UserEntity();
     user.setUsername(registerUserDTO.getUsername());
     user.setPassword(registerUserDTO.getPassword());
     user.setSubscriptionType(registerUserDTO.getSubscriptionType());
     usersService.saveUser(user);
-    return true;
+    return this.getUserById(user.getId());
   }
 
   public Optional<UserDTO> getUserById(Integer id) {

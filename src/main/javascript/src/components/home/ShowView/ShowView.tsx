@@ -50,7 +50,7 @@ export const ShowView: React.FunctionComponent<ShowViewProps> = ({ isLiked, show
           <Button
             disabled={isLikeDisabled}
             type="primary"
-            onClick={() => postLikes(show.id).then(setIsLikeDisabled).catch(setError)}
+            onClick={() => postLikes(show.id).then(() => setIsLikeDisabled(true)).catch(setError)}
           >
             Like
             <Icon type="like" />
