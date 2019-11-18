@@ -1,11 +1,13 @@
 package com.centralesupelec.chowchow.TMDB.controllers;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class TMDBSearchShowDTO {
   private final String originalName;
   private final List<Integer> genreIds;

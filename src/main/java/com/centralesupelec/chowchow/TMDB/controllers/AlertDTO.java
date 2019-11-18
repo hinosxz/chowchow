@@ -2,8 +2,10 @@ package com.centralesupelec.chowchow.TMDB.controllers;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class AlertDTO {
   private final Integer showId;
   private final String showName;
