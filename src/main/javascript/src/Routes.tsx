@@ -13,6 +13,7 @@ import { AppLayout } from './components/ui/AppLayout/AppLayout';
 import { PageShow } from './components/show/PageShow/PageShow';
 import { PrivateRoute } from './components/authentication/PrivateRoute/PrivateRoute';
 import { useBooleanStateWithSessionStorage } from './lib/hooks';
+import { PageShowList } from './components/show-list/PageShowList/PageShowList';
 
 export const Routes = () => {
   const [isAuthenticated, setIsAuthenticated] = useBooleanStateWithSessionStorage('isAuthenticated');
@@ -32,7 +33,10 @@ export const Routes = () => {
               <Route exact path={RoutePath.home}>
                 <PageHome />
               </Route>
-              <Route path={`${RoutePath.shows}/:id`}>
+              <Route exact path={RoutePath.shows}>
+                <PageShowList />
+              </Route>
+              <Route exact path={`${RoutePath.shows}/:id`}>
                 <PageShow />
               </Route>
             </AppLayout>

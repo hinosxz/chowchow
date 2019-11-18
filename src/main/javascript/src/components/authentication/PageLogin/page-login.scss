@@ -1,6 +1,6 @@
-.authentication__page-login {
-  &__form {
+@import 'components/ui/ui-constants';
+
+.authentication_page-login {
     width: 30%;
-    margin: auto;
-  }
+    margin: $spacing-xl auto;
 }

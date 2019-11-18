@@ -4,6 +4,7 @@ import com.centralesupelec.chowchow.TMDB.service.SearchService;
 import com.centralesupelec.chowchow.lib.ShowIsAlreadyLikedException;
 import com.centralesupelec.chowchow.lib.ShowIsNotLikedException;
 import com.centralesupelec.chowchow.lib.UserNotFoundException;
+import com.centralesupelec.chowchow.likes.domain.Like;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UsersService;
 import java.util.List;
@@ -13,7 +14,9 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Controller
 public class LikesController {
@@ -45,6 +48,34 @@ public class LikesController {
     return likeDTOPromises.stream().map(CompletableFuture::join).collect(Collectors.toList());
   }
 
+  public LikeDTO getLikedShow(Integer showId, Integer userId) throws HttpClientErrorException {
+    Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
+    if (!maybeUser.isPresent()) {
+      throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
+    }
+
+    // Try to find the selected show in the user's likes
+    CompletableFuture<LikeDTO> likeDTOPromise = null;
+    int i = 0;
+    List<Like> likes = maybeUser.get().getLikedShows();
+    while (likeDTOPromise == null && i < likes.size()) {
+      Like like = likes.get(i);
+      if (like.getShowId().equals(showId)) {
+        likeDTOPromise =
+            this.searchService
+                .findShowById(like.getShowId())
+                .thenApply(tmdbShowDTO -> new LikeDTO(like.getMark(), tmdbShowDTO));
+      }
+      i++;
+    }
+
+    if (likeDTOPromise == null) {
+      throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+    }
+
+    return likeDTOPromise.join();
+  }
+
   public void likeShow(LikeDTO likeDTO, Integer userId)
       throws UserNotFoundException, ShowIsAlreadyLikedException {
     Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
@@ -52,7 +83,7 @@ public class LikesController {
       throw new UserNotFoundException();
     }
     UserEntity user = maybeUser.get();
-    user.likeShow(likeDTO.getMark(), likeDTO.getTmdbShowDTO().getId());
+    user.likeShow(likeDTO.getMark(), likeDTO.getShow().getId());
     this.usersService.saveUser(user);
   }
 
@@ -63,7 +94,7 @@ public class LikesController {
       throw new UserNotFoundException();
     }
     UserEntity user = maybeUser.get();
-    user.updateMark(likeDTO.getMark(), likeDTO.getTmdbShowDTO().getId());
+    user.updateMark(likeDTO.getMark(), likeDTO.getShow().getId());
     this.usersService.saveUser(user);
   }
 

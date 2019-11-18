@@ -1,6 +1,7 @@
 package com.centralesupelec.chowchow.TMDB.controllers;
 
 import com.centralesupelec.chowchow.TMDB.service.AlertService;
+import com.centralesupelec.chowchow.likes.domain.Like;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UsersService;
 import java.time.LocalDate;
@@ -35,7 +36,7 @@ public class AlertController {
     return now.until(episode.getAirDate(), ChronoUnit.DAYS) < ALERT_THRESHOLD;
   }
 
-  public List<TMDBEpisodeDTO> getUpcomingEpisodesForUser(Integer userId) {
+  public List<AlertDTO> getAlertsForUser(Integer userId) {
     Optional<UserEntity> maybeUserDTO = this.usersService.getUserById(userId);
     if (!maybeUserDTO.isPresent()) {
       logger.warn("Unsuccessful attempts to find user with id {}", userId);
@@ -43,15 +44,17 @@ public class AlertController {
     }
     List<Integer> likedShowIds =
         maybeUserDTO.get().getLikedShows().stream()
-            .map(likedShow -> likedShow.getShowId())
+            .map(Like::getShowId)
             .collect(Collectors.toList());
-    return this.getUpcomingEpisodes(likedShowIds);
+    return this.getAlerts(likedShowIds);
   }
 
-  private List<TMDBEpisodeDTO> getUpcomingEpisodes(List<Integer> tmdbIds)
-      throws HttpStatusCodeException {
-    return this.alertService.findNextEpisodesByShowIds(tmdbIds).stream()
-        .filter(episode -> this.isEpisodeSoon(episode))
+  private List<AlertDTO> getAlerts(List<Integer> tmdbIds) throws HttpStatusCodeException {
+    return this.alertService.findAlertsByShowIds(tmdbIds).stream()
+        .filter(
+            alert ->
+                alert.getNextEpisodeToAir() != null
+                    && this.isEpisodeSoon(alert.getNextEpisodeToAir()))
         .collect(Collectors.toList());
   }
 }

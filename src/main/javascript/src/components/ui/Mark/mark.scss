@@ -1,0 +1,10 @@
+@import 'components/ui/ui-constants';
+
+.ui_mark {
+  font-size: 1.5rem;
+  padding: $spacing-xs 0;
+
+  &__icon {
+    margin-right: $spacing-sm;
+  }
+}
