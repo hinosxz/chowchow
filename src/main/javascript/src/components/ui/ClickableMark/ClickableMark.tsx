@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from 'antd';
 
-import { putLikes } from 'lib/api/likes';
+import { putLike } from 'lib/api/likes';
 
 import './clickable-mark.scss';
 
@@ -20,7 +20,7 @@ export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mar
       <Icon
         className={`${BLOCK}__icon`}
         onClick={() => {
-          putLikes(showId, 0).then(res => {
+          putLike(showId, 0).then(res => {
             if (res) {
               setUpdatedMark(0);
             }
@@ -32,7 +32,7 @@ export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mar
       <Icon
         className={`${BLOCK}__icon`}
         onClick={() => {
-          putLikes(showId, 1).then(res => {
+          putLike(showId, 1).then(res => {
             if (res) {
               setUpdatedMark(1);
             }
@@ -44,7 +44,7 @@ export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mar
       <Icon
         className={`${BLOCK}__icon`}
         onClick={() => {
-          putLikes(showId, 2).then(res => {
+          putLike(showId, 2).then(res => {
             if (res) {
               setUpdatedMark(2);
             }

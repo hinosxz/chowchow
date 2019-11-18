@@ -1,21 +1,39 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
-  Alert, Button, Col, Collapse, Drawer, PageHeader, Row, Tag, Typography,
+  Alert,
+  Button,
+  Col,
+  Collapse,
+  Drawer,
+  notification,
+  PageHeader,
+  Popconfirm,
+  Row,
+  Tag,
+  Typography,
 } from 'antd';
 
+import { Placeholder } from 'components/ui/Placeholder/Placeholder';
+import { ClickableMark } from 'components/ui/ClickableMark/ClickableMark';
+import { deleteLike } from 'lib/api/likes';
 import { Like } from 'lib/types';
 import { useGetData } from 'lib/hooks';
-import { Placeholder } from 'components/ui/Placeholder/Placeholder';
 import { RoutePath } from 'lib/constants';
 import { parseDate } from 'lib/util';
-import { ClickableMark } from 'components/ui/ClickableMark/ClickableMark';
 
 import './page-show.scss';
 
 const BLOCK = 'show_page-show';
 const { Panel } = Collapse;
 const { Title, Text } = Typography;
+
+const openErrorNotification = () => {
+  notification.error({
+    message: 'Server Error',
+    description: 'Could not unlike this show at the moment. Please retry in a few seconds.',
+  });
+};
 
 export const PageShow: React.FunctionComponent = () => {
   const [isDrawerVisible, setIsDrawerVisible] = React.useState(false);
@@ -71,7 +89,21 @@ export const PageShow: React.FunctionComponent = () => {
                 <Text>{`${show.next_episode_to_air.season_number}x${show.next_episode_to_air.episode_number}, ${show.next_episode_to_air.name}, airs on: ${parseDate(show.next_episode_to_air.air_date).toLocaleDateString()}`}</Text>
               </div>
             )}
-            <div className={`${BLOCK}__open-panel`}><Button onClick={() => setIsDrawerVisible(true)}>See details</Button></div>
+            <div className={`${BLOCK}__bottom-buttons`}>
+              <Popconfirm
+                title="Are you sure you want to unlike this show?"
+                onConfirm={() => {
+                  deleteLike(show.id)
+                    .then(() => replace(RoutePath.shows))
+                    .catch(openErrorNotification);
+                }}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button icon="delete" type="danger">Unlike</Button>
+              </Popconfirm>
+              <Button onClick={() => setIsDrawerVisible(true)}>See details</Button>
+            </div>
           </Col>
         </Row>
       </div>
