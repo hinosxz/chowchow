@@ -87,14 +87,14 @@ public class LikesController {
     this.usersService.saveUser(user);
   }
 
-  public void updateMark(LikeDTO likeDTO, Integer userId)
+  public void updateMark(Integer showId, LikeDTO likeDTO, Integer userId)
       throws UserNotFoundException, ShowIsNotLikedException {
     Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
     if (!maybeUser.isPresent()) {
       throw new UserNotFoundException();
     }
     UserEntity user = maybeUser.get();
-    user.updateMark(likeDTO.getMark(), likeDTO.getShow().getId());
+    user.updateMark(likeDTO.getMark(), showId);
     this.usersService.saveUser(user);
   }
 

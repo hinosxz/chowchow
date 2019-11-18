@@ -81,7 +81,7 @@ public class LikesWebController {
       @RequestBody LikeDTO likeDTO, HttpSession httpSession, @PathVariable("id") Integer showId) {
     Integer userId = (Integer) httpSession.getAttribute("USER_ID");
     try {
-      this.likesController.updateMark(likeDTO, userId);
+      this.likesController.updateMark(showId, likeDTO, userId);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (UserNotFoundException e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
