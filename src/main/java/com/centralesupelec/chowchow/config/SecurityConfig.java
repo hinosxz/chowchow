@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -23,15 +24,17 @@ import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuc
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final UsersService usersService;
+  private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  public SecurityConfig(UsersService usersService) {
+  public SecurityConfig(UsersService usersService, PasswordEncoder passwordEncoder) {
     this.usersService = usersService;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(this.usersService);
+    auth.authenticationProvider(this.getAppAuthProvider());
   }
 
   /**
@@ -105,6 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public AppAuthProvider getAppAuthProvider() {
     AppAuthProvider appAuthProvider = new AppAuthProvider();
     appAuthProvider.setUserDetailsService(this.usersService);
+    appAuthProvider.setPasswordEncoder(this.passwordEncoder);
     return appAuthProvider;
   }
 }
