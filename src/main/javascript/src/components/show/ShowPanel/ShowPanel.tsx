@@ -3,6 +3,7 @@ import { Alert, Collapse, Spin } from 'antd';
 
 import { Season, ShowSeason } from 'lib/types';
 import { api } from 'lib/api/api';
+import { SeasonList } from 'components/show/SeasonList/SeasonList';
 
 const { Panel } = Collapse;
 
@@ -13,21 +14,23 @@ interface ShowPanelProps {
 
 export const ShowPanel: React.FunctionComponent<ShowPanelProps> = ({ seasons, showId }) => {
   const [activeKey, setActiveKey] = React.useState();
-  const [episode, setEpisode] = React.useState<Season | null>(null);
+  const [fetchedSeason, setFetchedSeason] = React.useState<Season | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<any>(null);
 
   React.useEffect(() => {
     if (activeKey) {
+      setFetchedSeason(null);
       setIsLoading(true);
+      setError(null);
       api.get(`search/${showId}/seasons/${activeKey}`).json<Season>()
         .then(res => {
-          setEpisode(res);
+          setFetchedSeason(res);
           setIsLoading(false);
           setError(null);
         })
         .catch(err => {
-          setEpisode(null);
+          setFetchedSeason(null);
           setIsLoading(false);
           setError(err);
         });
@@ -54,7 +57,7 @@ export const ShowPanel: React.FunctionComponent<ShowPanelProps> = ({ seasons, sh
                   message="Could not retrieve the selected season. Please retry in a few seconds."
                   type="error"
                 />
-              ) : JSON.stringify(episode)}
+              ) : <SeasonList season={fetchedSeason} />}
             </Panel>
           ))}
       </Collapse>
