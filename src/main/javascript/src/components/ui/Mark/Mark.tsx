@@ -1,7 +1,7 @@
 import React from 'react';
 
-import './mark.scss';
 import { BoneIcon } from 'components/ui/BoneIcon/BoneIcon';
+import './mark.scss';
 
 const BLOCK = 'ui_mark';
 
