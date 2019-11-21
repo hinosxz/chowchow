@@ -8,7 +8,9 @@ import { ShowViewContainer } from 'components/home/ShowView/ShowViewContainer';
 const { Title } = Typography;
 
 export const PageHome: React.FunctionComponent = () => {
-  const [selectedShow, setSelectedShow] = React.useState<OptionType | null>(null);
+  const [selectedShow, setSelectedShow] = React.useState<OptionType | null>(
+    null,
+  );
   return (
     <>
       <Title level={2}>Alerts</Title>
@@ -17,7 +19,9 @@ export const PageHome: React.FunctionComponent = () => {
       <Title level={2}>Search</Title>
       <SearchBar value={selectedShow} setValue={setSelectedShow} />
       <Divider />
-      {selectedShow && selectedShow.value && <ShowViewContainer show={selectedShow.value} />}
+      {selectedShow && selectedShow.value && (
+        <ShowViewContainer show={selectedShow.value} />
+      )}
     </>
   );
 };

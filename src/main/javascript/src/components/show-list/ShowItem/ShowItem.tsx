@@ -20,7 +20,11 @@ export const ShowItem: React.FunctionComponent<ShowItemProps> = ({ like }) => (
   <>
     <Row className={BLOCK} gutter={[32, 16]}>
       <Col className={`${BLOCK}__poster`} span={4}>
-        <img className={`${BLOCK}__poster__image`} src={like.show.poster_path} alt="Poster" />
+        <img
+          className={`${BLOCK}__poster__image`}
+          src={like.show.poster_path}
+          alt="Poster"
+        />
       </Col>
       <Col className={`${BLOCK}__description`} span={20}>
         <Title level={3}>{like.show.name}</Title>

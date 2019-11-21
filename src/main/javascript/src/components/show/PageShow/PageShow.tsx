@@ -31,7 +31,8 @@ const { Title, Text } = Typography;
 const openErrorNotification = () => {
   notification.error({
     message: 'Server Error',
-    description: 'Could not unlike this show at the moment. Please retry in a few seconds.',
+    description:
+      'Could not unlike this show at the moment. Please retry in a few seconds.',
   });
 };
 
@@ -47,9 +48,7 @@ export const PageShow: React.FunctionComponent = () => {
   useGetData<Like>(`likes/${id}`, setLike, setIsLoading, setError);
 
   if (isLoading) {
-    return (
-      <Placeholder />
-    );
+    return <Placeholder />;
   }
 
   if (error || !like) {
@@ -66,17 +65,32 @@ export const PageShow: React.FunctionComponent = () => {
     <>
       <PageHeader
         title={show.name}
-        tags={show.in_production ? <Tag color="green">In Production</Tag> : <Tag color="red">Finished</Tag>}
+        tags={
+          show.in_production ? (
+            <Tag color="green">In Production</Tag>
+          ) : (
+            <Tag color="red">Finished</Tag>
+          )
+        }
         onBack={() => replace(RoutePath.shows)}
       />
-      <div className={`${BLOCK}__wrapper`} style={{ backgroundImage: `url(${show.backdrop_path})` }}>
+      <div
+        className={`${BLOCK}__wrapper`}
+        style={{ backgroundImage: `url(${show.backdrop_path})` }}
+      >
         <Row>
           <Col className={`${BLOCK}__content`} span={8}>
             <ClickableMark mark={mark} showId={show.id} />
             <Title level={4}>Created by</Title>
-            <Text>{show.created_by.map(creator => creator.name).join(', ')}</Text>
+            <Text>
+              {show.created_by.map(creator => creator.name).join(', ')}
+            </Text>
             <Title level={4}>Genres</Title>
-            <Text>{show.genres.map(genre => <Tag>{genre.name}</Tag>)}</Text>
+            <Text>
+              {show.genres.map(genre => (
+                <Tag>{genre.name}</Tag>
+              ))}
+            </Text>
             <Title level={4}>Overview</Title>
             <Text>{show.overview}</Text>
             <Title level={4}>Networks</Title>
@@ -86,7 +100,13 @@ export const PageShow: React.FunctionComponent = () => {
             {show.next_episode_to_air && (
               <div>
                 <Title level={4}>Next episode</Title>
-                <Text>{`${show.next_episode_to_air.season_number}x${show.next_episode_to_air.episode_number}, ${show.next_episode_to_air.name}, airs on: ${parseDate(show.next_episode_to_air.air_date).toLocaleDateString()}`}</Text>
+                <Text>
+                  {`${show.next_episode_to_air.season_number}x${
+                    show.next_episode_to_air.episode_number
+                  }, ${show.next_episode_to_air.name}, airs on: ${parseDate(
+                    show.next_episode_to_air.air_date,
+                  ).toLocaleDateString()}`}
+                </Text>
               </div>
             )}
             <div className={`${BLOCK}__bottom-buttons`}>
@@ -100,9 +120,13 @@ export const PageShow: React.FunctionComponent = () => {
                 okText="Yes"
                 cancelText="No"
               >
-                <Button icon="delete" type="danger">Unlike</Button>
+                <Button icon="delete" type="danger">
+                  Unlike
+                </Button>
               </Popconfirm>
-              <Button onClick={() => setIsDrawerVisible(true)}>See details</Button>
+              <Button onClick={() => setIsDrawerVisible(true)}>
+                See details
+              </Button>
             </div>
           </Col>
         </Row>
@@ -114,7 +138,9 @@ export const PageShow: React.FunctionComponent = () => {
         onClose={() => setIsDrawerVisible(false)}
       >
         <Collapse accordion>
-          {show.seasons.map(season => <Panel header={season.name} key={season.id} />)}
+          {show.seasons.map(season => (
+            <Panel header={season.name} key={season.id} />
+          ))}
         </Collapse>
       </Drawer>
     </>

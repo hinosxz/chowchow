@@ -10,16 +10,16 @@ interface ShowViewContainerProps {
   show: SearchShow;
 }
 
-export const ShowViewContainer: React.FunctionComponent<ShowViewContainerProps> = ({ show }) => {
+export const ShowViewContainer: React.FunctionComponent<
+ShowViewContainerProps
+> = ({ show }) => {
   const [data, setData] = React.useState<Show | null>();
   const [isLoading, setIsLoading] = React.useState(false);
   const [, setError] = React.useState<any>(null);
   useGetData<Show>(`likes/${show.id}`, setData, setIsLoading, setError);
 
   if (isLoading) {
-    return (
-      <Placeholder />
-    );
+    return <Placeholder />;
   }
 
   return <ShowView isLiked={Boolean(data)} show={show} />;

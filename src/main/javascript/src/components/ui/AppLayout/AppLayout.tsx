@@ -15,13 +15,13 @@ export const AppLayout: React.FunctionComponent = ({ children }) => {
     <Layout className={BLOCK} style={{ minHeight: '100vh' }}>
       <Sider collapsed>
         <div className={`${BLOCK}__logo-wrapper`}>
-          <img src="./chowchow-10.png" className={`${BLOCK}__logo`} alt="logo" />
+          <img
+            src="./chowchow-10.png"
+            className={`${BLOCK}__logo`}
+            alt="logo"
+          />
         </div>
-        <Menu
-          mode="inline"
-          selectedKeys={[pathname]}
-          theme="dark"
-        >
+        <Menu mode="inline" selectedKeys={[pathname]} theme="dark">
           <Menu.Item key={RoutePath.home}>
             <Link to={RoutePath.home}>
               <Icon type="home" />
@@ -43,10 +43,10 @@ export const AppLayout: React.FunctionComponent = ({ children }) => {
         </Menu>
       </Sider>
       <Layout>
-        <Content className={`${BLOCK}__content`}>
-          {children}
-        </Content>
-        <Footer className={`${BLOCK}__footer`}>ChowChow © 2019 - Created by Donatien, Domitille & Gauthier</Footer>
+        <Content className={`${BLOCK}__content`}>{children}</Content>
+        <Footer className={`${BLOCK}__footer`}>
+          ChowChow © 2019 - Created by Donatien, Domitille & Gauthier
+        </Footer>
       </Layout>
     </Layout>
   );

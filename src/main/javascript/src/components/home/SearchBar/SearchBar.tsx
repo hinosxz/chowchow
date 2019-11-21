@@ -21,7 +21,10 @@ interface SearchBarProps {
   value: OptionType | null;
 }
 
-export const SearchBar: React.FunctionComponent<SearchBarProps> = ({ setValue, value }) => (
+export const SearchBar: React.FunctionComponent<SearchBarProps> = ({
+  setValue,
+  value,
+}) => (
   <Async<OptionType>
     cacheOptions
     defaultOptions={[]}

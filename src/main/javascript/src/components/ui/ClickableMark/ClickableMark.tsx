@@ -12,7 +12,10 @@ interface ClickableMarkProps {
   showId: number;
 }
 
-export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mark, showId }) => {
+export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({
+  mark,
+  showId,
+}) => {
   const [updatedMark, setUpdatedMark] = React.useState<typeof mark>(mark);
 
   return (
@@ -27,7 +30,11 @@ export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mar
           });
         }}
         type="star"
-        theme={typeof updatedMark === 'number' && updatedMark >= 0 ? 'filled' : undefined}
+        theme={
+          typeof updatedMark === 'number' && updatedMark >= 0
+            ? 'filled'
+            : undefined
+        }
       />
       <Icon
         className={`${BLOCK}__icon`}
@@ -39,7 +46,11 @@ export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mar
           });
         }}
         type="star"
-        theme={typeof updatedMark === 'number' && updatedMark >= 1 ? 'filled' : undefined}
+        theme={
+          typeof updatedMark === 'number' && updatedMark >= 1
+            ? 'filled'
+            : undefined
+        }
       />
       <Icon
         className={`${BLOCK}__icon`}
@@ -51,7 +62,11 @@ export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mar
           });
         }}
         type="star"
-        theme={typeof updatedMark === 'number' && updatedMark >= 2 ? 'filled' : undefined}
+        theme={
+          typeof updatedMark === 'number' && updatedMark >= 2
+            ? 'filled'
+            : undefined
+        }
       />
     </div>
   );
