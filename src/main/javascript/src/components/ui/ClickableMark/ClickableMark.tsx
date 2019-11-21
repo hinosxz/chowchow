@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { putLike } from 'lib/api/likes';
-
 import './clickable-mark.scss';
 import { BoneIcon } from 'components/ui/BoneIcon/BoneIcon';
 
