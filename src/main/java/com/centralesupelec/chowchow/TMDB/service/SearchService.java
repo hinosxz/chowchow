@@ -2,6 +2,7 @@ package com.centralesupelec.chowchow.TMDB.service;
 
 import com.centralesupelec.chowchow.TMDB.controllers.AlertDTO;
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBSearchDTO;
+import com.centralesupelec.chowchow.TMDB.controllers.TMDBSeasonDTO;
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBShowDTO;
 import com.centralesupelec.chowchow.lib.TMDBAPI;
 import java.util.concurrent.CompletableFuture;
@@ -28,6 +29,16 @@ public class SearchService {
         UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/search/tv")
             .queryParam("query", name);
     return TMDBAPI.get(urlBuilder, TMDBSearchDTO.class).getBody();
+  }
+
+  public TMDBSeasonDTO findShowSeasonById(Integer showId, Integer seasonNumber)
+      throws HttpStatusCodeException {
+    UriComponentsBuilder urlBuilder =
+        UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/tv")
+            .path(String.format("/%d", showId))
+            .path("/season")
+            .path(String.format("/%d", seasonNumber));
+    return TMDBAPI.get(urlBuilder, TMDBSeasonDTO.class).getBody();
   }
 
   @Async
