@@ -16,16 +16,16 @@ enum Panels {
 
 export const PageLogin: React.FunctionComponent = () => (
   <>
-  <div className={`${BLOCK}__logo-wrapper`} >
-      <img src="./chowchow-10.png" className={`${BLOCK}__logo`}/>
-  </div>
-  <Collapse className={BLOCK} accordion defaultActiveKey={Panels.LOGIN}>
-    <Panel header="Login" key={Panels.LOGIN}>
-      <LoginForm />
-    </Panel>
-    <Panel header="Register" key={Panels.REGISTER}>
-      <RegistrationForm />
-    </Panel>
-  </Collapse>
+    <div className={`${BLOCK}__logo-wrapper`}>
+      <img src="./chowchow-10.png" className={`${BLOCK}__logo`} alt="logo" />
+    </div>
+    <Collapse className={BLOCK} accordion defaultActiveKey={Panels.LOGIN}>
+      <Panel header="Login" key={Panels.LOGIN}>
+        <LoginForm />
+      </Panel>
+      <Panel header="Register" key={Panels.REGISTER}>
+        <RegistrationForm />
+      </Panel>
+    </Collapse>
   </>
 );

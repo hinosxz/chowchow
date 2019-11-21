@@ -14,8 +14,8 @@ export const AppLayout: React.FunctionComponent = ({ children }) => {
   return (
     <Layout className={BLOCK} style={{ minHeight: '100vh' }}>
       <Sider collapsed>
-        <div className={`${BLOCK}__logo-wrapper`} >
-            <img src="./chowchow-10.png" className={`${BLOCK}__logo`}/>
+        <div className={`${BLOCK}__logo-wrapper`}>
+          <img src="./chowchow-10.png" className={`${BLOCK}__logo`} alt="logo" />
         </div>
         <Menu
           mode="inline"
