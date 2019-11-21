@@ -1,15 +1,17 @@
 package com.centralesupelec.chowchow.TMDB.controllers;
 
+import com.centralesupelec.chowchow.TMDB.controllers.useralerts.UserAlertsManager;
 import com.centralesupelec.chowchow.TMDB.service.AlertService;
 import com.centralesupelec.chowchow.likes.domain.Like;
+import com.centralesupelec.chowchow.likes.domain.Mark;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UsersService;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,6 @@ import org.springframework.web.client.HttpStatusCodeException;
 @Controller
 public class AlertController {
 
-  private final int ALERT_THRESHOLD = 3;
   private final Logger logger = LoggerFactory.getLogger(AlertController.class);
 
   private final AlertService alertService;
@@ -31,26 +32,27 @@ public class AlertController {
     this.usersService = usersService;
   }
 
-  private boolean isEpisodeSoon(TMDBEpisodeDTO episode) {
-    LocalDate now = LocalDate.now();
-    return now.until(episode.getAirDate(), ChronoUnit.DAYS) < ALERT_THRESHOLD;
-  }
-
   public List<AlertDTO> getAlertsForUser(Integer userId) {
     Optional<UserEntity> maybeUserDTO = this.usersService.getUserById(userId);
     if (!maybeUserDTO.isPresent()) {
       logger.warn("Unsuccessful attempts to find user with id {}", userId);
       return new ArrayList<>();
     }
-    List<Integer> likedShowIds =
-        maybeUserDTO.get().getLikedShows().stream()
-            .map(Like::getShowId)
-            .collect(Collectors.toList());
-    return this.getAlerts(likedShowIds);
+    UserAlertsManager userAlertsManager = new UserAlertsManager();
+    List<Like> likedShows = maybeUserDTO.get().getLikedShows();
+    this.getAlerts(likedShows);
   }
 
-  private List<AlertDTO> getAlerts(List<Integer> tmdbIds) throws HttpStatusCodeException {
-    return this.alertService.findAlertsByShowIds(tmdbIds).stream()
+  private List<AlertDTO> getAlerts(List<Like> likedShows) throws HttpStatusCodeException {
+    List<Pair<CompletableFuture<AlertDTO>, Mark>> maybePairs =
+        likedShows.stream()
+            .map(
+                likedShow ->
+                    new Pair<>(
+                        this.alertService.findAlertByShowId(likedShow.getShowId()),
+                        likedShow.getMark()))
+            .collect(Collectors.toList());
+    return this.alertService.findAlertsByShowIds().stream()
         .filter(
             alert ->
                 alert.getNextEpisodeToAir() != null

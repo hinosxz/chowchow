@@ -39,8 +39,4 @@ public class UsersController {
   public Optional<UserDTO> getUserById(Integer id) {
     return this.usersService.getUserById(id).map(UserDTO::fromEntity);
   }
-
-  public boolean getUpcomingEpisodesForUser(Integer userId) {
-    return true;
-  }
 }
