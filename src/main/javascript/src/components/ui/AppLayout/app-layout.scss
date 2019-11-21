@@ -7,4 +7,12 @@
   &__content {
     padding: $spacing-md;
   }
+  &__logo {
+    width: 90%;
+  }
+  &__logo-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }

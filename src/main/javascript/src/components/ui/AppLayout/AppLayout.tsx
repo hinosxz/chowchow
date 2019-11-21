@@ -12,8 +12,11 @@ const { Content, Footer, Sider } = Layout;
 export const AppLayout: React.FunctionComponent = ({ children }) => {
   const { pathname } = useLocation();
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout className={BLOCK} style={{ minHeight: '100vh' }}>
       <Sider collapsed>
+        <div className={`${BLOCK}__logo-wrapper`} >
+            <img src="./chowchow-10.png" className={`${BLOCK}__logo`}/>
+        </div>
         <Menu
           mode="inline"
           selectedKeys={[pathname]}
