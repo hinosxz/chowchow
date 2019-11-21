@@ -38,7 +38,7 @@ interface Network {
   origin_country: string;
 }
 
-interface Season {
+export interface ShowSeason {
   air_date: string;
   episode_count: number;
   id: number;
@@ -93,7 +93,7 @@ export interface Show {
   popularity: number;
   poster_path: string;
   production_companies: ProductionCompany[];
-  seasons: Season[];
+  seasons: ShowSeason[];
   status: string;
   type: string;
   vote_average: number;
@@ -109,4 +109,8 @@ export interface Alert {
   show_id: number;
   show_name: string;
   episode: Episode;
+}
+
+export interface Season extends ShowSeason {
+  episodes: Episode[];
 }
