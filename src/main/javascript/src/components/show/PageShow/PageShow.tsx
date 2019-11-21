@@ -76,7 +76,7 @@ export const PageShow: React.FunctionComponent = () => {
             <Title level={4}>Created by</Title>
             <Text>{show.created_by.map(creator => creator.name).join(', ')}</Text>
             <Title level={4}>Genres</Title>
-            <Text>{show.genres.map(genre => <Tag>{genre.name}</Tag>)}</Text>
+            <Text>{show.genres.map(genre => <Tag key={genre.name}>{genre.name}</Tag>)}</Text>
             <Title level={4}>Overview</Title>
             <Text>{show.overview}</Text>
             <Title level={4}>Networks</Title>

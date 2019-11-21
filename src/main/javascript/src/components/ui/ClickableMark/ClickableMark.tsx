@@ -1,9 +1,9 @@
 import React from 'react';
-import { Icon } from 'antd';
 
 import { putLike } from 'lib/api/likes';
 
 import './clickable-mark.scss';
+import { BoneIcon } from 'components/ui/BoneIcon/BoneIcon';
 
 const BLOCK = 'ui_clickable-mark';
 
@@ -14,10 +14,10 @@ interface ClickableMarkProps {
 
 export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mark, showId }) => {
   const [updatedMark, setUpdatedMark] = React.useState<typeof mark>(mark);
-
+  console.log(updatedMark);
   return (
     <div className={BLOCK}>
-      <Icon
+      <BoneIcon
         className={`${BLOCK}__icon`}
         onClick={() => {
           putLike(showId, 0).then(res => {
@@ -26,10 +26,9 @@ export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mar
             }
           });
         }}
-        type="star"
         theme={typeof updatedMark === 'number' && updatedMark >= 0 ? 'filled' : undefined}
       />
-      <Icon
+      <BoneIcon
         className={`${BLOCK}__icon`}
         onClick={() => {
           putLike(showId, 1).then(res => {
@@ -38,10 +37,9 @@ export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mar
             }
           });
         }}
-        type="star"
         theme={typeof updatedMark === 'number' && updatedMark >= 1 ? 'filled' : undefined}
       />
-      <Icon
+      <BoneIcon
         className={`${BLOCK}__icon`}
         onClick={() => {
           putLike(showId, 2).then(res => {
@@ -50,7 +48,6 @@ export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mar
             }
           });
         }}
-        type="star"
         theme={typeof updatedMark === 'number' && updatedMark >= 2 ? 'filled' : undefined}
       />
     </div>
