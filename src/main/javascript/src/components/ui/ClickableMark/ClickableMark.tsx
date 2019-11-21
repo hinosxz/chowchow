@@ -14,7 +14,6 @@ interface ClickableMarkProps {
 
 export const ClickableMark: React.FunctionComponent<ClickableMarkProps> = ({ mark, showId }) => {
   const [updatedMark, setUpdatedMark] = React.useState<typeof mark>(mark);
-  console.log(updatedMark);
   return (
     <div className={BLOCK}>
       <BoneIcon
