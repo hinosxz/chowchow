@@ -4,7 +4,6 @@ import {
   Alert,
   Button,
   Col,
-  Collapse,
   Drawer,
   notification,
   PageHeader,
@@ -14,6 +13,7 @@ import {
   Typography,
 } from 'antd';
 
+import { ShowPanel } from 'components/show/ShowPanel/ShowPanel';
 import { Placeholder } from 'components/ui/Placeholder/Placeholder';
 import { ClickableMark } from 'components/ui/ClickableMark/ClickableMark';
 import { deleteLike } from 'lib/api/likes';
@@ -25,7 +25,6 @@ import { parseDate } from 'lib/util';
 import './page-show.scss';
 
 const BLOCK = 'show_page-show';
-const { Panel } = Collapse;
 const { Title, Text } = Typography;
 
 const openErrorNotification = () => {
@@ -108,14 +107,13 @@ export const PageShow: React.FunctionComponent = () => {
         </Row>
       </div>
       <Drawer
-        title="Show details"
         closable
-        visible={isDrawerVisible}
         onClose={() => setIsDrawerVisible(false)}
+        title="Show details"
+        visible={isDrawerVisible}
+        width="50%"
       >
-        <Collapse accordion>
-          {show.seasons.map(season => <Panel header={season.name} key={season.id} />)}
-        </Collapse>
+        <ShowPanel seasons={show.seasons} showId={show.id} />
       </Drawer>
     </>
   );
