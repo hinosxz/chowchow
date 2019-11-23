@@ -10,7 +10,9 @@ export function useGetData<ResponseType>(
 ) {
   React.useEffect(() => {
     setIsLoading(true);
-    api.get(path).json<ResponseType>()
+    api
+      .get(path)
+      .json<ResponseType>()
       .then(like => {
         setData(like);
         setIsLoading(false);

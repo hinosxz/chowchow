@@ -2,7 +2,12 @@ import React from 'react';
 import {
   Alert,
   Button,
-  Card, Col, Descriptions, Icon, Row, Typography,
+  Card,
+  Col,
+  Descriptions,
+  Icon,
+  Row,
+  Typography,
 } from 'antd';
 
 import { SearchShow } from 'lib/types';
@@ -20,7 +25,10 @@ interface ShowViewProps {
   show: SearchShow;
 }
 
-export const ShowView: React.FunctionComponent<ShowViewProps> = ({ isLiked, show }) => {
+export const ShowView: React.FunctionComponent<ShowViewProps> = ({
+  isLiked,
+  show,
+}) => {
   const [isLikeDisabled, setIsLikeDisabled] = React.useState(isLiked);
   const [error, setError] = React.useState(null);
 
@@ -29,7 +37,11 @@ export const ShowView: React.FunctionComponent<ShowViewProps> = ({ isLiked, show
   return (
     <Row gutter={[32, 16]}>
       <Col span={8}>
-        <Card bodyStyle={{ padding: 0 }} cover={<img alt="Poster" src={show.poster_path} />} title={show.name} />
+        <Card
+          bodyStyle={{ padding: 0 }}
+          cover={<img alt="Poster" src={show.poster_path} />}
+          title={show.name}
+        />
       </Col>
       <Col span={16}>
         <Descriptions title="Show Summary">
@@ -41,16 +53,16 @@ export const ShowView: React.FunctionComponent<ShowViewProps> = ({ isLiked, show
         </Descriptions>
 
         <Descriptions title="Overview">
-          <Paragraph>
-            {show.overview}
-          </Paragraph>
+          <Paragraph>{show.overview}</Paragraph>
         </Descriptions>
 
         <div className={`${BLOCK}__like`}>
           <Button
             disabled={isLikeDisabled}
             type="primary"
-            onClick={() => postLikes(show.id).then(() => setIsLikeDisabled(true)).catch(setError)}
+            onClick={() => postLikes(show.id)
+              .then(() => setIsLikeDisabled(true))
+              .catch(setError)}
           >
             Like
             <Icon type="like" />

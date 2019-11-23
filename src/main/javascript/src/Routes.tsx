@@ -1,7 +1,5 @@
 import * as React from 'react';
-import {
-  BrowserRouter as Router, Switch, Route,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { AuthContext } from 'context/authentication';
 import { RoutePath } from 'lib/constants';
@@ -16,7 +14,10 @@ import { useBooleanStateWithSessionStorage } from './lib/hooks';
 import { PageShowList } from './components/show-list/PageShowList/PageShowList';
 
 export const Routes = () => {
-  const [isAuthenticated, setIsAuthenticated] = useBooleanStateWithSessionStorage('isAuthenticated');
+  const [
+    isAuthenticated,
+    setIsAuthenticated,
+  ] = useBooleanStateWithSessionStorage('isAuthenticated');
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
