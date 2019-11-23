@@ -11,7 +11,7 @@ export const PageHome: React.FunctionComponent = () => {
   const [selectedShow, setSelectedShow] = React.useState<OptionType | null>(null);
   return (
     <>
-      <Title level={2}>Alerts</Title>
+      <Title level={2}>Upcoming Shows</Title>
       <Alerts />
       <Divider />
       <Title level={2}>Search</Title>
