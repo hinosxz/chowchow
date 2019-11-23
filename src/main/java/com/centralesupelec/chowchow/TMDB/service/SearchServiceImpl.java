@@ -14,8 +14,9 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Transactional service implementing SearchService contract interface. It uses TMDB API to perform
- * the search and fetch operations.
+ * Transactional service implementing SearchService contract interface.
+ *
+ * <p>It uses TMDB API to performthe search and fetch operations.
  *
  * @see SearchService
  */
@@ -23,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Transactional
 public class SearchServiceImpl implements SearchService {
 
+  /** The TMDB API used to perform the calls */
   private final TMDBAPI TMDBAPI;
 
   @Autowired

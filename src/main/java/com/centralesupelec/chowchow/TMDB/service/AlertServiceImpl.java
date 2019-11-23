@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Transactional service implementing AlertService contract interface. It uses TMDB API to retrieve
- * the alerts.
+ * Transactional service implementing AlertService contract interface.
+ *
+ * <p>It uses a SearchService to retrieve the alerts.
  *
  * @see AlertService
  */
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AlertServiceImpl implements AlertService {
 
+  /** the SearchService used to retrieve the alerts */
   private final SearchServiceImpl searchServiceImpl;
 
   @Autowired

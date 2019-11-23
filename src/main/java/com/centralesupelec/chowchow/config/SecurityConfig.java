@@ -2,7 +2,7 @@ package com.centralesupelec.chowchow.config;
 
 import com.centralesupelec.chowchow.user.controllers.AppAuthProvider;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
-import com.centralesupelec.chowchow.user.service.UsersService;
+import com.centralesupelec.chowchow.user.service.UserServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,12 @@ import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuc
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private final UsersService usersService;
+  private final UserServiceImpl userServiceImpl;
   private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  public SecurityConfig(UsersService usersService, PasswordEncoder passwordEncoder) {
-    this.usersService = usersService;
+  public SecurityConfig(UserServiceImpl userServiceImpl, PasswordEncoder passwordEncoder) {
+    this.userServiceImpl = userServiceImpl;
     this.passwordEncoder = passwordEncoder;
   }
 
@@ -107,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   public AppAuthProvider getAppAuthProvider() {
     AppAuthProvider appAuthProvider = new AppAuthProvider();
-    appAuthProvider.setUserDetailsService(this.usersService);
+    appAuthProvider.setUserDetailsService(this.userServiceImpl);
     appAuthProvider.setPasswordEncoder(this.passwordEncoder);
     return appAuthProvider;
   }

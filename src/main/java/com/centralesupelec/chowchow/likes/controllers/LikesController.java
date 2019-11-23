@@ -6,7 +6,7 @@ import com.centralesupelec.chowchow.lib.ShowIsNotLikedException;
 import com.centralesupelec.chowchow.lib.UserNotFoundException;
 import com.centralesupelec.chowchow.likes.domain.Like;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
-import com.centralesupelec.chowchow.user.service.UsersService;
+import com.centralesupelec.chowchow.user.service.UserServiceImpl;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -22,17 +22,17 @@ import org.springframework.web.client.HttpClientErrorException;
 public class LikesController {
   private final Logger LOGGER = LoggerFactory.getLogger(LikesController.class);
 
-  private final UsersService usersService;
+  private final UserServiceImpl userServiceImpl;
   private final SearchServiceImpl searchServiceImpl;
 
   @Autowired
-  public LikesController(UsersService usersService, SearchServiceImpl searchServiceImpl) {
-    this.usersService = usersService;
+  public LikesController(UserServiceImpl userServiceImpl, SearchServiceImpl searchServiceImpl) {
+    this.userServiceImpl = userServiceImpl;
     this.searchServiceImpl = searchServiceImpl;
   }
 
   public List<LikeDTO> getLikedShows(Integer id) throws UserNotFoundException {
-    Optional<UserEntity> maybeUser = this.usersService.getUserById(id);
+    Optional<UserEntity> maybeUser = this.userServiceImpl.getUserById(id);
     if (!maybeUser.isPresent()) {
       throw new UserNotFoundException();
     }
@@ -49,7 +49,7 @@ public class LikesController {
   }
 
   public LikeDTO getLikedShow(Integer showId, Integer userId) throws HttpClientErrorException {
-    Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
+    Optional<UserEntity> maybeUser = this.userServiceImpl.getUserById(userId);
     if (!maybeUser.isPresent()) {
       throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
     }
@@ -78,34 +78,34 @@ public class LikesController {
 
   public void likeShow(LikeDTO likeDTO, Integer userId)
       throws UserNotFoundException, ShowIsAlreadyLikedException {
-    Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
+    Optional<UserEntity> maybeUser = this.userServiceImpl.getUserById(userId);
     if (!maybeUser.isPresent()) {
       throw new UserNotFoundException();
     }
     UserEntity user = maybeUser.get();
     user.likeShow(likeDTO.getMark(), likeDTO.getShow().getId());
-    this.usersService.saveUser(user);
+    this.userServiceImpl.saveUser(user);
   }
 
   public void updateMark(Integer showId, LikeDTO likeDTO, Integer userId)
       throws UserNotFoundException, ShowIsNotLikedException {
-    Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
+    Optional<UserEntity> maybeUser = this.userServiceImpl.getUserById(userId);
     if (!maybeUser.isPresent()) {
       throw new UserNotFoundException();
     }
     UserEntity user = maybeUser.get();
     user.updateMark(likeDTO.getMark(), showId);
-    this.usersService.saveUser(user);
+    this.userServiceImpl.saveUser(user);
   }
 
   public void unlikeShow(Integer showId, Integer userId)
       throws UserNotFoundException, ShowIsNotLikedException {
-    Optional<UserEntity> maybeUserDTO = this.usersService.getUserById(userId);
+    Optional<UserEntity> maybeUserDTO = this.userServiceImpl.getUserById(userId);
     if (!maybeUserDTO.isPresent()) {
       throw new UserNotFoundException();
     }
     UserEntity user = maybeUserDTO.get();
     user.unlikeShow(showId);
-    this.usersService.saveUser(user);
+    this.userServiceImpl.saveUser(user);
   }
 }
