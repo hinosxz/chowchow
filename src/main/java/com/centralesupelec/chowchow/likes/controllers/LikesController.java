@@ -1,6 +1,6 @@
 package com.centralesupelec.chowchow.likes.controllers;
 
-import com.centralesupelec.chowchow.TMDB.service.SearchService;
+import com.centralesupelec.chowchow.TMDB.service.SearchServiceImpl;
 import com.centralesupelec.chowchow.lib.ShowIsAlreadyLikedException;
 import com.centralesupelec.chowchow.lib.ShowIsNotLikedException;
 import com.centralesupelec.chowchow.lib.UserNotFoundException;
@@ -23,12 +23,12 @@ public class LikesController {
   private final Logger LOGGER = LoggerFactory.getLogger(LikesController.class);
 
   private final UsersService usersService;
-  private final SearchService searchService;
+  private final SearchServiceImpl searchServiceImpl;
 
   @Autowired
-  public LikesController(UsersService usersService, SearchService searchService) {
+  public LikesController(UsersService usersService, SearchServiceImpl searchServiceImpl) {
     this.usersService = usersService;
-    this.searchService = searchService;
+    this.searchServiceImpl = searchServiceImpl;
   }
 
   public List<LikeDTO> getLikedShows(Integer id) throws UserNotFoundException {
@@ -40,7 +40,7 @@ public class LikesController {
         maybeUser.get().getLikedShows().stream()
             .map(
                 like ->
-                    this.searchService
+                    this.searchServiceImpl
                         .findShowById(like.getShowId())
                         .thenApply(tmdbShowDTO -> new LikeDTO(like.getMark(), tmdbShowDTO)))
             .collect(Collectors.toList());
@@ -62,7 +62,7 @@ public class LikesController {
       Like like = likes.get(i);
       if (like.getShowId().equals(showId)) {
         likeDTOPromise =
-            this.searchService
+            this.searchServiceImpl
                 .findShowById(like.getShowId())
                 .thenApply(tmdbShowDTO -> new LikeDTO(like.getMark(), tmdbShowDTO));
       }

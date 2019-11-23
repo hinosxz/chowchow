@@ -1,6 +1,6 @@
 package com.centralesupelec.chowchow.TMDB.controllers;
 
-import com.centralesupelec.chowchow.TMDB.service.AlertService;
+import com.centralesupelec.chowchow.TMDB.service.AlertServiceImpl;
 import com.centralesupelec.chowchow.likes.domain.Like;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UsersService;
@@ -22,12 +22,12 @@ public class AlertController {
   private final int ALERT_THRESHOLD = 3;
   private final Logger logger = LoggerFactory.getLogger(AlertController.class);
 
-  private final AlertService alertService;
+  private final AlertServiceImpl alertServiceImpl;
   private final UsersService usersService;
 
   @Autowired
-  public AlertController(AlertService alertService, UsersService usersService) {
-    this.alertService = alertService;
+  public AlertController(AlertServiceImpl alertServiceImpl, UsersService usersService) {
+    this.alertServiceImpl = alertServiceImpl;
     this.usersService = usersService;
   }
 
@@ -50,7 +50,7 @@ public class AlertController {
   }
 
   private List<AlertDTO> getAlerts(List<Integer> tmdbIds) throws HttpStatusCodeException {
-    return this.alertService.findAlertsByShowIds(tmdbIds).stream()
+    return this.alertServiceImpl.findAlertsByShowIds(tmdbIds).stream()
         .filter(
             alert ->
                 alert.getNextEpisodeToAir() != null

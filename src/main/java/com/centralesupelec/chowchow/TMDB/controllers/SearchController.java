@@ -1,6 +1,6 @@
 package com.centralesupelec.chowchow.TMDB.controllers;
 
-import com.centralesupelec.chowchow.TMDB.service.SearchService;
+import com.centralesupelec.chowchow.TMDB.service.SearchServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -8,23 +8,23 @@ import org.springframework.web.client.HttpStatusCodeException;
 @Controller
 public class SearchController {
 
-  private final SearchService searchService;
+  private final SearchServiceImpl searchServiceImpl;
 
   @Autowired
-  public SearchController(SearchService searchService) {
-    this.searchService = searchService;
+  public SearchController(SearchServiceImpl searchServiceImpl) {
+    this.searchServiceImpl = searchServiceImpl;
   }
 
   public TMDBSearchDTO findShowsByName(String name) throws HttpStatusCodeException {
-    return this.searchService.findShowsByName(name);
+    return this.searchServiceImpl.findShowsByName(name);
   }
 
   public TMDBSeasonDTO findShowSeasonById(Integer showId, Integer seasonNumber)
       throws HttpStatusCodeException {
-    return this.searchService.findShowSeasonById(showId, seasonNumber);
+    return this.searchServiceImpl.findShowSeasonById(showId, seasonNumber);
   }
 
   public TMDBShowDTO findShowById(Integer id) throws HttpStatusCodeException {
-    return this.searchService.findShowById(id).join();
+    return this.searchServiceImpl.findShowById(id).join();
   }
 }
