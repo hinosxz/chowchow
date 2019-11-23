@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 /**
  * Transactional service implementing SearchService contract interface.
  *
- * <p>It uses TMDB API to performthe search and fetch operations.
+ * <p>It uses TMDB API to perform search and fetch operations.
  *
  * @see SearchService
  */

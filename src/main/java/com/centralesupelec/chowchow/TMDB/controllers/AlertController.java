@@ -1,8 +1,10 @@
 package com.centralesupelec.chowchow.TMDB.controllers;
 
+import com.centralesupelec.chowchow.TMDB.service.AlertService;
 import com.centralesupelec.chowchow.TMDB.service.AlertServiceImpl;
 import com.centralesupelec.chowchow.likes.domain.Like;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
+import com.centralesupelec.chowchow.user.service.UserService;
 import com.centralesupelec.chowchow.user.service.UserServiceImpl;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -22,13 +24,13 @@ public class AlertController {
   private final int ALERT_THRESHOLD = 3;
   private final Logger logger = LoggerFactory.getLogger(AlertController.class);
 
-  private final AlertServiceImpl alertServiceImpl;
-  private final UserServiceImpl userServiceImpl;
+  private final AlertService alertService;
+  private final UserService userService;
 
   @Autowired
   public AlertController(AlertServiceImpl alertServiceImpl, UserServiceImpl userServiceImpl) {
-    this.alertServiceImpl = alertServiceImpl;
-    this.userServiceImpl = userServiceImpl;
+    this.alertService = alertServiceImpl;
+    this.userService = userServiceImpl;
   }
 
   private boolean isEpisodeSoon(TMDBEpisodeDTO episode) {
@@ -37,7 +39,7 @@ public class AlertController {
   }
 
   public List<AlertDTO> getAlertsForUser(Integer userId) {
-    Optional<UserEntity> maybeUserDTO = this.userServiceImpl.getUserById(userId);
+    Optional<UserEntity> maybeUserDTO = this.userService.getUserById(userId);
     if (!maybeUserDTO.isPresent()) {
       logger.warn("Unsuccessful attempts to find user with id {}", userId);
       return new ArrayList<>();
@@ -50,7 +52,7 @@ public class AlertController {
   }
 
   private List<AlertDTO> getAlerts(List<Integer> tmdbIds) throws HttpStatusCodeException {
-    return this.alertServiceImpl.findAlertsByShowIds(tmdbIds).stream()
+    return this.alertService.findAlertsByShowIds(tmdbIds).stream()
         .filter(
             alert ->
                 alert.getNextEpisodeToAir() != null
