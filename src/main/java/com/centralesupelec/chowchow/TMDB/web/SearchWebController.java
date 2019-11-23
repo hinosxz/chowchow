@@ -2,6 +2,7 @@ package com.centralesupelec.chowchow.TMDB.web;
 
 import com.centralesupelec.chowchow.TMDB.controllers.SearchController;
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBSearchDTO;
+import com.centralesupelec.chowchow.TMDB.controllers.TMDBSeasonDTO;
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBShowDTO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,24 @@ public class SearchWebController {
     try {
       TMDBSearchDTO search = this.searchController.findShowsByName(name);
       return ResponseEntity.status(HttpStatus.OK).body(search);
+    } catch (HttpStatusCodeException e) {
+      return ResponseEntity.status(e.getRawStatusCode()).body(e.getMessage());
+    }
+  }
+
+  @ApiOperation(
+      value = "Find a show season using the given show id and season number",
+      notes = "TMDB Api is used to fetch the details of the season.")
+  @RequestMapping(
+      path = "/{id}/seasons/{seasonNumber}",
+      method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity findShowSeasonById(
+      @PathVariable(value = "id") Integer id,
+      @PathVariable(value = "seasonNumber") Integer seasonNumber) {
+    try {
+      TMDBSeasonDTO season = this.searchController.findShowSeasonById(id, seasonNumber);
+      return ResponseEntity.status(HttpStatus.OK).body(season);
     } catch (HttpStatusCodeException e) {
       return ResponseEntity.status(e.getRawStatusCode()).body(e.getMessage());
     }

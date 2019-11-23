@@ -19,6 +19,11 @@ public class SearchController {
     return this.searchService.findShowsByName(name);
   }
 
+  public TMDBSeasonDTO findShowSeasonById(Integer showId, Integer seasonNumber)
+      throws HttpStatusCodeException {
+    return this.searchService.findShowSeasonById(showId, seasonNumber);
+  }
+
   public TMDBShowDTO findShowById(Integer id) throws HttpStatusCodeException {
     return this.searchService.findShowById(id).join();
   }

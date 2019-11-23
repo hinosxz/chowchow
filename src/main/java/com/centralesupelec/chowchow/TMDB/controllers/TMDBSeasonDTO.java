@@ -5,34 +5,29 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
-public class TMDBEpisodeDTO {
+public class TMDBSeasonDTO {
   private final LocalDate airDate;
-  private final int episodeNumber;
+  private final List<TMDBEpisodeDTO> episodes;
+  private final int episodeCount;
   private final int id;
   private final String name;
   private final String overview;
-  private final String productionCode;
+  private final String posterPath;
   private final int seasonNumber;
-  private final int showId;
-  private final String stillPath;
-  private final double voteAverage;
-  private final int voteCount;
 
   @JsonCreator
-  TMDBEpisodeDTO(
+  public TMDBSeasonDTO(
       @JsonProperty("air_date") String airDate,
-      @JsonProperty("episode_number") int episodeNumber,
+      @JsonProperty("episodes") List<TMDBEpisodeDTO> episodes,
+      @JsonProperty("episode_count") int episodeCount,
       @JsonProperty("id") int id,
       @JsonProperty("name") String name,
       @JsonProperty("overview") String overview,
-      @JsonProperty("production_code") String productionCode,
-      @JsonProperty("season_number") int seasonNumber,
-      @JsonProperty("show_id") int showId,
-      @JsonProperty("still_path") String stillPath,
-      @JsonProperty("vote_average") double voteAverage,
-      @JsonProperty("vote_count") int voteCount) {
+      @JsonProperty("poster_path") String posterPath,
+      @JsonProperty("season_number") int seasonNumber) {
     LocalDate parsedAirDate;
     try {
       parsedAirDate = LocalDate.parse(airDate, DateTimeFormatter.ISO_LOCAL_DATE);
@@ -40,25 +35,25 @@ public class TMDBEpisodeDTO {
       parsedAirDate = null;
     }
     this.airDate = parsedAirDate;
-
-    this.episodeNumber = episodeNumber;
+    this.episodes = episodes;
+    this.episodeCount = episodeCount;
     this.id = id;
     this.name = name;
     this.overview = overview;
-    this.productionCode = productionCode;
+    this.posterPath = "https://image.tmdb.org/t/p/original" + posterPath;
     this.seasonNumber = seasonNumber;
-    this.showId = showId;
-    this.stillPath = stillPath;
-    this.voteAverage = voteAverage;
-    this.voteCount = voteCount;
   }
 
   public LocalDate getAirDate() {
     return airDate;
   }
 
-  public int getEpisodeNumber() {
-    return episodeNumber;
+  public List<TMDBEpisodeDTO> getEpisodes() {
+    return episodes;
+  }
+
+  public int getEpisodeCount() {
+    return episodeCount;
   }
 
   public int getId() {
@@ -73,32 +68,11 @@ public class TMDBEpisodeDTO {
     return overview;
   }
 
-  public String getProductionCode() {
-    return productionCode;
+  public String getPosterPath() {
+    return posterPath;
   }
 
   public int getSeasonNumber() {
     return seasonNumber;
-  }
-
-  public int getShowId() {
-    return showId;
-  }
-
-  public String getStillPath() {
-    return stillPath;
-  }
-
-  public double getVoteAverage() {
-    return voteAverage;
-  }
-
-  public int getVoteCount() {
-    return voteCount;
-  }
-
-  @Override
-  public String toString() {
-    return getName();
   }
 }

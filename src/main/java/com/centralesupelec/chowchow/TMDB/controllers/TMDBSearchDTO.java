@@ -1,9 +1,11 @@
 package com.centralesupelec.chowchow.TMDB.controllers;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Arrays;
 
+@JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class TMDBSearchDTO {
   private final int page;
   private final int totalResults;
