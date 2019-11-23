@@ -6,8 +6,8 @@ public class UserAlertFactory {
 
   public UserAlert getUserAlert(AlertDTO alert, boolean isRated) {
     if (isRated) {
-      return new GoldUserAlert(alert);
+      return new LikedUserAlert(alert);
     }
-    return new BasicUserAlert(alert);
+    return new OnWatchListUserAlert(alert);
   }
 }

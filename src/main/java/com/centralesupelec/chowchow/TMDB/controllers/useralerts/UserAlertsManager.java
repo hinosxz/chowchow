@@ -28,8 +28,10 @@ public class UserAlertsManager {
   }
 
   public List<AlertDTO> getAlerts() {
+    System.out.println(userAlerts);
     return userAlerts.stream()
         .map(userAlerts -> userAlerts.getAlert())
+        .filter(alertDTO -> !Objects.isNull(alertDTO))
         .filter(alertDTO -> alertDTO.isEpisodeSoon())
         .collect(Collectors.toList());
   }

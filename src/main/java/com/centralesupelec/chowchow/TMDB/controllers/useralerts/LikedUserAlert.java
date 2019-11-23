@@ -2,14 +2,14 @@ package com.centralesupelec.chowchow.TMDB.controllers.useralerts;
 
 import com.centralesupelec.chowchow.TMDB.controllers.AlertDTO;
 
-public class BasicUserAlert extends UserAlert {
+public class LikedUserAlert extends UserAlert {
 
-  public BasicUserAlert(AlertDTO alert) {
+  public LikedUserAlert(AlertDTO alert) {
     super(alert);
   }
 
   @Override
   public AlertDTO getAlert() {
-    return null;
+    return alert;
   }
 }

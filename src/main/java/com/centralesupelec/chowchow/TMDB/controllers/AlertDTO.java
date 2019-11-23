@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class AlertDTO {
@@ -40,7 +41,9 @@ public class AlertDTO {
   }
 
   public boolean isEpisodeSoon() {
+    System.out.println(this.nextEpisodeToAir);
     LocalDate now = LocalDate.now();
-    return now.until(this.nextEpisodeToAir.getAirDate(), ChronoUnit.DAYS) < ALERT_THRESHOLD;
+    return !Objects.isNull(this.nextEpisodeToAir)
+        && now.until(this.nextEpisodeToAir.getAirDate(), ChronoUnit.DAYS) < ALERT_THRESHOLD;
   }
 }
