@@ -2,6 +2,7 @@ package com.centralesupelec.chowchow.TMDB.controllers;
 
 import com.centralesupelec.chowchow.TMDB.controllers.user_alerts.UserAlertsManager;
 import com.centralesupelec.chowchow.TMDB.service.AlertService;
+import com.centralesupelec.chowchow.TMDB.service.AlertServiceImpl;
 import com.centralesupelec.chowchow.likes.domain.Mark;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
 import com.centralesupelec.chowchow.user.service.UserService;
@@ -26,8 +27,8 @@ public class AlertController {
   private final UserService userService;
 
   @Autowired
-  public AlertController(AlertService alertService, UserServiceImpl userServiceImpl) {
-    this.alertService = alertService;
+  public AlertController(AlertServiceImpl alertServiceImpl, UserServiceImpl userServiceImpl) {
+    this.alertService = alertServiceImpl;
     this.userService = userServiceImpl;
   }
 
