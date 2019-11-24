@@ -21,8 +21,8 @@ You need to add a `.env` file in the same directory with the same variables.
 Once again, if you haven't changed the default params, you shouldn't have to change anything.
 
 
-### Packaging the app
-First of all you have to package the app running the following command:
+### Packaging the Spring app
+First of all you have to package the java app running the following command:
 `./mvnw clean package`
 
 ### Setting up the containers
