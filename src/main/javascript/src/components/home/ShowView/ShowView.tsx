@@ -64,14 +64,14 @@ export const ShowView: React.FunctionComponent<ShowViewProps> = ({
               .then(() => setIsLikeDisabled(true))
               .catch(setError)}
           >
-            Like
-            <Icon type="like" />
+            <Icon type="eye" />
+            Add to watch list
           </Button>
         </div>
 
         {error && (
           <Alert
-            message="Could not like this show. Please retry in a few seconds."
+            message="Could not add this show to your watch list. Please retry in a few seconds."
             type="error"
           />
         )}

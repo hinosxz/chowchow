@@ -4,9 +4,14 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) // Ignore the null values when parsing into Json
 public class AlertDTO {
+  private final int ALERT_THRESHOLD = 14;
+
   private final Integer showId;
   private final String showName;
   private final TMDBEpisodeDTO nextEpisodeToAir;
@@ -35,8 +40,10 @@ public class AlertDTO {
     return nextEpisodeToAir;
   }
 
-  @Override
-  public String toString() {
-    return getShowName() + ": " + getNextEpisodeToAir().toString();
+  public boolean isEpisodeSoon() {
+    System.out.println(this.nextEpisodeToAir);
+    LocalDate now = LocalDate.now();
+    return !Objects.isNull(this.nextEpisodeToAir)
+        && now.until(this.nextEpisodeToAir.getAirDate(), ChronoUnit.DAYS) < ALERT_THRESHOLD;
   }
 }

@@ -2,7 +2,7 @@ package com.centralesupelec.chowchow.user.web;
 
 import com.centralesupelec.chowchow.lib.UserAlreadyExistsException;
 import com.centralesupelec.chowchow.user.controllers.RegisterUserDTO;
-import com.centralesupelec.chowchow.user.controllers.UsersController;
+import com.centralesupelec.chowchow.user.controllers.UserController;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "")
 public class AuthWebController {
 
-  private final UsersController usersController;
+  private final UserController userController;
 
   @Autowired
-  public AuthWebController(UsersController usersController) {
-    this.usersController = usersController;
+  public AuthWebController(UserController userController) {
+    this.userController = userController;
   }
 
   @ApiOperation(
@@ -30,8 +30,7 @@ public class AuthWebController {
   @RequestMapping(path = "/register", method = RequestMethod.POST)
   public ResponseEntity registerUser(@RequestBody RegisterUserDTO registerUserDTO) {
     try {
-      return new ResponseEntity<>(
-          this.usersController.registerUser(registerUserDTO), HttpStatus.OK);
+      return new ResponseEntity<>(this.userController.registerUser(registerUserDTO), HttpStatus.OK);
     } catch (UserAlreadyExistsException e) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

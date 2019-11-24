@@ -17,11 +17,11 @@ export const PageShowList: React.FunctionComponent = () => {
 
   return (
     <div className={BLOCK}>
-      <Title level={2}>My favorite shows</Title>
+      <Title level={2}>My watch list</Title>
       <Divider />
       {error && (
         <Alert
-          message="Could not retrieve your favorite shows. Please retry in a few seconds."
+          message="Could not retrieve your watch list. Please retry in a few seconds."
           type="error"
         />
       )}

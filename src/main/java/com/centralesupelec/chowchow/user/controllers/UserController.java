@@ -10,13 +10,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class UsersController {
+public class UserController {
 
   private final UserService userService;
   private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  public UsersController(UserServiceImpl userServiceImpl, PasswordEncoder passwordEncoder) {
+  public UserController(UserServiceImpl userServiceImpl, PasswordEncoder passwordEncoder) {
     this.userService = userServiceImpl;
     this.passwordEncoder = passwordEncoder;
   }
