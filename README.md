@@ -26,12 +26,21 @@ The database schema is automatically created by Flyway migrations
 and validated by Hibernate.
 
 ### Setting-up the front-end
-Run the following commands
-```
+Run the following commands to start the development server.
+```$xslt
 cd src/main/javascript
 yarn start
 ```
 You'll be able to test the UI on `localhost:3000`
 
-## API Documentation
-Available when the server is running at `/swagger-ui.html`
+## Project Documentation
+
+### Javadoc
+To generate the Javadoc run:
+```$xslt
+mvn javadoc:javadoc
+```
+The javadoc can the be accessed at `/target/site/apidocs/index.html
+`
+### API documentation
+When ChowChow API is running, you can access the API documentation at `/swagger-ui.html`.

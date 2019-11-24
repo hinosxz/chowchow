@@ -1,36 +1,31 @@
 package com.centralesupelec.chowchow.TMDB.service;
 
 import com.centralesupelec.chowchow.TMDB.controllers.AlertDTO;
-import java.util.*;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Service
-@Transactional
-public class AlertService {
+/** Interface contracting the service retrieving alerts. */
+public interface AlertService {
 
-  private final SearchService searchService;
-
-  @Autowired
-  public AlertService(SearchService searchService) {
-    this.searchService = searchService;
-  }
-
+  /**
+   * Retrieve the alert for a show with a given id.
+   *
+   * <p>Asynchronous method.
+   *
+   * @param showId the given show id
+   * @return a CompletableFuture for the AlertDTO that represent the JSON object
+   */
   @Async
-  public CompletableFuture<AlertDTO> findAlertByShowId(Integer showId) {
-    return this.searchService.findAlertByShowId(showId);
-  }
+  CompletableFuture<AlertDTO> findAlertByShowId(Integer showId);
 
-  public List<AlertDTO> findAlertsByShowIds(List<Integer> showIds) {
-    List<CompletableFuture<AlertDTO>> promises =
-        showIds.stream().map(this::findAlertByShowId).collect(Collectors.toList());
-    return promises.stream()
-        .map(CompletableFuture::join)
-        .filter(episode -> !Objects.isNull(episode))
-        .collect(Collectors.toList());
-  }
+  /**
+   * Returns the alerts for the shows with a given list of ids.
+   *
+   * <p>Synchronous method that should use findAlertByShowId above.
+   *
+   * @param showIds the given list of show ids
+   * @return a list of AlertDTO that represent the JSON object
+   */
+  List<AlertDTO> findAlertsByShowIds(List<Integer> showIds);
 }

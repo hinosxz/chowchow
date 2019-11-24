@@ -4,58 +4,52 @@ import com.centralesupelec.chowchow.TMDB.controllers.AlertDTO;
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBSearchDTO;
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBSeasonDTO;
 import com.centralesupelec.chowchow.TMDB.controllers.TMDBShowDTO;
-import com.centralesupelec.chowchow.lib.TMDBAPI;
 import java.util.concurrent.CompletableFuture;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.util.UriComponentsBuilder;
 
-@Service
-@Transactional
-public class SearchService {
+/** Interface contracting the service performing searches. */
+public interface SearchService {
 
-  private final TMDBAPI TMDBAPI;
+  /**
+   * Search the shows matching a given name.
+   *
+   * @param name the given name
+   * @return a TMDBSearchDTO object representing the JSON response.
+   * @throws HttpStatusCodeException
+   */
+  TMDBSearchDTO findShowsByName(String name) throws HttpStatusCodeException;
 
-  @Autowired
-  public SearchService(TMDBAPI TMDBAPI) {
-    this.TMDBAPI = TMDBAPI;
-  }
+  /**
+   * Fetches the season with given number from a show with a given id.
+   *
+   * @param showId the given show id
+   * @param seasonNumber the given season number
+   * @return a TMDBSeasonDTO object representing the JSON response.
+   * @throws HttpStatusCodeException
+   */
+  TMDBSeasonDTO findShowSeasonById(Integer showId, Integer seasonNumber)
+      throws HttpStatusCodeException;
 
-  public TMDBSearchDTO findShowsByName(String name) throws HttpStatusCodeException {
-    UriComponentsBuilder urlBuilder =
-        UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/search/tv")
-            .queryParam("query", name);
-    return TMDBAPI.get(urlBuilder, TMDBSearchDTO.class).getBody();
-  }
-
-  public TMDBSeasonDTO findShowSeasonById(Integer showId, Integer seasonNumber)
-      throws HttpStatusCodeException {
-    UriComponentsBuilder urlBuilder =
-        UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/tv")
-            .path(String.format("/%d", showId))
-            .path("/season")
-            .path(String.format("/%d", seasonNumber));
-    return TMDBAPI.get(urlBuilder, TMDBSeasonDTO.class).getBody();
-  }
-
+  /**
+   * Fetches a show with a given id.
+   *
+   * @param showId the given showId
+   * @return a CompletableFuture for the TMDBShowDTO that represent the JSON object
+   * @throws HttpStatusCodeException
+   */
   @Async
-  public CompletableFuture<TMDBShowDTO> findShowById(Integer id) throws HttpStatusCodeException {
-    UriComponentsBuilder urlBuilder =
-        UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/tv")
-            .path(String.format("/%d", id));
-    return CompletableFuture.completedFuture(TMDBAPI.get(urlBuilder, TMDBShowDTO.class).getBody());
-  }
+  CompletableFuture<TMDBShowDTO> findShowById(Integer showId) throws HttpStatusCodeException;
 
+  /**
+   * Retrieve the alert for a show with a given id.
+   *
+   * <p>Asynchronous method.
+   *
+   * @param showId the given show id
+   * @return a CompletableFuture for the AlertDTO that represent the JSON object
+   * @throws HttpStatusCodeException
+   */
   @Async
-  // Call the same endpoint but return only the show name and id and the next episode
-  public CompletableFuture<AlertDTO> findAlertByShowId(Integer showId)
-      throws HttpStatusCodeException {
-    UriComponentsBuilder urlBuilder =
-        UriComponentsBuilder.fromHttpUrl("https://api.themoviedb.org/3/tv")
-            .path(String.format("/%d", showId));
-    return CompletableFuture.completedFuture(TMDBAPI.get(urlBuilder, AlertDTO.class).getBody());
-  }
+  CompletableFuture<AlertDTO> findAlertByShowId(Integer showId) throws HttpStatusCodeException;
 }
