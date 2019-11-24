@@ -3,6 +3,9 @@ ChowChow, your daily showEntity manager
 
 ## Running the app locally
 
+### Prerequisites
+- Docker
+
 ### Setting up environment variables
 
 #### Back-end
