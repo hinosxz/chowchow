@@ -3,7 +3,10 @@ package com.centralesupelec.chowchow.TMDB.controllers.useralerts;
 import com.centralesupelec.chowchow.TMDB.controllers.AlertDTO;
 
 /**
- * Implements UserAlert to wrap a rated shows on the user's watch list.
+ * Implements UserAlert to wrap an alert corresponding to a rated shows on the user's watch list.
+ *
+ * <p>The alert is always returned by the getAlert() function because we do send alerts for shows on
+ * watch list that has been rated (i.e liked)
  *
  * @see UserAlert
  */

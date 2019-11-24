@@ -65,11 +65,9 @@ public class UserAlertsManager {
    * @return The list of the alerts.
    */
   public List<AlertDTO> getAlerts() {
-    System.out.println(userAlerts);
     return userAlerts.stream()
         .map(userAlerts -> userAlerts.getAlert())
-        .filter(alertDTO -> !Objects.isNull(alertDTO))
-        .filter(alertDTO -> alertDTO.isEpisodeSoon())
+        .filter(alertDTO -> !Objects.isNull(alertDTO) && alertDTO.isEpisodeSoon())
         .collect(Collectors.toList());
   }
 }
