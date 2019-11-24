@@ -1,6 +1,7 @@
 package com.centralesupelec.chowchow.TMDB.controllers;
 
 import com.centralesupelec.chowchow.TMDB.service.SearchService;
+import com.centralesupelec.chowchow.TMDB.service.SearchServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -11,8 +12,8 @@ public class SearchController {
   private final SearchService searchService;
 
   @Autowired
-  public SearchController(SearchService searchService) {
-    this.searchService = searchService;
+  public SearchController(SearchServiceImpl searchServiceImpl) {
+    this.searchService = searchServiceImpl;
   }
 
   public TMDBSearchDTO findShowsByName(String name) throws HttpStatusCodeException {

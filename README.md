@@ -40,7 +40,17 @@ and validated by Hibernate.
 
 Everything should by now be up and running. 
 Default ports are 8080 for the API and 3000 for the UI.
-So going to http://localhost:3000 should take you to the app.
+So going to `http://localhost:3000` should take you to the app.
+Use `http://localhost:3000` if you want to make API calls to ChowChow
 
-## API Documentation
-Available when the server is running at `/swagger-ui.html`
+## Project Documentation
+
+### Javadoc
+To generate the Javadoc run:
+```$xslt
+mvn javadoc:javadoc
+```
+The javadoc can the be accessed at `/target/site/apidocs/index.html
+`
+### API documentation
+When ChowChow API is running, you can access the API documentation at `/swagger-ui.html`.

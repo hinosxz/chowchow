@@ -1,9 +1,11 @@
 package com.centralesupelec.chowchow.TMDB.controllers;
 
 import com.centralesupelec.chowchow.TMDB.service.AlertService;
+import com.centralesupelec.chowchow.TMDB.service.AlertServiceImpl;
 import com.centralesupelec.chowchow.likes.domain.Like;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
-import com.centralesupelec.chowchow.user.service.UsersService;
+import com.centralesupelec.chowchow.user.service.UserService;
+import com.centralesupelec.chowchow.user.service.UserServiceImpl;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -23,12 +25,12 @@ public class AlertController {
   private final Logger logger = LoggerFactory.getLogger(AlertController.class);
 
   private final AlertService alertService;
-  private final UsersService usersService;
+  private final UserService userService;
 
   @Autowired
-  public AlertController(AlertService alertService, UsersService usersService) {
-    this.alertService = alertService;
-    this.usersService = usersService;
+  public AlertController(AlertServiceImpl alertServiceImpl, UserServiceImpl userServiceImpl) {
+    this.alertService = alertServiceImpl;
+    this.userService = userServiceImpl;
   }
 
   private boolean isEpisodeSoon(TMDBEpisodeDTO episode) {
@@ -37,7 +39,7 @@ public class AlertController {
   }
 
   public List<AlertDTO> getAlertsForUser(Integer userId) {
-    Optional<UserEntity> maybeUserDTO = this.usersService.getUserById(userId);
+    Optional<UserEntity> maybeUserDTO = this.userService.getUserById(userId);
     if (!maybeUserDTO.isPresent()) {
       logger.warn("Unsuccessful attempts to find user with id {}", userId);
       return new ArrayList<>();
