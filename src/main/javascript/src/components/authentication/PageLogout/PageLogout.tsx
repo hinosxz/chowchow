@@ -17,7 +17,9 @@ export const PageLogout: React.FunctionComponent = () => {
     <Card title="Logging out" loading={isAuthenticated}>
       {isAuthenticated ? null : (
         <>
-          <Row gutter={[32, 16]}><Col>You are logged out</Col></Row>
+          <Row gutter={[32, 16]}>
+            <Col>You are logged out</Col>
+          </Row>
           <Row gutter={[32, 16]}>
             <Col>
               <NavLink to={RoutePath.login}>

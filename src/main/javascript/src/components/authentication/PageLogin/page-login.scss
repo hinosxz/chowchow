@@ -3,4 +3,14 @@
 .authentication_page-login {
     width: 30%;
     margin: $spacing-xl auto;
+     &__logo-wrapper {
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+     }
+     &__logo {
+         height: 70%;
+
+     }
 }

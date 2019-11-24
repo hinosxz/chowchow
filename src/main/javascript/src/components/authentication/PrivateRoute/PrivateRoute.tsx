@@ -5,7 +5,10 @@ import { RoutePath } from 'lib/constants';
 import { useAuth } from 'context/authentication';
 
 // A wrapper for <Route> that redirects to the login screen if you're not yet authenticated.
-export const PrivateRoute: React.FunctionComponent<RouteProps> = ({ children, ...rest }) => {
+export const PrivateRoute: React.FunctionComponent<RouteProps> = ({
+  children,
+  ...rest
+}) => {
   const { isAuthenticated } = useAuth();
   return (
     <Route

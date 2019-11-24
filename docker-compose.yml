@@ -14,7 +14,6 @@ services:
 
   chowchow-api:
     build: .
-    container_name: chowchow-api
     env_file:
       - .env
     environment:
@@ -28,3 +27,13 @@ services:
       - chowchow-db
     links:
       - chowchow-db
+
+  chowchow-app:
+    build: ./src/main/javascript
+    volumes:
+      - './src/main/javascript:/app'
+      - '/app/node_modules'
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./src/main/javascript/.env

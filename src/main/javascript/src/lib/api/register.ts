@@ -7,5 +7,7 @@ type PostRegisterResponse = {
 };
 
 export function postRegister(username: string, password: string) {
-  return api.post('register', { json: { username, password } }).json<PostRegisterResponse>();
+  return api
+    .post('register', { json: { username, password } })
+    .json<PostRegisterResponse>();
 }

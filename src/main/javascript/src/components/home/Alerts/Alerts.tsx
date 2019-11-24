@@ -6,7 +6,6 @@ import { Alert as ShowAlert } from 'lib/types';
 import { useGetData } from 'lib/hooks';
 import { parseDate } from 'lib/util';
 
-
 export const Alerts: React.FunctionComponent = () => {
   const [data, setData] = React.useState<ShowAlert[] | null>([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -14,9 +13,7 @@ export const Alerts: React.FunctionComponent = () => {
   useGetData<ShowAlert[]>('alerts', setData, setIsLoading, setError);
 
   if (isLoading) {
-    return (
-      <Placeholder />
-    );
+    return <Placeholder />;
   }
 
   if (error) {
@@ -30,24 +27,28 @@ export const Alerts: React.FunctionComponent = () => {
 
   return (
     <Alert
-      message={!data || data.length === 0 ? 'None of your favorite shows have upcoming episodes' : (
-        <List
-          itemLayout="horizontal"
-          dataSource={data}
-          renderItem={alert => {
-            const { episode } = alert;
-            const airDate = parseDate(episode.air_date).toLocaleDateString();
-            return (
-              <List.Item>
-                <List.Item.Meta
-                  title={`${alert.show_name}: ${episode.season_number}x${episode.episode_number}, ${episode.name}, Airs on: ${airDate}`}
-                  description={episode.overview}
-                />
-              </List.Item>
-            );
-          }}
-        />
-      )}
+      message={
+        !data || data.length === 0 ? (
+          'None of your favorite shows have upcoming episodes'
+        ) : (
+          <List
+            itemLayout="horizontal"
+            dataSource={data}
+            renderItem={alert => {
+              const { episode } = alert;
+              const airDate = parseDate(episode.air_date).toLocaleDateString();
+              return (
+                <List.Item>
+                  <List.Item.Meta
+                    title={`${alert.show_name}: ${episode.season_number}x${episode.episode_number}, ${episode.name}, Airs on: ${airDate}`}
+                    description={episode.overview}
+                  />
+                </List.Item>
+              );
+            }}
+          />
+        )
+      }
       type="info"
     />
   );

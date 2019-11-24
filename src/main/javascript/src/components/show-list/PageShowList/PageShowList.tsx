@@ -25,9 +25,18 @@ export const PageShowList: React.FunctionComponent = () => {
           type="error"
         />
       )}
-      {isLoading
-        ? <Placeholder />
-        : (data || []).map(like => <ShowItem key={like.show.id} like={like} />)}
+      {isLoading ? (
+        <Placeholder />
+      ) : (
+        <>
+          {(data || []).map(like => (
+            <ShowItem key={like.show.id} like={like} />
+          ))}
+          {data && data.length === 0 && (
+            <Alert message="You don't have any liked show yet!" type="info" />
+          )}
+        </>
+      )}
     </div>
   );
 };

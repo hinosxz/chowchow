@@ -1,10 +1,11 @@
 package com.centralesupelec.chowchow.TMDB.controllers;
 
-import com.centralesupelec.chowchow.TMDB.controllers.useralerts.UserAlertsManager;
+import com.centralesupelec.chowchow.TMDB.controllers.user_alerts.UserAlertsManager;
 import com.centralesupelec.chowchow.TMDB.service.AlertService;
 import com.centralesupelec.chowchow.likes.domain.Mark;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
-import com.centralesupelec.chowchow.user.service.UsersService;
+import com.centralesupelec.chowchow.user.service.UserService;
+import com.centralesupelec.chowchow.user.service.UserServiceImpl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,16 +23,16 @@ public class AlertController {
   private final Logger logger = LoggerFactory.getLogger(AlertController.class);
 
   private final AlertService alertService;
-  private final UsersService usersService;
+  private final UserService userService;
 
   @Autowired
-  public AlertController(AlertService alertService, UsersService usersService) {
+  public AlertController(AlertService alertService, UserServiceImpl userServiceImpl) {
     this.alertService = alertService;
-    this.usersService = usersService;
+    this.userService = userServiceImpl;
   }
 
   public List<AlertDTO> getAlertsForUserId(Integer userId) {
-    Optional<UserEntity> maybeUser = this.usersService.getUserById(userId);
+    Optional<UserEntity> maybeUser = this.userService.getUserById(userId);
     if (!maybeUser.isPresent()) {
       logger.warn("Unsuccessful attempts to find user with id {}", userId);
       return new ArrayList<>();

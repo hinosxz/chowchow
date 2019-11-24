@@ -1,4 +1,4 @@
-package com.centralesupelec.chowchow.TMDB.controllers.useralerts;
+package com.centralesupelec.chowchow.TMDB.controllers.user_alerts;
 
 import com.centralesupelec.chowchow.TMDB.controllers.AlertDTO;
 import com.centralesupelec.chowchow.likes.domain.Mark;

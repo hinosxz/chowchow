@@ -2,28 +2,29 @@ package com.centralesupelec.chowchow.user.controllers;
 
 import com.centralesupelec.chowchow.lib.UserAlreadyExistsException;
 import com.centralesupelec.chowchow.user.domain.UserEntity;
-import com.centralesupelec.chowchow.user.service.UsersService;
+import com.centralesupelec.chowchow.user.service.UserService;
+import com.centralesupelec.chowchow.user.service.UserServiceImpl;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class UsersController {
+public class UserController {
 
-  private final UsersService usersService;
+  private final UserService userService;
   private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  public UsersController(UsersService usersService, PasswordEncoder passwordEncoder) {
-    this.usersService = usersService;
+  public UserController(UserServiceImpl userServiceImpl, PasswordEncoder passwordEncoder) {
+    this.userService = userServiceImpl;
     this.passwordEncoder = passwordEncoder;
   }
 
   public Optional<UserDTO> registerUser(RegisterUserDTO registerUserDTO)
       throws UserAlreadyExistsException {
     Optional<UserEntity> maybeUser =
-        this.usersService.getUserByUsername(registerUserDTO.getUsername());
+        this.userService.getUserByUsername(registerUserDTO.getUsername());
     if (maybeUser.isPresent()) {
       throw new UserAlreadyExistsException();
     }
@@ -32,11 +33,11 @@ public class UsersController {
     user.setUsername(registerUserDTO.getUsername());
     user.setPassword(this.passwordEncoder.encode(registerUserDTO.getPassword()));
     user.setSubscriptionType(registerUserDTO.getSubscriptionType());
-    usersService.saveUser(user);
+    userService.saveUser(user);
     return this.getUserById(user.getId());
   }
 
   public Optional<UserDTO> getUserById(Integer id) {
-    return this.usersService.getUserById(id).map(UserDTO::fromEntity);
+    return this.userService.getUserById(id).map(UserDTO::fromEntity);
   }
 }
