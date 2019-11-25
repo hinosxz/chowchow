@@ -25,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class SearchServiceImpl implements SearchService {
 
   /** The TMDB API used to perform the calls */
+  /** @see TMDBAPI */
   private final TMDBAPI TMDBAPI;
 
   @Autowired
