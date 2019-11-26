@@ -11,13 +11,12 @@ To run this project you need to have the following programs available:
 ### Setting up environment variables
 
 #### Back-end
-Add a `.env` file at the root of the app with a valid config.
 `.env.default` contains all variables that are necessary to run the app with default params.
-Then run the following:
+To run the API you need a `.env` file at the root of the app with a valid config, to create it you can do the following:
 ```
 cp ./.env.default ./.env
 ```
-Then you have to modify the variable `TMDB_API_KEY`: it needs to be a valid API key that you'll get on the TMDB website.
+Then you at least have to modify the variable `TMDB_API_KEY`: it needs to be a valid API key that you'll get on the TMDB website.
 
 #### Front-end
 There's another `.env.default` file at `src/main/javascript`. 
@@ -42,7 +41,7 @@ or if you don't want to display all the logs run:
 ```
 docker-compose up -d --build
 ```
-If you have an error because a port is already in use, be sure that the ports `3000`, `8080` and `5432` are not in use.
+If you get an error saying a port is already in use, be sure that the ports `3000`, `8080` and `5432` are not in use.
 Otherwise you'll have to free them.
 
 ### Database
