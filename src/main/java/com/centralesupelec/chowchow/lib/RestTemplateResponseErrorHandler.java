@@ -28,12 +28,16 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
         || httpResponse.getStatusCode() == HttpStatus.NOT_FOUND) {
       HttpServerErrorException e = new HttpServerErrorException(HttpStatus.BAD_GATEWAY);
       LOGGER.error(e.toString());
+      LOGGER.error(
+          "API error " + httpResponse.getStatusCode() + ": " + httpResponse.getBody().toString());
       throw e;
     }
     // If it returns a client error, we send a 400
     else if (httpResponse.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR) {
-      HttpClientErrorException e = new HttpClientErrorException(HttpStatus.BAD_GATEWAY);
+      HttpClientErrorException e = new HttpClientErrorException(HttpStatus.BAD_REQUEST);
       LOGGER.error(e.toString());
+      LOGGER.error(
+          "API error " + httpResponse.getStatusCode() + ": " + httpResponse.getBody().toString());
       throw e;
     }
   }

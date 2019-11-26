@@ -12,6 +12,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+/** Fetcher service used to call the TMDB API */
 @Service
 public class TMDBAPI {
 
@@ -19,6 +20,12 @@ public class TMDBAPI {
   private RestTemplate restTemplate;
   private HttpEntity httpEntity;
 
+  /**
+   * Uses the TMDB_API_KEY env variable to set the api_key query parameter
+   *
+   * @param restTemplateBuilder
+   * @param TMDBAPIKey
+   */
   @Autowired
   public TMDBAPI(
       RestTemplateBuilder restTemplateBuilder,
@@ -31,6 +38,12 @@ public class TMDBAPI {
     this.httpEntity = new HttpEntity(headers);
   }
 
+  /**
+   * Performs GET requests on the TMDB API
+   *
+   * @return ResponseEntity
+   * @throws HttpStatusCodeException
+   */
   public <T> ResponseEntity<T> get(UriComponentsBuilder urlBuilder, Class<T> responseClass)
       throws HttpStatusCodeException {
     String url = urlBuilder.queryParam("api_key", this.TMDBAPIKey).build(false).toUriString();
