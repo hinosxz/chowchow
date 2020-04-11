@@ -1,5 +1,5 @@
 # Chowchow
-ChowChow, your daily showEntity manager
+ChowChow is a tracking tool for TV Shows based on the TMDB API. It was developed for an OOP final-year course at CentraleSupélec.
 
 ## Running the app locally
 
